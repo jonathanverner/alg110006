@@ -1,0 +1,19 @@
+TŘÍDĚNÍ
+
+# zda se nenachází ve slovníku -> nachází
+# "slovnik" není všude neproporcionálním písmem
+# K testu, zda se ..., teď (čárka před teď)
+# znovu, dokud slovo (čárka)
+# dostaneme složitost O... chybí závorka
+# jednoduchý, má (chybí čárka)
+# pokud má seznam, který se má setřídit -> pokud seznam, který se má setřídit, má
+# případi -> případě
+# vlevo, vpravo (spřežky, ne v levo, v pravo)
+# setrizne -> setrizene
+# koncovým indexem (end) -> koncovým (end) indexem.
+# Cvičení 1.6 - tečka na konci
+# poznámka u asymptotické složitosti heapsortu, přepsat na "Tak, jak je napsaný, má první cyklus..."
+# zkoušet dokazovat -> dokazovat (vynechala bych "zkoušet")
+
+# A(n) je množina výsledků, které dá algoritmus, pokud tedy pro různá p dává různá a, tak jsou # stejně velké... nebo tak to aspoň zní při prvním čtení, i když formulace "všech možných  výsledků" připouští to, jak to myslíš (i těch, které z algoritmu nevylezou)
+

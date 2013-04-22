@@ -1,0 +1,231 @@
+\ifx\ucebnice\undefined
+\input{header}
+\fi
+\section{Porovnávání algoritmů, Eukleidův algoritmus}
+
+Mým cílem v zimním semestru bylo Vás naučit psát jednoduché programy v Pythonu a mít nějakou konkrétní představu o tom,
+co to prakticky znamená ``programovat''. V letním semestru se podíváme na programování z teoretičtějšího hlediska.
+Naším základním tématem budou různé algoritmy --- standardní (ale i nestandardní) postupy řešení různých problémů, 
+se kterými se jako programátoři můžete potkat. 
+
+Pojďme se nyní společně podívat na jednu skupinu takových problémů. Jedná se o problémy, které původně pocházejí z
+matematické disciplíny zvané Teorie čísel. V praxi jsou úzce provázány s moderními šifrovacími metodami 
+(RSA, Elektronický podpis, ...). Asi nejvíce fascinujícím problémem je následující úloha:
+
+\begin{ukol}
+Pro dané číslo $n$ nalezněte rozklad na součin prvočísel.
+\end{ukol}
+
+s ní úzce souvisí úloha, ve které máme rozhodnout, zda číslo je, či není prvočíslem:
+
+\begin{ukol}
+Pro dané číslo $n$ rozhodněte, zda je prvočíslem nebo není.
+\end{ukol}
+
+K této úloze se možná, pokud zbyde čas, vrátíme v nějaké pozdější přednášce, dnes se zaměříme na úlohu,
+která se často vyskytuje jako podúloha nějaké jiné úlohy v teorii čísel. 
+
+\begin{ukol}
+Pro dané čísla $n,m$ zjistěte jejich největšího společného dělitele.
+\end{ukol}
+
+% \begin{comments*} Předně je zřejmé, že když znám řešení první úlohy, není těžké vyřešit i zbylé dvě úlohy. Toto triviální
+% pozorování není úplně od věci. Vtip s vařením vajíčka o převedení úlohy na známý případ.
+% \end{comments}
+
+Pokud bychom chtěli v Pythonu napsat řešení třetí úlohy, pravděpodobně by nás jako první napadlo prostě
+projít všechna čísla od $1$ do $\min \{n,m\}$ a zjistit, které největší z nich dělí obě čísla najednou.
+V Pythonu by takový algoritmus mohl vypadat třeba takto:
+
+\begin{python}
+def gcdN(n,m):
+    ret = 1
+    for d in range(2,n+1):
+        if d % n == 0 and d % m == 0:
+            ret = d
+    return d
+\end{python}
+
+Možná, že někteří z Vás se s touto úlohou setkali už na střední škole. Tam jste se mohli dozvědět o postupu, který 
+pochází již od Eukleida: vezmeme větší z obou čísel a spočítáme si zbytek po dělení menším z obou čísel. Pokud je
+zbytek 0, jsme hotovi (nsd je menší z obou čísel). V opačném případě provedeme totéž, tentokrát s menším číslem 
+a spočítaným zbytkem. V Pythonu bychom tento postup mohli, pomocí rekurze, zapsat následovně:
+
+\begin{python}
+def gcdE(n,m):
+    if n > m:
+        n,m = m,n
+    d = m % n
+    if d == 0:
+        return n
+    return gcdE(d,n)
+\end{python}
+
+Pokud bychom se chtěli vyhnout rekurzi, mohli bychom stejný algoritmus napsat takto:
+
+\begin{python}
+def gcdE_var(n,m):
+    if n > m:
+        n,m = m,n
+    d = m % n
+
+    while not (d == 0):
+      m = n
+      n = d
+      d = m % n
+
+    return n
+\end{python}
+
+U tohoto algoritmu není na první pohled vůbec jasné, že někdy skončí a, pokud skončí, že dá správnou odpověď.
+Zkusíme se nejprve přesvědčit, že opravdu skončí. Označme si $n_0 = n$ a $m_0=m$ počáteční vstupy a $n_k, m_k$ hodnoty proměnných 
+$d$, $n$ při $k$-tém průchodu řádkem 7. 
+
+Všimněme si, že $0\leq n_{k+1} = m_k\ (\mbox{mod}\ n_k) <n_k$. Tedy posloupnost $n_k$ je zdola omezená
+nulou a ostře klesá. Tudíž musí být konečná. Tudíž algoritmus provede řádek 7 pouze konečněkrát a tedy v konečném
+čase skončí. Nyní dokážeme, že když skončí, dá správný výsledek (zápisem $d|n$ rozumíme, že $d$ je (celočíselný) dělitel čísla $n$). Správnost
+plyne z následujících pozorování:
+
+\begin{itemize}
+ \item $d|n, d|m, m = kn + z \rightarrow d|z$
+ \item $d|n, d|z, m = kn + z \rightarrow d|m$
+ \item Tedy, je-li $m = kn + z$ pak každý společný dělitel čísel $n,m$ je i společným dělitelem čísel $n,z$ a obráceně.
+ \item Tedy $gcd(n,m) = gcd(z,n)$.
+\end{itemize}
+
+\subsection{Porovnávání algoritmů} 
+Chtěli bychom rozhodnout, který z obou výše popsaných algoritmů je lepší. Kritérií může být samozřejmě mnoho,
+následující seznam zdaleka není vyčerpávající:
+
+\begin{itemize}
+ \item rychlost
+ \item paměťová náročnost
+ \item jednoduchost, srozumitelnost
+ \item elegance
+ \item energetická náročnost (opravdu !)
+\end{itemize}
+
+V našem kurzu se budeme zaměřovat na první dva body (a zejména na první bod), ačkoliv jsou situace, kdy mnohem důležitějším
+kritériem může být třeba jednoduchost, nebo energetická náročnost. Věnujme se tedy prvnímu bodu. Nejjednodušším způsobem
+je měřit čas $T$ od puštění programu do jeho skončení. To má svá úskalí:
+
+\begin{itemize}
+ \item tento čas bude záviset na rychlosti daného počítače, jeho zatíženosti, operačním systému, překladači, interpretu ...
+ \item je to experimentální veličina o které lze těžko matematicky něco dokazovat
+\end{itemize}
+
+Nicméně ideu můžeme nasnadě jsoucím způsobem modifikovat. Nebudeme nyní měřit čas, ale určíme si množinu základních
+operací (přiřazením, testování booleovské podmínky ({\tt if}), aritmetická operace) a budeme počítat počet operací, 
+které program při svém běhu vykoná. Označme si toto číslo $Op$. Je zjevné, že 
+toto číslo bude záviset na vstupních datech. Pokud budeme počítat největšího společného dělitele čísel
+$1235468127495138$ a $2159842611264567486$ budeme muset provést více operací než při počítání společného dělitele čísel
+$14$ a $35$. Tedy $Op$ bude ve skutečnosti funkce vstupních dat.
+
+Problém s funkcí $Op$ je ten, že mnohdy je obtížné jí vyjádřit nějakým jednoduchým vzorečkem. Často pro nás proto budou
+důležité spodní a horní odhady této funkce. Zkusme nyní spočítat $Op_N$ a $Op_E$ dvou výše uvedených algoritmů. Začněme
+naivním algoritmem. Ten nejprve provede jedno přiřazení na řádku 2. Dále se provede $n-1$-krát cyklus, tedy $n-1$-krát
+se bude testovat podmínka na řádku 4. V části těchto případů se navíc provede přiřazení na řádce 5. Tedy máme
+\begin{displaymath}
+ Op_N(n,m) = 1 + (n-1) + ?
+\end{displaymath}
+Zbývá spočítat člen $?$, t.j. v kolika případech se provede řádek 5. Pokud jsou $n,m$ nesoudělná, neprovede se nikdy.
+Dolním odhadem tedy je $0$. Pokud by se řádek 5 provedl pokaždé, pak by se provedl $n-1$-krát, což je tedy horní odhad.
+Přesné číslo závisí na $n$ a $m$ a nelze je jednoduše vyjádřit. Mohli bychom se pokusit o statistickou analýzu, nicméně
+neuděláme to (zájemce ji může nalézet v Tao'c P, \cite{TAOCP2}). Můžeme tedy učinit následující závěr:
+
+\begin{displaymath}
+ n = 1 + (n-1) \leq Op_N(n,m) \leq 1 + 2(n-1) = 2n - 1
+\end{displaymath}
+
+
+Podívejme se nyní na druhý algoritmus. Zde je situace o trochu složitější. Při každém volání funkce {\tt gcdE} dochází ke 
+dvěma porovnáním (2. a 5. řádek), jedné aritmetické operaci (4. řádek) a při úplně prvním volání ještě ke dvěma přiřazením 
+(3. řádek, uvědomte si, že jsou to přiřazení dvě a že se tento řádek v dalších
+voláních nikdy neprovede). Označme si tedy počet volání funkce {\tt gcdE} číslem $c$. Pak můžeme psát:
+
+\begin{displaymath}
+Op_E(n,m) = 2 + 3c
+\end{displaymath}
+
+Jak spočíst číslo $c$? Opět budeme pouze odhadovat. Dolní odhad je $1$ v případě, že $n$ dělí $m$. Jednoduchý horní odhad dostaneme
+z úvah, které jsme prováděli při důkazu správnosti algoritmu. Zjistili jsme, že při každém rekurzivním volání je první argument ostře 
+menší než při předchozím. Funkce {\tt gcdE} se tedy zavolá nejvíce $n$-krát. Tedy máme odhad
+
+\begin{displaymath}
+ 5 = 2+3\leq Op_E(n,m) \leq 2 + 3n
+\end{displaymath}
+
+Na základě horního odhadu bychom mohli usoudit, že první ``naivní'' algoritmus je ve skutečnosti dokonce lepší než ten složitější
+Eukleidův. Musíme si však uvědomit, že skutečná hodnota $Op_E(n,m)$ může být (a, jak za chvíli
+uvidíme, opravdu je) mnohem menší než výše uvedený odhad. K odvození lepšího horního odhadu zavedeme následující značení. Nechť
+$n_k,m_k$ je hodnota parametrů při $k$-tém volání funkce {\tt gcdE}. Pak platí následující:
+
+\begin{itemize}
+ \item $m_{k+1}=n_k$
+ \item $n_{k+1}\leq m_k/2$
+\end{itemize}
+
+První bod je zřejmý uvažujme nad druhým. Vyjděme z toho, že $n_{k+1} = m_k\ \mbox{mod}\ n_k$. Je-li $m_k>=2n_k$, pak $m_k/2>=n_k$, zatímco
+zbytek po dělení $n_k$ je vždy $< n_k$, tedy v tomto případě bod platí. Je-li naopak $m_k \in (n_k, 2n_k)$ [uvědomme si, že $m_k > n_k]$, pak 
+$m_k\ \mbox{div}\ n_k = 1$, tedy $m_k\ \mbox{mod}\ n_k = m_k-n_k$. Nyní opět jednoduše $n_{k+1} >= m_k/2$. 
+
+Kombinací prvních dvou bodů máme
+
+\begin{itemize}
+ \item $n_{k+2}\leq n_k/2$
+\end{itemize}
+
+a opakovaným aplikováním tohoto bodu dostaneme
+
+\begin{itemize}
+ \item $n_{2k}\leq n_k/2^{k}$
+\end{itemize}
+
+Zjistili jsme tedy, že velikost prvního parametru se nejen ostře snižuje, ale dokonce se po dvou voláních sníží na polovinu původní hodnoty. Tedy
+$0$ (resp. $1$) dosáhne po $2\lceil \log_2 n_0\rceil$ (jednoduchým dosazením do předchozího bodu zjistíme, že pro $c=2\lceil \log_2 n_0\rceil$ máme
+$n_c\leq1$), tedy veličinu $c$ můžeme shora odhadnout pomocí tohoto výrazu. Celkově tedy dostáváme
+
+\begin{displaymath}
+ Op_E(n,m) \leq 2 + 3(2\lceil \log_2 n\rceil)\leq 5 + 6\log_2 n
+\end{displaymath}
+
+Zůstaňme ještě chvíli u hodnot veličiny $Op$. Tato veličina byla zavedená tak, aby dostatečně abstrahovala od času, který bude program běžet. 
+Na druhou stranu od ní stále intuitivně očekáváme, že bude s tímto časem nějak blízce souviset. Tato souvislost bude samozřejmě záviset na
+zvolených ``základních operacích'', programovacím jazyce a rychlosti počítače. Obecně však není nerozumné předpokládat, že tento vztah bude
+``zhruba lineární'', t.j. pro každou konkrétní situaci budou existovat nějaké konstanty $K,k$ (vyjadřující např. rychlost počítače a podobné okolnosti) takové, 
+že vztah mezi $Op$ a $T$ půjde vyjádřit pomocí nerovností
+
+\begin{displaymath}
+ T/K - k \leq Op \leq KT - k
+\end{displaymath}
+
+Protože veličiny $T$ a $Op$ typicky závisí na vstupních datech (t.j. jsou funkcemi nějaké proměnné $n$) a pro malá $n$ je tato nerovnost často
+nezajímavá, budeme se zajímat o limitní formu této nerovnosti. Zaveďme nyní následující značení. Jsou-li $f,g$ funkce proměnné $n$ budeme psát
+
+\begin{displaymath}
+ f(n) = O(g(n)) \iff (\exists K,n_0)(\forall n>n_0)(f(n)\leq Kg(n))
+\end{displaymath}
+
+a
+
+\begin{displaymath}
+ f(n) = \Omega(g(n)) \iff (\exists K,n_0)(\forall n>n_0)(g(n)/K\leq g(n))
+\end{displaymath}
+
+První definice říká, že pro dostatečně velká $n$ je funkce $f$ shora omezená funkcí $g$ až na nějakou multiplikativní konstantu. Podobně
+druhá definice říká, že je tato funkce omezená zdola až na multiplikativní konstantu. O nějakém algoritmu $A$ pracujícím s daty reprezentovanými
+proměnnou $n$ řekneme, že má složitost $O(g(n))$, pokud $Op_A(n) = O(g(n))$ \emph{a zároveň} $Op_A(n) = \Omega(g(n))$. Všimněme si, že v takovém
+případě bude i $T_A(n) = O(g(n))$ a $T_A(n)=\Omega(g(n))$, tedy funkce $g$ v takovém případě věrně popisuje reálné chování algoritmu. Funkce $g$,
+se kterými se setkáme nejčastěji, jsou následující: $1, n, \log_2 n, n, n\log_2 n, n^2, 2^n$. Těmto funkcím odpovídá i klasifikace algoritmů na
+algoritmy v konstantním čase ($O(1)$), algoritmy logaritmické ($O(\log_2 n)$), algoritmy lineární ($O(n)$), algoritmy kvadratické ($O(n^2)$) resp.
+polynomiální ($O(P(n))$, kde $P$ je nějaký polynom) a algoritmy exponenciální $O(2^n)$. Algoritmy, které mají nejvýše polynomiální složitost, se
+obecně považují za efektivní (záleží samozřejmě na konkrétních okolnostech), zatímco algoritmy exponenciální jsou vesměs nepoužitelné (uvědomme si,
+že pokud exponenciální algoritmus na některém počítači dokáže zpracovat data nejvýše velikosti $n$, na dvakrát rychlejším počítači spočítá data
+pouze o jedna vyšší velikosti $n+1$).
+
+Když jsme nyní zavedli klasifikaci algoritmů vidíme, že Eukleidův algoritmus má logaritmickou složitost, zatímco naivní algoritmus má složitost
+lineární.
+
+\ifx\ucebnice\undefined
+\input{footer}
+\fi

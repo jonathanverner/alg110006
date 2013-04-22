@@ -1,0 +1,132 @@
+\documentclass[a4paper,10pt,oneside]{article}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{fncylab}
+\usepackage{comment}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{url}
+\usepackage[bookmarks, colorlinks=false, 
+            pdftitle={Úvod do programování --- Algoritmy},
+            pdfauthor={Jonathan L. Verner}, 
+            pdfsubject={Algoritmy a složitost}, 
+            pdfkeywords={algoritmus, složitost, Python, třídění, grafy},
+            bookmarksdepth=3
+            ]{hyperref}
+\usepackage[margin=1cm]{geometry}
+\usetikzlibrary{decorations.fractals,chains,fit,shapes,patterns}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{attachfile}
+\relpenalty=9999
+\binoppenalty=9999
+
+
+%----------definitions---------------------------
+
+
+%math definitions
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{{\mathcal C}}
+\newcommand{\F}{{{\mathcal F}}}
+\newcommand{\U}{{{\mathcal U}}}
+\newcommand{\V}{{{\mathcal V}}}
+\newcommand{\cont}{{\mathfrak{c}}}
+\newcommand{\force}{\Vdash}
+\newcommand{\pw}{{{\mathcal P}}}
+\newcommand{\MU}{{\mathbb{M}_{\mathcal{U}}}}
+\newcommand{\pomega}{\pw(\omega)}
+
+
+\newcommand{\src}[3]{%
+\begin{program}%
+\caption{#2\hfill%
+\attachfile[author={Jonathan Verner},
+            description={Source code for #2},
+            mimetype={text/x-python},
+            print=false,
+            icon={Paperclip}]{kod/#1}}
+\label{#3}\includecode[Python]{kod/#1}
+\end{program}}
+
+
+%---------numbering of the theorems------------
+ \swapnumbers
+
+ \newtheorem*{theorem*}{Theorem}
+ \newtheorem{theorem}[subsection]{Theorem}
+ \newtheorem{proposition}[subsection]{Proposition}
+ \newtheorem{observation}[subsection]{Observation}
+ \newtheorem{fact}[subsection]{Fact}
+ \newtheorem{lemma}[subsection]{Lemma}
+ \theoremstyle{definition}
+ \newtheorem{definition}[subsection]{Definice}
+ \newtheorem{question}[subsection]{Problém}
+ \newtheorem{ukol}{Úloha}
+ \newtheorem{cviceni}[subsection]{Cvičení}
+ \newtheorem{cviceniH}[subsection]{Cvičení (*)}
+ \newtheorem*{reseniIMPL*}{Řešení}
+ \specialcomment{reseni}{\begin{reseniIMPL*}}{\end{reseniIMPL*}}
+ \excludecomment{reseni}
+ \excludecomment{todo}
+ \newtheorem*{comments*}{Komentáře}
+ \newtheorem*{definition*}{Definice}
+ \newtheorem*{question*}{Question}
+ \newtheorem{notation}[subsection]{Notation}
+ \newtheorem{remark}[subsection]{Poznámka}
+ \newtheorem{remark*}[subsection]{Poznámka}
+ \newtheorem*{note}{Poznámka}
+ \newtheorem*{ack}{Acknowledgements}
+ \floatstyle{ruled}
+ \newfloat{program}{htbp}{listings}[section]
+ \floatname{program}{Algoritmus}
+ 
+ \hypersetup{
+    colorlinks,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=black
+}
+ 
+\pdfinfo{
+      /Author (Jonathan Verner)
+      /Title (ALG110006 Úvod do programování: Poznámky k přednášce, LS)
+      /Subject (programování, algoritmy)
+      /Keywords (quicksort,heapsort,dijsktra,graph,euclid)
+   }
+\include{pythonlisting}
+
+\lstset{
+numbers=left,
+stepnumber=1,
+numbersep=5pt,
+numberstyle=\small\color{black}
+}
+%-------------opening--------------------------
+\begin{document}
+\title{}
+
+% \author{Jonathan Verner}
+% \address{Department of Logic, Charles University\\
+% Palachovo nám. 2\\ 116 38 Praha 1, Czech Republic}
+% \email{jonathan.verner{@}ff.cuni.cz}
+%\thanks{The author was partially supported by }
+
+%\subjclass[2010]{Primary }
+%\keywords{}
+
+%\begin{abstract}
+%\end{abstract}
+%\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+%\hsize=16cm
+\parindent=0cm
+\parskip=0.2cm

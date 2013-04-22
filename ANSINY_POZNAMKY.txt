@@ -1,0 +1,16 @@
+# uzle -> uzly
+# dvojtečka na konci odstavce (konec str. 2 v odd 1.1)
+# organizmus / organismus
+# nemají nakoupeno, ale vybráno
+# zavést pojem hrana
+# T->teorii množin
+# orientovaná cesta
+# později podrobněji -> podrobněji později
+# Čísla, která jsou uložená v uzlech -> Navíc pro každý uzel platí, že číslo, které je v něm uloženo, je menší...
+halda - nejmensi a nejvetsi
+# Složitost přidání tedy bude v nejhorším případě záviset na výšce stromu. -> Nejhorší možná složitost přidání tedy závisí na výšce stromu.
+# n->Nyní tři operace:
+# "Projde stromem od uzlu index ke kořeni"
+# "od uzlu index naopak k listům"
+# vyvolávani->í
+komentáře k některým částem kódu jsou bez diakritiky a jinde s diakritikou
