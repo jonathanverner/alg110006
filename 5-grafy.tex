@@ -577,6 +577,48 @@ seznam barev přiřazených jeho sousedům (pro výpočet saturovanosti).
 \end{minipage}
 \end{center}
 
+
+\subsection{Hledání cesty v grafu (Dijkstrův algoritmus)}
+
+Pojďme se podívat ještě na jednu typickou úlohu, která má navíc praktické využití. Půjde o hledání nejkratší cesty v grafu. Jako motivace nám může posloužit příklad
+grafu ze začátku kapitoly. Tam jsme si ukazovali graf silniční sítě, ve kterém vrcholy odpovídaly jednotlivým městům a hrany silnicím. V této situaci bychom mohli chtít
+zjistit, jaká je nejkratší cesta z Prahy do Brna. K tomu budeme potřebovat nejen
+původní graf, ale i informace o délkách jednotlivých hran. Naší úlohu můžeme nyní
+formulovat v řeči grafů třeba následovně:
+
+\begin{question} Mějme dán graf $G=(V,E)$, spolu s funkcí $d:E\to\mathbb{R}$ (udávající
+délky hran) a dva vrcholy $a,b\in V$. Nalezněte cestu $a_0,\ldots,a_n$ z $a$ do $b$ (t.j. $a_0=a, a_n=b$) takovou, aby hodnota
+\begin{displaymath}
+ \sum_{i=0}^{n-1} d(a_i,a_{i+1})
+\end{displaymath}
+byla co nejmenší.
+\end{question}
+
+Ukážeme si algoritmus, který vymyslel nizozemský informatik \person{Dijkstra} (viz \cite{Dijkstra:59}). Algoritmus funguje následujícím způsobem. Začne v počátečním vrcholu a postupně
+prochází v určitém pořadí vrcholy grafu a hledá cestu. V průběhu svého výpočtu si pro každý vrchol pamatuje pamatuje dvě informace. První informací je délka nejlepší cesty
+z počátečního vrcholu do tohoto vrcholu, kterou zatím našel. Druhou informací je
+sousední vrchol, ze kterého sem tato nejkratší cesta vedla. Zbývá určit, v jakém
+pořadí prochází vrcholy. V každém kroku si z dosud nenavštívených vrcholů vybere ten vrchol, do kterého vede nejkratší cesta. Do něj se přemístí a upraví informace
+o nejkratší cestě u všech jeho sousedů. Implementace v Pythonu může vypadat například
+tak, jako na výpisu \ref{alg:dijkstra}.
+
+\varsrc[lastline=69]{dijkstra}{Dijkstrův algoritmus}
+
+Jaká je složitost tohoto algoritmu? Algoritmus navštíví každý vrchol nejvýše jednou,
+tedy while cyklus (řádky 35--57) se provede nejvýše $|V|$, kde $|V|$ je počet vrcholů.
+V každé iteraci se musí projít všichni sousedé aktuálního vrcholu (řádky 37--42),
+těch může být nejvýše $|V|$, pak se musí vybrat vrchol s nejkratší cestou (řádek 46),
+což v naší implementaci znamená opět $|V|$ kroků. Nakonec se rekonstruuje cesta (řádek
+57, volání funkce {\tt postav\_cestu}), to se však děje pouze jednou za celý běh a
+na složitost to nemá vliv. Celkem tedy dostáváme $O(|V|(|V|+|V|)) = O(|V|^2)$. 
+
+Za předpokladu, že většina vrcholů má jen málo sousedů, se dá algoritmus vylepšit.
+Pokud bychom si průběžné informace o nejlepších cestách neukládali jako seznam
+ale jako haldu, dostali bychom odhad $O((|E|+|V|)\log|V|)$. Ještě lepšího výsledku
+$O(|E| + |V|\log|V|)$ bychom dosáhli nahrazením haldy její variantou nazývanou \emph{\href{http://en.wikipedia.org/wiki/Fibonacci_heap}{Fibonnaciho halda}} (viz \cite{Tarjan:1984}).
+
+
+
 \ifx\ucebnice\undefined
 \input{footer}
 \fi

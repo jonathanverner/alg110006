@@ -1,100 +1,79 @@
-def l(u):
-    return 2*u + 1
+# -*- coding:utf-8 -*-
 
-def p(u):
-    return 2*u + 2
+def dijkstra( start, cil, graf ):
+    """ Funkce dijkstra dostane na vstupu startovni a koncovy vrchol
+        (start,cil) a graf, který je reprezentován jako modifikovaný
+        seznam sousedů: k sousedům si navíc pamatujeme délky hran, t.j.
+        například graf odpovídající obdélníku s hranami délky 2 a 4
+        by byl reprezentován takto:
 
-def o(u):
-    return (u-1)/2
+        >>> g = [ [(1,4),(3,2)],
+                  [(0,4),(2,2)],
+                  [(1,2),(3,4)],
+                  [(0,2),(2,4)] ]
 
-def isList( halda, u ):
-    return l(u) >= len(halda)
+        Vrátí nejkratší cestu z vrcholu start do vrcholu cil jako
+        posloupnost vrcholu, pokud existuje, jinak vrati None.
 
-def append( halda, elem, value ):
-    halda.append( (elem,value) )
-    u = len(halda)-1
-    while( u > 0 ):
-        if ( halda[o(u)][1] < halda[u][1] ):
-            return
-        halda[o(u)],halda[u] = halda[u],halda[o(u)]
-        u = o(u)
+        >>> dijkstra(0,2,g)
+        [0,1,2]
+    """
 
-def pop( halda ):
-    ret = halda[0]
-    halda[0] = halda[-1]
-    del halda[-1]
-    u = 0
-    while( not isList(halda, u) ):
-        if ( p(u) >= len(halda) ):
-            v = l(u)
-        else:
-            if ( halda[l(u)][1] <= halda[p(u)][1] ):
-                v = l(u)
-            else:
-                v = p(u)
-        if halda[u][1] <= halda[v][1]:
-            return ret
-        halda[u],halda[v] = halda[v],halda[u]
-        u = v
-    return ret
+    # Zde si ukládáme informace o tom, které
+    # vrcholy jsme již navštívili
+    navstiveno = [False] * len(graf)
 
-def compute_cesta( start, cil, cesty ):
-    if not cil in cesty:
-        return None
+    # Zde si ukládáme informace o délkách nejkratších
+    # dosud nalezených cest. Na začátku neznáme žádnou
+    # cestu mimo cestu ze start do start. Délky jsou tedy
+    # nekonečné.
+    cesty = [(float('inf'),start)]*len(graf)
+    cesty[start]=(0,start)
+
+    v = start
+    delka_do_v = 0
+    while v is not None:
+        navstiveno[v] = True
+        for (u,delka_vu) in graf[v]:
+            # Pokud je cesta do u přes vrchol v
+            # kratší, než dosud nejlepší nalezená
+            # cesta do u, musíme upravit cesty
+            if cesty[u][0] > delka_do_v+delka_vu:
+                cesty[u]=(delka_do_v+delka_vu,v)
+
+        # Vyber z nenavštívený vrcholů ten vrchol, do kterého
+        # z vrcholu start vede dosud nejkratší nalezená cesta.
+        delka_do_v, v = min([(d,u) for (u,(d,prev)) in enumerate(cesty) if not navstiveno[u]])
+
+        # Pokud každý z nenavštívených vrcholů má nejlepší cestu
+        # nekonečně dlouhou, pak to znamená, že do žádného nich
+        # nevede cesta. Protože vrchol cil je jednim z nich, vrátíme None
+        if delka_do_v == float('inf'):
+            return None
+
+        if v == cil:
+            # Zrekonstruujeme nejkratší cestu z údajů uložených
+            # v seznamu cesty a vrátíme ji
+            return postav_cestu(cesty,v)
+
+def postav_cestu(cesty, v):
+    current = v
     cesta = []
-    while( not cil == start ):
-        cesta.append(cil)
-        cil = cesty[cil][0]
-    cesta.append(start)
-    return cesta
+    while True:
+        cesta.append(current)
+        delka, prev = cesty[current]
+        if prev == current:
+            cesta.reverse()
+            return cesta
+        current = prev
 
-def min_cesta( start, cil, G ):
-    cesty = {}
-    prace = []
-    append(prace, (start,start), 0 )
-    while( len(prace) > 0 ):
-        ((v,odkud),l) = pop( prace )
-        if v in cesty:
-            continue
-        cesty[v] = ( odkud, l )
-        if ( v == cil ):
-            return compute_cesta( start, cil, cesty )
-        for (s,d) in G[v]:
-            if s in cesty:
-                continue
-            else:
-                append( prace, (s,v), d+l )
-    return compute_cesta( start, cil, cesty )
-
-G = { 'a':[('b',10),('c',20)],
-      'b':[('a',10),('c',5),('d',20)],
-      'c':[('a',20),('e',10),('f',10)],
-      'd':[('b',20),('f',5)],
-      'e':[('c',10)],
-      'f':[('c',10),('d',5)] }
-
-
-from collections import deque
-def erdos( e, graf ):
-    prace = deque( [ (e,e,0) ] )
-    cisla = {}
-    while( len(prace) > 0 ):
-        (prev, cur, num) = prace.popleft()
-        if cur not in cisla:
-            cisla[cur]=(prev,num)
-            for (s,l) in graf[cur]:
-                if s not in cisla:
-                    prace.append( (cur,s,num+1) )
-    return cisla
- 
-def cesta(e, v, cisla):
-    ret = []
-    if v not in cisla:
-        return None
-    while( not v == e ):
-        ret.append(v)
-        v = cisla[v][0]
-    ret.append(v)
-    return ret
-
-
+g = [ [(1,11),(4,15),(5,10)],
+      [(0,11),(2,2)],
+      [(1,2),(3,3)],
+      [(2,3),(4,0.5)],
+      [(0,15),(3,0.5),(5,20),(6,10)],
+      [(0,10),(4,20)],
+      [(4,10),(7,10)],
+      [(6,10),(8,10)],
+      [(7,10)],
+      [] ]
