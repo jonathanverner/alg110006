@@ -1,4 +1,4 @@
-#coding:utf-8
+# -*- coding:utf-8 -*-
 
 # Jednoduché funkce pro počítání pozic dětí a rodičů
 def left_child_index(n):
@@ -53,3 +53,4 @@ def pop( halda ):
   halda[0] = halda[-1]
   del halda[-1]
   check_down(halda, 0)
+  return ret
