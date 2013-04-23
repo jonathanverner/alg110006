@@ -215,16 +215,15 @@ Ačkoliv je úloha \ref{uloha:minimalcoloring} NP-težká, ukážeme si, jak lze
 \end{tikzpicture}
 \end{center}
 
+\paragraph{Matice souslednosti} reprezentuje graf o $n$ vrcholech pomocí matice $n\times n$, kde v $i$-tém sloupci a $j$-tém řádku je jednička, pokud
+je $i$-tý vrchol s $j$-tým vrcholem spojený hranou, v opačném případě je tam nula. Výše uvedenému grafu by odpovídala matice (+ zápis v pythonu)
+\begin{center}
 \lstset{
 numbers=none,
 stepnumber=1,
 numbersep=5pt,
 numberstyle=\small\color{black}
 }
-
-\paragraph{Matice souslednosti} reprezentuje graf o $n$ vrcholech pomocí matice $n\times n$, kde v $i$-tém sloupci a $j$-tém řádku je jednička, pokud
-je $i$-tý vrchol s $j$-tým vrcholem spojený hranou, v opačném případě je tam nula. Výše uvedenému grafu by odpovídala matice (+ zápis v pythonu)
-\begin{center}
 \begin{minipage}{5cm}
 $$
 \left(
@@ -260,6 +259,12 @@ $$
 odpovídají hranám a sloupce vrcholům. V $i$-tém řádku jsou jedničky těch dvou sloupcích, které odpovídají vrcholům jež $i$-tá hrana spojuje. V ostatních sloupcích jsou nuly.
 Výše uvedenému grafu by odpovídala matice (+ zápis v pythonu)
 \begin{center}
+\lstset{
+numbers=none,
+stepnumber=1,
+numbersep=5pt,
+numberstyle=\small\color{black}
+}
 \begin{minipage}{5cm}
 $$
 \left(
@@ -303,6 +308,13 @@ $$
 \paragraph{Seznam sousedů.} Při této reprezentaci si ke každému vrcholu pamatujeme seznam jeho ``sousedů'', t.j. vrcholů do nichž z něj vede hrana.
 Výše uvedený graf by v pythonu byl reprezentován například takto:
 
+{
+\lstset{
+numbers=none,
+stepnumber=1,
+numbersep=5pt,
+numberstyle=\small\color{black}
+}
 \begin{python}
  >>> g = [[2, 6, 8],
 	  [1, 3, 6, 8],
@@ -313,6 +325,7 @@ Výše uvedený graf by v pythonu byl reprezentován například takto:
 	  [4, 6, 8],
 	  [1, 2, 3, 4, 7]]
 \end{python}
+}
 
 \begin{cviceni} Napište Pythonovské funkce pro převod grafu z jedné reprezentace do jiné.
 \end{cviceni}
@@ -506,15 +519,7 @@ největšího stupně. Zkusme nyní tento algoritmus zapsat v pythonu. Graf bude
 indexován vrcholy a bude obsahovat pro každý vrchol seznam jeho sousedů. Zároveň bude ke každému vrcholu ještě obsahovat
 seznam barev přiřazených jeho sousedům (pro výpočet saturovanosti).
 
-% 
-% \vskip3cm
-% 
-% \lstset{
-% numbers=left,
-% stepnumber=1,
-% numbersep=5pt,
-% numberstyle=\small\color{black}
-% }
+
 \begin{center}
 \begin{minipage}{12cm}
 \srchere{colorgraph}{Heuristické barvení grafu}
