@@ -18,6 +18,7 @@
             pdfkeywords={algoritmus, složitost, Python, třídění, grafy},
             bookmarksdepth=3
             ]{hyperref}
+\usepackage[toc]{glossaries}
 \usepackage[margin=1cm]{geometry}
 \usepackage{fancyhdr}
 \usetikzlibrary{decorations.fractals,chains,fit,shapes,patterns}
@@ -119,6 +120,16 @@
  \makeatletter
  \let\c@programhere\c@program
  \makeatother
+
+% GLOSSARIES
+
+\newglossary{person}{gls}{glo}{Lidé}
+\DeclareRobustCommand{\textemph}[1]{\emph{#1}}
+\renewcommand{\glsdisplay}[4]{\textemph{#1 (\glsentryuseri{\glslabel})}}
+\newcommand{\person}[2][]{\gls{person:#2}}
+\loadglsentries[person]{people.tex}
+\makeglossaries
+% \printglossary[type=person,title={Lidé}]
 
  \hypersetup{
     colorlinks,%

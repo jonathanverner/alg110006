@@ -7,3 +7,7 @@
 *.bbl
 *.pdf
 *.swp
+*.glg
+*.glo
+*.gls
+*.ist
