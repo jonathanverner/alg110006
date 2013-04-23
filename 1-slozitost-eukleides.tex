@@ -1,5 +1,6 @@
 \ifx\ucebnice\undefined
 \input{header}
+\setcounter{section}{0}
 \fi
 \section{Porovnávání algoritmů, Eukleidův algoritmus}
 
@@ -63,19 +64,7 @@ def gcdE(n,m):
 
 Pokud bychom se chtěli vyhnout rekurzi, mohli bychom stejný algoritmus napsat takto:
 
-\begin{python}
-def gcdE_var(n,m):
-    if n > m:
-        n,m = m,n
-    d = m % n
-
-    while not (d == 0):
-      m = n
-      n = d
-      d = m % n
-
-    return n
-\end{python}
+\src{gcdnre}{Eukleidův algoritmus (nerekurzivní verze)}
 
 U tohoto algoritmu není na první pohled vůbec jasné, že někdy skončí a, pokud skončí, že dá správnou odpověď.
 Zkusíme se nejprve přesvědčit, že opravdu skončí. Označme si $n_0 = n$ a $m_0=m$ počáteční vstupy a $n_k, m_k$ hodnoty proměnných 

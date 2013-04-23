@@ -19,6 +19,7 @@
             bookmarksdepth=3
             ]{hyperref}
 \usepackage[margin=1cm]{geometry}
+\usepackage{fancyhdr}
 \usetikzlibrary{decorations.fractals,chains,fit,shapes,patterns}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -44,16 +45,40 @@
 \newcommand{\pomega}{\pw(\omega)}
 
 
-\newcommand{\src}[3]{%
+\newcommand{\src}[2]{%
 \begin{program}%
 \caption{#2\hfill%
 \attachfile[author={Jonathan Verner},
             description={Source code for #2},
             mimetype={text/x-python},
             print=false,
-            icon={Paperclip}]{kod/#1}}
-\label{#3}\includecode[Python]{kod/#1}
+            icon={Paperclip}]{kod/#1.py}}
+\label{alg:#1}\includecode[Python]{kod/#1.py}
 \end{program}}
+
+\newcommand{\srchere}[2]{%
+\begin{programhere}%
+\caption{#2\hfill%
+\attachfile[author={Jonathan Verner},
+            description={Source code for #2},
+            mimetype={text/x-python},
+            print=false,
+            icon={Paperclip}]{kod/#1.py}}
+\label{alg:#1}\includecode[Python]{kod/#1.py}
+\end{programhere}}
+
+
+\newcommand{\varsrc}[3][]{%
+\begin{program}%
+\caption{#3\hfill%
+\attachfile[author={Jonathan Verner},
+            description={Source code for #3},
+            mimetype={text/x-python},
+            print=false,
+            icon={Paperclip}]{kod/#2.py}}
+\label{alg:#2}\includecode[Python,#1]{kod/#2.py}
+\end{program}}
+
 
 
 %---------numbering of the theorems------------
@@ -85,8 +110,16 @@
  \newtheorem*{ack}{Acknowledgements}
  \floatstyle{ruled}
  \newfloat{program}{htbp}{listings}[section]
+ \newfloat{programhere}{H}{listings}[section]
  \floatname{program}{Algoritmus}
- 
+ \floatname{programhere}{Algoritmus}
+
+ % Make program and programhere share counters
+% (LaTeX constructs a counter by prepending the float-name with c@
+ \makeatletter
+ \let\c@programhere\c@program
+ \makeatother
+
  \hypersetup{
     colorlinks,%
     citecolor=black,%
@@ -125,8 +158,9 @@ numberstyle=\small\color{black}
 %\begin{abstract}
 %\end{abstract}
 %\maketitle
-\thispagestyle{empty}
+% \thispagestyle{empty}
 \pagestyle{empty}
+
 %\hsize=16cm
 \parindent=0cm
 \parskip=0.2cm

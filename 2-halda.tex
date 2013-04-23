@@ -1,5 +1,6 @@
 \ifx\ucebnice\undefined
 \input{header}
+\setcounter{section}{1}
 \fi
 \section{Zelinář vykořisťovatel --- Halda (Heap)}
 
@@ -565,67 +566,9 @@ Haldu budeme ukládat po jednotlivých hladinách, každý prvek seznamu bude dv
 Na prvním místě bude kořen, na druhém a třetím jeho případné dvě děti, a tak dále. Protože ukládaný strom je haldou, můžeme si z pozice uzlu {\tt u} jednoduše vypočítat
 pozice jeho dětí a rodičů. Je-li totiž jeho pozice {\tt n}, pak jeho děti mají pozici {\tt 2*n + 1} a {\tt 2n + 2} a jeho rodič má index
 {\tt (n-1)/2}. Uvědomte si, že zde využíváme faktu, že jde o haldu, u obecného stromu by to nefungovalo! Elegance tohoto přístupu spočívá v tom, 
-že nejlevější list je prostě poslední prvek pole. Operace v Pythonu pak můžou vypadat třeba následovně. Nejprve ukážeme jednoduché
-funkce pro počítání pozic dětí a rodičů:
+že nejlevější list je prostě poslední prvek pole. Operace v Pythonu pak můžou vypadat třeba následovně jako na výpisu \ref{alg:heap}.
 
-\begin{python} 
-def left_child_index(n):
-  return 2*n + 1
-
-def right_child_index(n):
-  return 2*n + 2
-  
-def parent_index(n):
-  return (n-1)/2
-  
-def last_index(halda):
-  return len(halda)-1
-\end{python}
-
-Nyní tři operace: zjištění nejmenšího prvku, přidání prvku do haldy, odebrání prvku z haldy:
-
-\begin{python}
-# Projde stromem od uzlu s indexem index ke kořeni
-# a zajistí, že hodnoty potomků jsou vždy
-# menší než hodnoty rodičů
-def check_up(halda, index)
-  p = parent_index(index)
-  if halda[p][1] < halda[index][1]:
-    halda[p],halda[index] = halda[index],halda[p]
-    check_up(halda,p)
-
-# Podobně jako předchozí funkce, ale prochází
-# od uzlu s indexem index naopak k listům
-def check_down(halda, index):
-  l,r = left_child_index(index), right_child_index(index)
-  if halda[l][1] < halda[r][1]:
-    c = r
-  else:
-    c = l
-  if halda[index][1] < halda[c][1]:
-    halda[index],halda[c] = halda[c],halda[index]
-    check_down(halda, c)    
-    
-# Zjistí největší prvek v haldě
-def peek(halda):
-  if len(halda) == 0:
-    return None
-  return halda[0]
-
-# Přidá prvek do haldy
-def push( halda, data, hodnota ):
-  halda.append((data,hodnota))
-  check_up(index, last_index(halda))
-
-# Odebere největší prvek z haldy
-def pop( halda ):
-  if len(halda) == 0:
-    return None
-  ret = peek(halda)
-  halda[0] = halda[-1]
-  del halda[-1]
-  check_down(halda, 0)
-\end{python}
+\src{heap}{Operace s haldou}
 
 
 \subsection*{Zelinář --- pokračování}\pdfbookmark[2]{Zelinář --- pokračování}{subsec:zelinarcont} 

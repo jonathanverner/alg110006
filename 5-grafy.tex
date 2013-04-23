@@ -1,5 +1,6 @@
 \ifx\ucebnice\undefined
 \input{header}
+\setcounter{section}{4}
 \fi
 \section{Grafové algoritmy}
 
@@ -378,12 +379,15 @@ dvěma prvky $K$ existuje cesta a přidáním jakéhokoliv dalšího prvku do $K
 Ukážeme si algoritmus, který k danému vrcholu nalezne komponentu souvislosti, do které vrchol patří (uvědomte si, že každý vrchol patří do nějaké komponenty souvislosti).
 Algoritmus funguje tak, že začne v zadaném vrcholu a postupně prochází všechny jeho
 sousedy a sousedy jeho sousedů atd., dokud to lze. V okamžiku, kdy už nemůže dál,
-našel komponentu souvislosti. Kód v pythonu je uveden ve výpisu \ref{alg:connectedcomponent}.
+našel komponentu souvislosti. Kód v pythonu je uveden ve výpisu \ref{alg:komponentysouvislosti}.
 
-\src{komponentysouvislosti.py}{Komponenta Souvislosti}{alg:connectedcomponent}
-
+\src{komponentysouvislosti}{Komponenta Souvislosti}
 
 \begin{todo}
+Procházení do hloubky vs. procházení do šířky
+\end{todo}
+
+
 \subsection{Obarvení grafu}
 
 Nyní si popíšeme jednoduchý algoritmus, který nalezne relativně dobré obarvení grafu. Algoritmus patří do třídy ``hladových''
@@ -501,80 +505,19 @@ zvolíme ze zbývajících vrcholů ten vrchol, který má největší saturovan
 největšího stupně. Zkusme nyní tento algoritmus zapsat v pythonu. Graf budeme reprezentovat jako pythonovský {\tt dict}, který bude
 indexován vrcholy a bude obsahovat pro každý vrchol seznam jeho sousedů. Zároveň bude ke každému vrcholu ještě obsahovat
 seznam barev přiřazených jeho sousedům (pro výpočet saturovanosti).
-\vskip3cm
 
-\lstset{
-numbers=left,
-stepnumber=1,
-numbersep=5pt,
-numberstyle=\small\color{black}
-}
+% 
+% \vskip3cm
+% 
+% \lstset{
+% numbers=left,
+% stepnumber=1,
+% numbersep=5pt,
+% numberstyle=\small\color{black}
+% }
 \begin{center}
 \begin{minipage}{12cm}
-\begin{python}
-# vrchol = ( cislo_vrcholu, seznam_sousedu, seznam_barev )
-# graf = { v_1:sousedi_v1, v_2:sousedi_v2, ..., v_n:sousedi_vn }
-def deg(v):
-    return len(v[1])
-
-def sat(v):
-    return len(v[2])
-    
-def can_color( vertex, color ):
-    if color in vertex[2]:
-        return False
-    return True
-    
-def choose(g):
-    """ Odebere z grafu g vrchol, s nejvetsi
-        saturovanosti a spolus grafem ho vrati
-    """
-    g_sorted = sorted(g,key=sat)
-    v = g_sorted.pop()
-    return (g_sorted,v)
-    
-  
-def color(graf):
-    # Setridi graf podle stupne
-    g_sorted = sorted(graf.items(), key=deg)
-    
-    g = []
-    g_dict = {}
-    # Pridame seznam barev sousedu
-    for v in g_sorted:
-        nv = [v[1],[]]
-        g.append( [v[0]]+nv )
-        g_dict[v[0]] = nv
-
-    coloring = {}
-
-    # zde si uchovavame nejvetsi
-    # dosud pouzitou barvu
-    max_color = -1
-    
-    while( len(g) > 0 ):
-        # Z grafu g odebereme vrchol s
-        # nejvetsi saturovanosti
-        (g,v) = choose(g)
-
-        # Prochazime postupne barvy od
-        # nejmensi do nejvetsi dosud pouzite
-        for c in range(0,max_color+2):
-            if can_color(v,c):
-                coloring[v[0]]=c
-                # projdeme sousedy vrcholu v
-                # a u kazdeho si poznacime,
-                # ze sousedi s c-barevnym vrcholem
-                for s in v[1]:
-                    if c not in g_dict[s][1]:
-                        g_dict[s][1].append(c)
-                # pokud jsme pouzili novou barvu,
-                # zvetsime max_color
-                if c > max_color:
-                    max_color = c
-                break
-    return coloring
-\end{python}
+\srchere{colorgraph}{Heuristické barvení grafu}
 \end{minipage}
 \begin{minipage}{4cm}
 \begin{center}
@@ -628,7 +571,6 @@ def color(graf):
 \end{center}
 \end{minipage}
 \end{center}
-\end{todo}
 
 \ifx\ucebnice\undefined
 \input{footer}

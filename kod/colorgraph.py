@@ -1,36 +1,18 @@
-g = {
-    1:[6,7,8],
-    2:[5,7,8],
-    3:[5,6,8],
-    4:[5,6,7],
-    5:[2,3,4],
-    6:[1,3,4],
-    7:[1,2,4],
-    8:[1,2,3]
-}
-ga = {
-    1:[2,6,8],
-    2:[1,3,6,8],
-    3:[2,4,8,6],
-    4:[3,8,7],
-    5:[],
-    6:[3,2,1,7],
-    7:[6,4,8],
-    8:[7,4,3,2,1],
-}
-# vrchol = ( cislo_vrcholu, seznam_sousedu, seznam_barev )
-# graf = { v_1:sousedi_v1, v_2:sousedi_v2, ..., v_n:sousedi_vn }
+# -*- Coding:utf-8 -*-
+
+# vrchol = (cislo_vrcholu, seznam_sousedu, seznam_barev)
+# graf = {v_1:sousedi_v1, v_2:sousedi_v2, ..., v_n:sousedi_vn}
 def deg(v):
     return len(v[1])
 
 def sat(v):
     return len(v[2])
-    
+
 def can_color( vertex, color ):
     if color in vertex[2]:
         return False
     return True
-    
+
 def choose(g):
     """ Odebere z grafu g vrchol, s nejvetsi
         saturovanosti a spolus grafem ho vrati
@@ -38,12 +20,12 @@ def choose(g):
     g_sorted = sorted(g,key=sat)
     v = g_sorted.pop()
     return (g_sorted,v)
-    
-  
+
+
 def color(graf):
     # Setridi graf podle stupne
     g_sorted = sorted(graf.items(), key=deg)
-    
+
     g = []
     g_dict = {}
     # Pridame seznam barev sousedu
@@ -57,7 +39,7 @@ def color(graf):
     # zde si uchovavame nejvetsi
     # dosud pouzitou barvu
     max_color = -1
-    
+
     while( len(g) > 0 ):
         # Z grafu g odebereme vrchol s
         # nejvetsi saturovanosti
@@ -80,40 +62,3 @@ def color(graf):
                     max_color = c
                 break
     return coloring
-
-
-def print_colored(graf,coloring):
-    colors = {
-        0:'red',
-        1:'blue',
-        2:'green',
-        3:'yellow',
-        4:'white',
-        5:'purple',
-        6:'navy'
-    }
-    print r"""
-\begin{center}
-\begin{tikzpicture}[node distance=1cm]
-          """
-    for c in coloring.values():
-        style = chr(ord('A')+c)
-        print r"\tikzstyle{vertex%s}=[draw,circle,fill=%s"%(style,colors[c])
-
-    for v in graf.keys():
-        print r"\node [vertex%s,] (%s){%s};" % (chr(ord('A')+coloring[v]),
-                                               chr(ord('A')+v),
-                                               v)
-    print r"""
-\path[every node/.style={font=\sffamily\small}]
-"""
-    for (v,s) in graf.items():
-        for n in s:
-            print " (%s) edge node {} (%s) " % ( chr(ord('A')+v),
-                                                 chr(ord('A')+n))
-    print ";"
-    print r"""
-\end{tikzpicture}
-\end{center}
-"""
-        

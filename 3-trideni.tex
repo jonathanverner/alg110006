@@ -1,5 +1,6 @@
 \ifx\ucebnice\undefined
 \input{header}
+\setcounter{section}{2}
 \fi
 \section{Vyhledávání, třídící algoritmy}
 
@@ -97,7 +98,7 @@ V předchozí části jsme narazili na úlohu setřídit seznam slov dle abecedy
 tak, jak bychom sami postupovali, pokud bychom měli úlohu vyřešit ručně. Prostě bychom si setřízený seznam budovali postupně a v každém kroku do již setřízené části
 zatřídili další slovo. Tomuto algoritmu se říká \emph{insertion sort}. Zapišme si ho v Pythonu:
 
-\src{insertionsort.py}{Insertion Sort}{alg:insertionsort}
+\src{insertionsort}{Insertion Sort}
 
 V proměnné {\tt last\_sorted} si algoritmus udržuje index posledního setřízeného prvku (t.j. pole {\tt seznam[:last\_sorted+1]} je setřízené).
 Na začátku je setřízený pouze první prvek pole (řádek 2). Dokud není pole setřízené celé (podmínka na řádku 3), provádím následující kroky (řádky 4-8):
@@ -552,7 +553,7 @@ Nakonec setřídíme jednotlivé přihrádky pomocí nějakáho jiného algoritm
 Stejný algoritmus budeme moci samozřejmě použít i pro klíče z jiného intervalu.
 Implementace v pythonu je uvedena na výpisu \ref{alg:bucketsort}.
 
-\src{bucketsort.py}{Bucket Sort}{alg:bucketsort}
+\src{bucketsort}{Bucket Sort}
 
 Jaká bude složitost? Nalezení minima a maxima a vyrobení přihrádek bude mít složitost $O(n)$. Rozdělení čísel do přihrádek má složitost opět $O(n)$.
 Přihrádek je $(k_{max}-k_{min})/m$, a každou musíme setřídit.  V každé přihrádce je
@@ -579,7 +580,7 @@ postupně v $d$ průchodech položky setřídí. V každém průchodu postupuje 
 obyčejné přihrádkové třízení s přihrádkama velikosti jedna (tudíž odpadá
 nutnost v daném kroku přihrádky třídit), ale místo celého klíče uvažuje jen jeho část. V Pythonu může vypadat třeba jako na výpisu \ref{alg:radixsort}.
 
-\src{radixsort.py}{Radix Sort}{alg:radixsort}
+\src{radixsort}{Radix Sort}
 
 \begin{todo}
 {\bf Merge sort}
