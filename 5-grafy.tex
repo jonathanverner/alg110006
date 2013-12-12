@@ -594,8 +594,29 @@ délky hran) a dva vrcholy $a,b\in V$. Nalezněte cestu $a_0,\ldots,a_n$ z $a$ d
 byla co nejmenší.
 \end{question}
 
-Ukážeme si algoritmus, který vymyslel nizozemský informatik \person{Dijkstra} (viz \cite{Dijkstra:59}). Algoritmus funguje následujícím způsobem. Začne v počátečním vrcholu a postupně
-prochází v určitém pořadí vrcholy grafu a hledá cestu. V průběhu svého výpočtu si pro každý vrchol pamatuje pamatuje dvě informace. První informací je délka nejlepší cesty
+Ukážeme si algoritmus, který vymyslel nizozemský informatik \person{Dijkstra} (viz \cite{Dijkstra:59}). 
+
+Algoritmus je založen na následující myšlence. Pokud by postupně procházel všechny možné cesty začínající v počátečním vrcholu 
+$a$ do nějakého jiného vrcholu v pořadí od nejkratších k nejdelším, pak by ve chvíli, kdy poprvé narazí na cestu, která končí ve vrcholu $b$, 
+byl hotov. Tato cesta by totiž musela být nejkratší --- všechny pozdější cesty jsou delší, všechny dřívější skončily v jiném vrcholu.
+
+Jak to prakticky udělat? Předně ze všech cest do nějakého vrcholu budeme vždy uvažovat pouze jednu cestu, a to tu nejkratší. 
+Tedy každá cesta bude odpovídat svému cílovému vrcholu a my budeme, místo cest, procházet jednotlivé vrcholy. Jak ale zajistit, 
+je procházeli ve správném pořadí?
+
+abychom cesty procházeli ve správném pořadí, t.j. podle jejich délky? To zajistíme tak, že si ke
+každému vrcholu budeme pamatovat délku nejkratší cesty, kterou se do něj umíme dostat. Jednotlivé vrcholy pak budeme procházet v pořadí
+podle této délky. 
+
+
+
+Tedy každáPředně budeme při procházení cest z $a$ uvažovat poPostupovat budeme následovně. U každého vrcholu si budeme pamatovat délku dosud nejkratší cesty, po které
+bychom se do daného vrcholu z vrcholu $a$ uměli dostat. V každém kroku si pak vybereme vrchol, do něhož se umíme dostat nejkratší
+cestou. 
+
+
+Začne v počátečním vrcholu a postupně
+prochází v určitém pořadí vrcholy grafu a hledá cestu. V průběhu svého výpočtu si pro každý vrchol pamatuje dvě informace. První informací je délka nejlepší cesty
 z počátečního vrcholu do tohoto vrcholu, kterou zatím našel. Druhou informací je
 sousední vrchol, ze kterého sem tato nejkratší cesta vedla. Zbývá určit, v jakém
 pořadí prochází vrcholy. V každém kroku si z dosud nenavštívených vrcholů vybere ten vrchol, do kterého vede nejkratší cesta. Do něj se přemístí a upraví informace
