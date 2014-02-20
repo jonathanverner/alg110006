@@ -2,11 +2,11 @@
 def gcdE_nre(n,m):
     if n > m:
         n,m = m,n
-    d = m % n
+    z = m % n
 
-    while not (d == 0):
+    while not (z == 0):
       m = n
-      n = d
-      d = m % n
+      n = z
+      z = m % n
 
     return n
