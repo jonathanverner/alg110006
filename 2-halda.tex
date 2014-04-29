@@ -342,7 +342,7 @@ uzlů. Mezi některými kategoriemi pak vede čára (hrana), znázorňující vz
 \emph{kořen} je uzel, který je úplně na vrcholu, t.j. čáry vedou pouze z něj, žádná čára nevede do něj. Na našem obrázku je kořenem kategorie ``organizmy''.
 Naopak \emph{list} je uzel, ze kterého nevede žádná čára (např. ``vlaštovka'', ...) a uzly, které nejsou listy (včetně kořene) budeme souhrnně nazývat
 \emph{vnitřními} uzly. Pokud má uzel alespoň dvě děti (t.j. vedou z něj dvě čáry), řekneme, že se \emph{větví}, resp. že je to \emph{větvící} uzel.
-Pokud mají všechny uzly mimo listů dvě děti, říkáme, že strom je binární (podobně definujeme ternární strom atd.). \emph{Cestou} ve stromu rozumíme posloupnost uzlů, 
+Pokud mají všechny uzly nejvýše dvě děti, říkáme, že strom je binární (podobně definujeme ternární strom atd.). \emph{Cestou} ve stromu rozumíme posloupnost uzlů, 
 které jsou postupně mezi sebou pospojované hranami vedoucími vždy od rodiče k dítěti. Cestu od kořene k nějakému 
 listu nazveme \emph{větví}. \emph{Hloubkou} stromu rozumíme délku nejdelší větve. \emph{Hladinou} ve stromě rozumíme množinu uzlů, které mají stejnou hloubku.
 Uzel A je \emph{potomkem} uzlu B, pokud z B do A vede cesta. V takovém případě říkáme též, že uzel B je \emph{předkem} uzlu A. 
@@ -351,7 +351,7 @@ Uzel A je \emph{potomkem} uzlu B, pokud z B do A vede cesta. V takovém případ
 \begin{note}\footnotesize
 Formálně lze tuto situaci modelovat různými způsoby. Například v teorii množin je strom definován jako částečně uspořádaná množina $(T,\leq)$,
 kde prvky $t\in T$ odpovídají uzlům a pro každý uzel $t\in T$ je uspořádání $\leq$ zúžené na množinu $\{s\in T:s\leq t\}$ jeho předchůdců dobré.
-Jiný způsob, který pro nás bude důležitější, reprezentuje strom jako speciální případ tzv. grafu. Ke grafům se dostaneme později ve větší podrobnosti.
+Jiný způsob, který pro nás bude důležitější, reprezentuje strom jako speciální případ tzv. grafu. Grafům se budeme později věnovat podrobněji.
 \end{note}
 
 Pojďme se nyní podívat, jak je možné tuto situaci reprezentovat v Pythonu. Bude pro nás důležité, že v každém uzlu
