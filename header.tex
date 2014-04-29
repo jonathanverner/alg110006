@@ -11,7 +11,9 @@
 \usepackage{tikz}
 \usepackage{tikz-qtree}
 \usepackage{url}
-\usepackage[bookmarks, colorlinks=false, 
+\usepackage{xcolor}
+\definecolor{svlinks}{rgb}{.0,0.3,0.6} %tmavě modrá
+\usepackage[bookmarks, colorlinks=false,pdfhighlight=/O,linkcolor=svlinks,urlcolor=svlinks,
             pdftitle={Úvod do programování --- Algoritmy},
             pdfauthor={Jonathan L. Verner}, 
             pdfsubject={Algoritmy a složitost}, 
@@ -27,7 +29,6 @@
 \usepackage{attachfile}
 \relpenalty=9999
 \binoppenalty=9999
-
 
 %----------definitions---------------------------
 
@@ -46,16 +47,20 @@
 \newcommand{\pomega}{\pw(\omega)}
 
 
-\newcommand{\src}[2]{%
+\newcommand{\src}[3][]{%
 \begin{program}%
-\caption{#2\hfill%
+\caption{#3\hfill%
 \attachfile[author={Jonathan Verner},
-            description={Source code for #2},
+            description={Source code for #3},
             mimetype={text/x-python},
             print=false,
-            icon={Paperclip}]{kod/#1.py}}
-\label{alg:#1}\includecode[]{kod/#1.py}
+            icon={Paperclip}]{kod/#2.py}}
+\label{alg:#2}\includecode[#1]{kod/#2.py}
 \end{program}}
+
+\newcommand{\sniphere}[1]{%
+\label{alg:#1}\includecode[]{kod/#1.py}
+}
 
 \newcommand{\srchere}[2]{%
 \begin{programhere}%
@@ -86,8 +91,8 @@
  \swapnumbers
 
  \newtheorem*{theorem*}{Theorem}
- \newtheorem{theorem}[subsection]{Theorem}
- \newtheorem{proposition}[subsection]{Proposition}
+ \newtheorem{theorem}[subsection]{Věta}
+ \newtheorem{example}[subsection]{Příklad}
  \newtheorem{observation}[subsection]{Observation}
  \newtheorem{fact}[subsection]{Fact}
  \newtheorem{lemma}[subsection]{Lemma}
@@ -127,6 +132,12 @@
 \DeclareRobustCommand{\textemph}[1]{\emph{#1}}
 \renewcommand{\glsdisplay}[4]{\textemph{#1 (\glsentryuseri{\glslabel})}}
 \newcommand{\person}[2][]{\gls{person:#2}}
+\newenvironment{doplneni}{%
+\par
+\leftskip1cm
+\rightskip1cm
+\small
+}{\par}
 \loadglsentries[person]{people.tex}
 \makeglossaries
 % \printglossary[type=person,title={Lidé}]
