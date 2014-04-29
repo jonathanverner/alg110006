@@ -24,11 +24,12 @@ přípustnosti pro tyto jazyky. Nejprve se však budeme zabývat jednodušším 
 vyhledáváním v textu.  Optimální algoritmus pro vyhledávání nás totiž navede k definici
 tzv. regulárních jazyků.
 
-\subsection{Vyhledávání v textu}
+\subsection*{Vyhledávání v textu}
 
 Následující úlohu zná každý, kdo v textovém editoru někdy použil funkci ``najdi'' (find).
 
-\begin{ukol} Nalezněte v daném textu (posloupnosti znaků) všechny výskyty nějakého slova 
+\begin{ukol}\label{prob:substring}
+Nalezněte v daném textu (posloupnosti znaků) všechny výskyty nějakého slova 
 (věty, posloupnosti znaků).
 \end{ukol}
 
@@ -245,7 +246,7 @@ pomocné proměnné a tuto proměnnou postupně aktualizovat.  Celý algoritmus 
 
 \src[firstline=3]{optimalfind}{Vyhledávání pomocí konečných automatů}
 
-\subsection{Regulární jazyky}
+\subsection*{Regulární jazyky}
 
 V předchozím odstavci jsme zavedli pojem konečného automatu a ukázali, jak lze konečné
 automaty využít pro rychlé hledání v textu. Nicméně samotný pojem konečného automatu 
@@ -311,7 +312,7 @@ Následující věta říká, že regulární výrazy přesně popisují regulá
 \end{theorem}
 
 
-\subsection{Aritmetické výrazy}
+\subsection*{Aritmetické výrazy}
 
 \paragraph{Stromová reprezentace}
 \paragraph{Infixová notace}

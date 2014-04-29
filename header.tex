@@ -86,32 +86,18 @@
 \end{program}}
 
 
-
+ 
+ %% ALGORITHMS
 %---------numbering of the theorems------------
  \swapnumbers
 
  \newtheorem*{theorem*}{Theorem}
- \newtheorem{theorem}[subsection]{Věta}
- \newtheorem{example}[subsection]{Příklad}
  \newtheorem{observation}[subsection]{Observation}
  \newtheorem{fact}[subsection]{Fact}
  \newtheorem{lemma}[subsection]{Lemma}
- \theoremstyle{definition}
- \newtheorem{definition}[subsection]{Definice}
- \newtheorem{question}[subsection]{Problém}
- \newtheorem{ukol}{Úloha}
- \newtheorem{cviceni}[subsection]{Cvičení}
- \newtheorem{cviceniH}[subsection]{Cvičení (*)}
- \newtheorem*{reseniIMPL*}{Řešení}
- \specialcomment{reseni}{\begin{reseniIMPL*}}{\end{reseniIMPL*}}
- \excludecomment{reseni}
- \excludecomment{todo}
- \newtheorem*{comments*}{Komentáře}
  \newtheorem*{definition*}{Definice}
  \newtheorem*{question*}{Question}
  \newtheorem{notation}[subsection]{Notation}
- \newtheorem{remark}[subsection]{Poznámka}
- \newtheorem{remark*}[subsection]{Poznámka}
  \newtheorem*{note}{Poznámka}
  \newtheorem*{ack}{Acknowledgements}
  \floatstyle{ruled}
@@ -125,6 +111,28 @@
  \makeatletter
  \let\c@programhere\c@program
  \makeatother
+ 
+ %---------numbering of the theorems------------
+ \swapnumbers
+
+ \newtheorem*{theorem*}{Věta}
+ \newtheorem{theorem}[program]{Věta}
+ \newtheorem{example}[program]{Příklad}
+ \theoremstyle{definition}
+ \newtheorem{definition}[program]{Definice}
+ \newtheorem{question}[program]{Problém}
+ \newtheorem{ukol}[program]{Úloha}
+ \newtheorem{cviceni}[program]{Cvičení}
+ \newtheorem{cviceniH}[program]{Cvičení (*)}
+ \newtheorem*{reseniIMPL*}{Řešení}
+ \specialcomment{reseni}{\begin{reseniIMPL*}}{\end{reseniIMPL*}}
+ \excludecomment{reseni}
+ \excludecomment{todo}
+ \newtheorem*{comments*}{Komentáře}
+ \newtheorem*{definition*}{Definice}
+ \newtheorem{remark}[program]{Poznámka}
+ \newtheorem*{note}{Poznámka}
+ 
 
 % GLOSSARIES
 
