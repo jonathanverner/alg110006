@@ -170,7 +170,7 @@ def quicksort( seznam ):
     return L_sorted + P_sorted
 \end{python}
 
-\begin{remark*} Ve skutečnosti by výše uvedený schematicky zapsaný quicksort byl relativně pomalý,
+\begin{remark} Ve skutečnosti by výše uvedený schematicky zapsaný quicksort byl relativně pomalý,
 protože by docházelo k častému kopírování z paměti do paměti při vytváření nových polí (L,P, L+P).
 V reálu proto vůbec nebudeme vytvářet nové seznamy a funkce quicksort bude vypadat spíše tak, jak je uvedena ve výpisu \ref{alg:quicksort}.
 
@@ -191,13 +191,13 @@ def quicksort( seznam, start, end ):
 
 t.j. všechno se bude odehrávat v poli {\tt seznam}, nic se nebude nikam kopírovat a podseznamy budou
 vždy vymezené dvěma indexy, počátečním ({\tt start}) a koncovým ({\tt end}).
-\end{remark*}
+\end{remark}
 
-\begin{remark*} Při rozdělování pole je třeba dát pozor na to, aby se pole opravdu ``rozdělilo'', t.j.
+\begin{remark} Při rozdělování pole je třeba dát pozor na to, aby se pole opravdu ``rozdělilo'', t.j.
 aby bylo {\tt start <= stred < end}. Pokud by totiž pravá nebo levá část byla prázdná, program 
 by se zacyklil. Tuto podmínku nicméně není těžké splnit, protože pivot může být prvkem jak pravé,
 tak levé části.
-\end{remark*}
+\end{remark}
 
 \begin{cviceni} Naprogramujte funkce {\tt zvol\_pivota} a {\tt rozdel\_seznam}!
 \end{cviceni}
