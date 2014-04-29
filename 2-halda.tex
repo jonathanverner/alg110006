@@ -267,8 +267,7 @@ def naRade():
       
     # Najdi zakaznika s maximalni castkou
     # (zakaznik je vzdy dvojice [ ID, castka ] )
-    max_castka = zakaznici[0][1]
-    max_jmeno     = zakaznici[0][0]
+    max_castka, max_jmeno = zakaznici[0]
     max_pos    = 0
     pos        = 0
     
@@ -398,14 +397,15 @@ která vrátí seznam jmen všech listů může vypadat takto:
 \begin{python}
 def listy(T):
   ret = []
-  if len(T[1]) == 0:
+  jmeno, deti = T
+  if len(deti) == 0:
     # T je list (nemá žádné děti), vrátíme jméno T
-    return [T[0]]
+    return [jmeno]
   else:
     # Projdeme všechny děti a do našeho seznamu přidáme listy,
     # které jsou jejich potomkem 
-    for t in T[1]:
-      ret = ret + listy(t)
+    for d in deti:
+      ret = ret + listy(d)
   return ret
 \end{python}
 
