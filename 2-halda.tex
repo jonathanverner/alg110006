@@ -32,10 +32,12 @@ current=0
 last=0
 
 def generujListek():
+    global last
     last = last + 1
     return last
     
 def naRade():
+    global last, current
     if current == last:
         return None
     else:
@@ -52,10 +54,12 @@ last=0
 jmena=[]
 
 def generujListek( jmeno ):
+    global last,jmena
     last = last + 1
     jmena.append(jmeno)
     
 def naRade():
+    global last,jmena, current
     if current == last:
         return None
     else:
@@ -72,9 +76,11 @@ Program tedy vypadá takto:
 fronta=[]
 
 def generujListek( jmeno ):
+    global fronta
     fronta.append(jmeno)
     
 def naRade():
+    global fronta
     if len(fronta) == 0:
         return None
     return fronta.pop(0)
@@ -221,12 +227,14 @@ f_obyc=[]
 f_predn=[]
 
 def generujListek( jmeno, prednostni = False ):
+    global f_obyc, f_predn
     if prednostni:
         f_predn.append(jmeno)
     else:
         f_obyc.append(jmeno)
     
 def naRade():
+    global f_obyc, f_predn
     if len(f_predn) > 0:
         return f_predn.pop(0)
     elif len(f_obyc) > 0:
@@ -246,10 +254,12 @@ složitější:
 fronta = []
 
 def generujListek( jmeno, castka ):
+    global fronta
     fronta.append( [jmeno, castka] )
 
 
 def naRade():
+    global fronta
 
     # Pokud je fronta prazdna, vrat None
     if len(fronta) < 1:
