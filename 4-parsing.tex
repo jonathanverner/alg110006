@@ -58,7 +58,7 @@ tabulku, která nám pro každý znak {\tt z}, a číslo \(n_{\tt p}\) určí,
 \end{itemize}
 
 Pokud bychom takovou tabulku měli, bylo by vyhledávání velmi jednoduché. Algoritmus
-by vypadal třeba jako na výpisu \ref{alg:smartfind} (uvažujeme jednoduchý příklad kdy
+by vypadal třeba jako na výpisu \ref{alg:smartfind} (uvažujeme jednoduchý příklad, kdy
 hledáme řetězec {\tt aab} v posloupnosti která sestává pouze ze znaků {\tt a} a {\tt b}).
 
 \src[firstline=2]{smartfind}{Vyhledávání za pomoci tabulky}
@@ -94,8 +94,8 @@ vnitřního stavu do jiného.
 Obecná definice konečného automatu je zobecněním této konkrétní situace.
 
 \begin{definition} \emph{Konečný automat} je dán množinou (vnitřních) stavů \(S\),
-množinou vstupů (abecedou) \(\Sigma\), přechodovou funkcí \(f:S\times\Sigma\to S\)
-a množinou koncových stavů \(E\subseteq S\) a jedním počátečním stavem \(s^b\in S\).
+množinou vstupů (abecedou) \(\Sigma\), přechodovou funkcí \(f:S\times\Sigma\to S\),
+množinou koncových stavů \(E\subseteq S\) a jedním počátečním stavem \(s^b\in S\).
 \end{definition}
 
 V případě zámku by množina vnitřních stavů byla množina všech 5 ciferných čísel,
