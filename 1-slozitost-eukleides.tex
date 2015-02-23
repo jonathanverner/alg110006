@@ -13,22 +13,22 @@ Pojďme se nyní společně podívat na jednu skupinu takových problémů. Jedn
 matematické disciplíny zvané Teorie čísel. V praxi jsou úzce provázány s moderními šifrovacími metodami 
 (RSA, Elektronický podpis, ...). Asi nejvíce fascinujícím problémem je následující úloha:
 
-\begin{ukol}
+\begin{uloha}
 Nalezněte rozklad daného čísla $n$ na součin prvočísel.
-\end{ukol}
+\end{uloha}
 
 s ní úzce souvisí úloha, ve které máme rozhodnout, zda číslo je, či není prvočíslem:
 
-\begin{ukol}
+\begin{uloha}
 Pro dané číslo $n$ rozhodněte, zda je prvočíslem nebo není.
-\end{ukol}
+\end{uloha}
 
 K této úloze se možná, pokud zbyde čas, vrátíme v nějaké pozdější přednášce. Dnes se podíváme na jednodušší úlohu, která
 bývá jednou ze základních operacích prováděných při řešení složitějších problémů v teorii čísel. 
 
-\begin{ukol}
+\begin{uloha}
 Pro dané čísla $n,m$ zjistěte jejich největšího společného dělitele.
-\end{ukol}
+\end{uloha}
 
 % \begin{comments*} Předně je zřejmé, že když znám řešení první úlohy, není těžké vyřešit i zbylé dvě úlohy. Toto triviální
 % pozorování není úplně od věci. Vtip s vařením vajíčka o převedení úlohy na známý případ.
@@ -44,7 +44,7 @@ def gcdN(n,m):
     for d in range(2,n+1):
         if d % n == 0 and d % m == 0:
             ret = d
-    return d
+    return ret
 \end{python}
 
 Možná, že někteří z Vás se s touto úlohou setkali na střední škole. Tam jste se mohli dozvědět o postupu, který 
@@ -122,7 +122,7 @@ jak algoritmy porovnat, je měřit čas $T$ od puštění programu do jeho skon�
 \end{itemize}
 
 Budeme tedy muset ideu trochu upravit --- abstrahovat od konkrétního počítače a konkrétní implementace. Nebudeme měřit čas, 
-ale určíme si množinu základních operací (přiřazením, testování booleovské podmínky ({\tt if}), aritmetická operace) a budeme počítat 
+ale určíme si množinu základních operací (přiřazení, testování booleovské podmínky ({\tt if}), aritmetická operace) a budeme počítat 
 počet operací,  které program při svém běhu vykoná. Označme si toto číslo $Op$. Je zjevné, že 
 toto číslo bude záviset na vstupních datech. Pokud budeme počítat největšího společného dělitele čísel
 $1235468127495138$ a $2159842611264567486$ budeme muset provést více operací než při počítání společného dělitele čísel
@@ -174,7 +174,7 @@ $n_k,m_k$ je hodnota parametrů při $k$-tém volání funkce {\tt gcdE}. Pak pl
 
 První bod je zřejmý uvažujme nad druhým. Vyjděme z toho, že $n_{k+1} = m_k\ \mbox{mod}\ n_k$. Je-li $m_k>=2n_k$, pak $m_k/2>=n_k$, zatímco
 zbytek po dělení $n_k$ je vždy $< n_k$, tedy v tomto případě bod platí. Je-li naopak $m_k \in (n_k, 2n_k)$ [uvědomme si, že $m_k > n_k]$, pak 
-$m_k\ \mbox{div}\ n_k = 1$, tedy $m_k\ \mbox{mod}\ n_k = m_k-n_k$. Nyní opět jednoduše $n_{k+1} >= m_k/2$. 
+$m_k\ \mbox{div}\ n_k = 1$, tedy $m_k\ \mbox{mod}\ n_k = m_k-n_k$. Nyní opět jednoduše $n_{k+1} <= m_k/2$. 
 
 Kombinací prvních dvou bodů máme
 
@@ -227,8 +227,8 @@ se kterými se setkáme nejčastěji, jsou následující: $1, n, \log_2 n, n, n
 algoritmy v konstantním čase ($O(1)$), algoritmy logaritmické ($O(\log_2 n)$), algoritmy lineární ($O(n)$), algoritmy kvadratické ($O(n^2)$) resp.
 polynomiální ($O(P(n))$, kde $P$ je nějaký polynom) a algoritmy exponenciální $O(2^n)$. Algoritmy, které mají nejvýše polynomiální složitost, se
 obecně považují za efektivní (záleží samozřejmě na konkrétních okolnostech), zatímco algoritmy exponenciální jsou vesměs nepoužitelné (uvědomme si,
-že pokud exponenciální algoritmus na některém počítači dokáže zpracovat data nejvýše velikosti $n$, na dvakrát rychlejším počítači spočítá data
-pouze o jedna vyšší velikosti $n+1$).
+že pokud exponenciální algoritmus na některém počítači dokáže zpracovat data nejvýše velikosti $n$, na dvakrát rychlejším počítači zpracuje data
+pouze o jedna větší velikosti $n+1$).
 
 Když jsme nyní zavedli klasifikaci algoritmů vidíme, že Eukleidův algoritmus má logaritmickou složitost, zatímco naivní algoritmus má složitost
 lineární.
