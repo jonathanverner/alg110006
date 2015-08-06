@@ -317,12 +317,195 @@ Následující věta říká, že regulární výrazy přesně popisují regulá
 
 
 \subsection*{Aritmetické výrazy}
+Ve cvičení \ref{cv:zavorky} jsme uvedli, že jazyk sestávající ze slov obsahujících
+stejně otevřených jako zavřených závorek není regulární. To naznačuje, že 
+mnoho zajímavých jazyků pravděpodobně regulárních nebude. Typickým reprezentantem
+je například jazyk sestávající z aritmetických výrazů, kterým se nyní budeme
+podrobněji zabývat. Že je to neregulární jazyk je vidět z toho, že nejen že
+musí obsahovat stejný počet otevřených jako zavřených závorek, tyto závorky
+navíc musí být správně poskládané. S aritmetickými výrazy se každý z vás nejspíš
+setkal již někdy v první třídě základní školy a máte intuitivní představu o tom, 
+co to aritmetický výraz je. Abychom s nimi mohli pracovat bude užitečné tuto
+intuitivní představu zpřesnit do formální definice. Pro jednoduchost budeme
+uvažovat pouze aritmetické výrazy, ve kterých se nevyskytují proměnné a jediné
+povolené operace jsou sčítání, odčítání, násobení a dělení. Formálně tedy budou 
+aritmetické výrazy řetězce nad abecedou 
+\(\Sigma = \{0,1,2,3,4,5,6,7,8,9,+,-,*,/,(,)\}\). Nejjednodušším
+aritmetickým výrazem je nějaké libovolné číslo (řetězec číslic, t.j. 
+neprázdný prvek jazyka \(\{0,1,2,3,4,5,6,7,8,9\}^*\)).
+Tyto výrazy (t.j. čísla) budeme nazývat \emph{atomickými výrazy}. 
+
+\begin{definition} Jazyk aritmetických výrazů je nejmenší
+podmnožina \(\Sigma^*\) která obsahuje všechny atomické výrazy a je
+uzavřena na následující operaci:
+\begin{itemize}
+ \item Jsou-li \(a,b\) dva řetězce a \(o\in\{+,-,*,/\}\) pak první
+       operace (OP1) je definovaná takto:
+       \[
+          OP1(a,b,o)=aob
+       \]
+       
+       t.j. výsledkem je řetězec sestávající
+       z konkatenace levé závorky, řetězce a, symbolu op, řetězce b a 
+       pravé závorky.
+  \item Je-li \(a\) řetězec, pak druhá operace (OP2) je definovaná
+       takto:
+       \[
+          OP2(a) = (a)
+       \]
+       t.j. výsledek je konkatenací levé závorky, řetězce \emph{a} a pravé
+       závorky.
+\end{itemize}
+\end{definition}
 
 \paragraph{Stromová reprezentace}
-\paragraph{Infixová notace}
-\paragraph{Prefixová a postfixová notace}
-\paragraph{Převádění mezi notacemi}
-\paragraph{Vyhodnocování}
+
+Každý aritmetický výraz tedy vznikne z atomických výrazů (čísel) postupným
+aplikováním operace OP1 (aritmetické operace) resp. OP2 (uzávorkování). 
+Tuto postupnou výstavbu aritmetického výrazu si můžeme představit jako 
+(v našem případě binární) strom. V koředni stromu je výsledný výraz a poslední 
+provedená operace, kterou byl získán. Jeho dětmi jsou pak ty jednodušší výrazy, 
+ze kterých byl pomocí této operace vytvořen. V listech stromu jsou pak atomické
+výrazy. Nejlépe to je vidět na nějakém příkladě. Například stavba výrazu 
+\((8+7)*5\) je znázorněna následujícím stromem:
+
+\begin{center}
+\Tree [.'((8+7)*5)',OP1* [.'(8+7)',OP2 [.'8+7',OP1+ [.'8' ]  [.'7' ] ] ] [.'5' ] ]
+\end{center}
+
+Tento strom můžeme ještě trochu zjednoduššit tím, že si v uzlech budeme
+pamatovat pouze operace a zahodíme všechny neatomické výrazy:
+
+\begin{center}
+\Tree [.* [.() [.+ [.8 ] [.7 ] ] ] [.5 ] ]
+\end{center}
+
+Dalšího zjednoduššení můžeme dosáhnout, pokud nám nezáleží na rozlišení výrazů, 
+které se liší pouze různým ekvivalentním uzávorkováním. V takovém případě můžeme
+prostě zahodit uzly s druhou operací. Získáme tak strom:
+
+\begin{center}
+\Tree [.* [.+ [.8 ] [.7 ] ] [.5 ] ]
+\end{center}
+
+Je však dobré si uvědomit, že v tomto případě již došlo ke ztrátě informace:
+stejný strom by nám totiž vyšel i pro výraz '(8+7)*(5)'. Pro většinu aplikací
+je však důležitá hodnota výrazu, kterou tato ztráta neovlivní. Uvědomte si,
+že výraz 8+(7*5), který má jinou hodnotu, dá ve skutečnosti jiný strom, ačkoliv 
+se od původního výrazu liší pouze uzávorkováním; toto uzávorkování je totiž
+\emph{neekvivalentní}. 
+
+Se závorkami souvisí ještě jeden problém. Výše zmíněná výstavba výrazu není
+vždy jednoznačná. Například výrazu \(8+7*5\) odpovídají následující dva
+stromy:
+
+\begin{center}
+\Tree [.* [.+ [.8 ] [.7 ] ] [.5 ] ] 
+\hskip2cm
+\Tree [.+ [.8 ] [.* [.7 ] [.5 ] ] ]
+\end{center}
+
+K tomuto problému se dostaneme za chvíli, až se budeme zabývat konstrukcí
+těchto stromů. 
+
+\paragraph{Vyhodnocování výrazů} Předpokládejme však na chvíli, že strom pro 
+daný aritmetický výraz již máme v Pythonu k dispozici, například pro výraz 
+'(8+7)*5' máme tedy strom
+
+\begin{python}
+ >>> T = ['*',['+',[8,None,None],[7,None,None]],[5,None,None]]
+\end{python}
+
+V tuto chvíli je relativně jednoduché výraz vyhodnotit. Vyhodnocování bude
+probíhat rekurzivně tak, že spočteme hodnotu každého uzlu, který odpovídá nějakému
+podvýrazu. Hodnota listů, t.j. atomických výrazů, je prostě dané
+číslo. Hodnota vnitřních uzlů se pak spočte aplikací operace uložené v uzlu na
+hodnoty jeho dětí. V pythonu to může vypadat takto:
+
+\begin{python}
+def eval_tree(T):
+    D,L,R = T
+    
+    # Hodnota listu je v něm uložená
+    if L is None and R is None:
+        return D
+        
+    # Rekurzivně spočtěme hodnotu dětí
+    LVal = eval_tree(L)
+    RVal = eval_tree(R)
+    
+    # Aplikujme operaci D
+    if D == '+':
+        return LVal + RVal
+    if D == '-':
+        return LVal - RVal
+    if D == '*':
+        return LVal * RVal
+    if D == '/':
+        return LVal / RVal    
+\end{python}
+
+Stromová reprezentace se hodí pro další zpracování, pro uživatele ale není 
+příliš čitelná. Proto je užitečné mít funkci, která strom převede zpět na
+aritmetický výraz. I tuto funkce napíšeme snadno za pomoci rekurze:
+
+\begin{python}
+def tree_to_expr_naive(T):
+    D,L,R = T
+    
+    if L is None and R is None:
+        return str(D)
+    
+    return tree_to_expr_naive(L) + D + tree_to_expr_naive(R)
+\end{python}
+
+Zde však narazíme na výše zmíněný problém související s tím, že jsme zahodili 
+závorky. Náš strom totiž dá výraz výraz '8+7*5', který je možno číst dvěmi
+způsoby jako '8+(7*5)' či '(8+7)*5'. Konvence o prioritách operací pak preferuje
+druhou variantu, která však odpovídá jinému stromu! Abychom se této dvojznačnosti
+vyhli, budeme muset na vhodných místech vypsat závorky. Správnější tedy
+bude napsat funkci takto:
+
+\begin{python}
+def tree_to_expr_inorder(T):
+    D,L,R = T
+    
+    if L is None and R is None:
+        return str(D)
+    
+    ret = '('
+    ret = ret + ' ' + tree_to_expr_inorder(L)
+    ret = ret + ' ' + D
+    ret = ret + ' ' + tree_to_expr_inorder(R)
+    ret = ret + ' )'
+    return ret
+\end{python}
+
+Tato funkce vrátí pro původní strom výraz '( ( 8 + 7 ) * 5 )'. Kdyby daný výraz psal
+člověk, pravděpodobně by vynechal vnější závorky. Přebytečné závorky by samozřejmě
+šlo odstranit, bylo by to ale příliš komplikované, proto se smíříme s tím, že
+naše funkce občas závorkuje příliš horlivě. 
+
+\paragraph{Prefixová a postfixová notace} Zastavme se ještě u funkce
+{\tt tree\_to\_expr\_inorder}. Funkce postupně rekurzivně prochází uzly stromu.
+Když přijde do daného uzlu, nejprve rekurzivně převede levý podstrom na výraz,
+k tomuto výrazu přidá operaci D a pak rekurzivně převede pravý podstrom a připojí
+ho nakonec. Co by se stalo, kdybychom prohodili řádky 8 a 9?  T.j. při příchodu
+do uzlu bychom nejprve ``vypsali'' operaci v daném uzlu a teprve pak se zabývali
+podstromy. Výsledkem by byl následující výraz
+\begin{center}
+ ( * ( + 8 7 ) 5 )
+\end{center}
+Ačkoliv to na první pohled nemusí vypadat příliš užitečně, má tento zápis
+svůj smysl a dokonce i jméno --- říká se mu prefixový zápis (a odpovídajícímu 
+způsobu procházení stromu se říká preorder). V tomto zápise se nejprve zapíše
+operace a po ní teprve následují operandy. Výhoda tohoto zápisu je (ačkoliv to možná
+není hned vidět), že se obejde bez závorek a tudíž odpadají nejednoznačnosti, 
+které se závorkami souvisí. Navíc je relativně jednoduché tento zápis převést
+zpět na odpovídající strom. 
+
+
+\paragraph{Bezkontextové gramatiky}
 
 \ifx\ucebnice\undefined
 \input{footer}
