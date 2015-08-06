@@ -9,10 +9,10 @@ def build_automaton(retezec):
     """
     c_state_num = 0                # index aktuálně vytvářeného stavu
     help_state = []                # pomocný stav pro podřetězec r[1:]
-    c_state = []                   # aktuálně vytvářený sta v 
+    c_state = []                   # aktuálně vytvářený stav 
     A = [None]*(len(retezec)+1)    # Inicializujeme automat
     for c in retezec:
-        A[c_state_num] = c_stat
+        A[c_state_num] = c_state
               
         # Přidáme dopřednou šipku do aktuálního stavu
         c_state.append((c,c_state_num+1))
@@ -20,17 +20,15 @@ def build_automaton(retezec):
         # Přidáme zpětné šipky, t.j. zkopírujeme šipky z pomocného stavu do aktuálního stavu.
         # Pokud z pomocného stavu vede šipka označená znakem c pak příslušně aktualizujeme 
         # pomocný stav, jinak nastavíme pomocný stav na 0
-        default_help_state = True
+        next_help_state = A[0]
         for sipka in help_state:
             char, target_state_num = sipka
             if char == c:
-                help_state = A[target_state_num]
-                default_help_state = False
+                next_help_state = A[target_state_num]
             else:
                 c_state.append((char,target_state_num))
-        if default_help_state:
-            help_state = A[0]
-    
+        
+        help_state = next_help_state
         c_state_num += 1
         c_state = []
     
