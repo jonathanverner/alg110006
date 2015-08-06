@@ -19,6 +19,7 @@ def spell_check(slovnik,doc):
   for slovo in doc.split(' '):
     if slovo not in slovnik:
       spatna.append(slovo)
+  return spatna
 \end{python}
 
 Toto jednoduché řešení však má své mouchy. Jaká je jeho složitost? Funkce musí nejprve rozdělit řetězec doc na jednotlivá slova.
@@ -69,7 +70,7 @@ def contains(slovo, slovnik, start, end):
 Pojďme se nejprve přesvědčit, že algoritmus je správný. Jak je u rekurzivních algoritmů obvyklé, budeme postupovat indukcí, v tomto případě dle {\tt n=end-start}.
 \begin{itemize}
  \item[{\tt n=0}] Pokud je {\tt start == end}, pak algoritmus vrátí False, což je správně, protože {\tt slovnik[start:start]} je prázdný seznam ve kterém se nic nevyskytuje.
- \item[{\tt n=1}] Pokud je {\tt end-start == 1}, pak {\tt middle == start} a {\tt slovnik[start:end] = slovnik[start]}. Pokud je tedy {\tt slovo == slovnik[middle]}, algoritmus
+ \item[{\tt n=1}] Pokud je {\tt end-start == 1}, pak {\tt middle == start} a {\tt slovnik[start:end] = [slovnik[start]]}. Pokud je tedy {\tt slovo == slovnik[middle]}, algoritmus
 vrátí {\tt True}, jinak se tam slovo nevyskytuje. Pokud se tam nevyskytuje, zavolá se buď {\tt contains(slovo, slovnik, start, start)} nebo {\tt contains(slovo, slovnik, end,end)} což obojí
 správně vrátí {\tt False}.
  \item[{\tt n+1}] Indukční krok. Předpokládejme že pro {\tt end-start = n >= 1 } algoritmus pracuje a uvažujme {\tt end-start = n+1}. Je jasné, že 
@@ -163,7 +164,7 @@ Když se nad tím zamyslíte a uvědomíte si, že jednoprvkové pole je haldou,
 
 Další algoritmus, který si ukážeme, je asi v praxi nejpoužívanějším algoritmem.
 
-\paragraph{Quicksort}\pdfbookmark[3]{Quicksort}{par:quicksort} je klasickým rekurzivním algoritmem (nebo také ``rozděl a panuj''). Funguje na
+\paragraph{Quicksort}\pdfbookmark[3]{Quicksort}{par:quicksort} je klasickým rekurzivním algoritmem. Funguje na
 následujícím principu. Pokud seznam, který se má setřídit, má pouze jeden prvek, je setřízený a algoritmus
 může skončit. V opačném případě si seznam rozdělí na dvě části tak, aby všechny položky v levé části byly 
 menší než všechny položky v pravé části. Pak se rekurzivně zavolá a setřídí
@@ -504,7 +505,8 @@ pole již setřízené. Co se stane je opět dobře vidět na obrázku:
 \end{center}
 
 Na předchozím obrázku jsme měli úplný binární strom, jehož hloubka je $\log n$. Zde nám tento strom zdegeneroval ve strom, jehož hloubka je $n$. Když si spočteme
-složitost, uvidíme, že je to $O(n^2)$, což je nepříjemné (vzpoměňte si, že jednoduchý insertion sort by měl v tomto případě složitost dokonce lineární!). Je tedy
+složitost, uvidíme, že je to $O(n^2)$, což je nepříjemné (tato situace by mohla nastat i v případě, že je pole již setřízené; v takovém případě
+má i jednoduchý insertion sort složitost dokonce lineární!). Je tedy
 vidět, že vhodná volba pivota může radikálně ovlivnit délku výpočtu. Jak jsme si ukázali výše, optimální volbou by byl medián pole. Protože
 pro volbu mediánu existuje algoritmus běžící v lineárním čase (detaily viz \cite{BFPRT:1973}, nebo heslo {\tt Selection Algorithm} na \emph{Wikipedii}),
 mohli bychom jej použít a zajistit si, že složitost quicksortu bude $O(n \log n)$ i v nejhorším případě. Nicméně v praktických implementacích se ukazuje, že 
@@ -521,7 +523,7 @@ nebudeme a odkážeme zájemce do literatury. Místo toho se ještě chvíli bud
 
 Ukázali jsme si, že algoritmus Quicksort má v optimálním čase složitost $O(n\log n)$. Algoritmus Heap sort má dokonce v nejhorším případě složitost $O(n\log n)$.
 Podobně třeba algoritmus Merge sort (který jsme si neukazovali) má v nejhorším případě složitost $O(n\log n)$. Nemohli bychom najít nějaký ještě lepší algoritmus?
-Ukážeme si, že pokud povolíme pouze porovnávání jednotlivých prvků a jejich prohazování, lepší algoritmy neexistují. Bude to však trochu složitější, než dokazovat, že nějaký algoritmus má takovou a takovou
+Ukážeme si, že pokud jako základní operace povolíme pouze porovnávat jednotlivé prvky případně je prohazovat, lepší algoritmy neexistují. Bude to však trochu složitější, než dokazovat, že nějaký algoritmus má takovou a takovou
 složitost. Budeme totiž chtít ukázat, že žádný třídící algoritmus nemůže běžet rychleji než $O(n\log n)$\footnote{Formálně vzato následující úvaha dává dolní odhad pro složitost v \emph{nejhorším} případě. Malou úpravou bychom mohli ukázat, že odhad platí i pro složitost v \emph{průměrném případě}.} Jak takovou věc ukázat? Rozhodně nemůžeme procházet
 třídící algoritmy jeden po druhém a dokazovat, že mají složitost nejméně $O(n\log n)$. Náš postup bude následující. Ukážeme, že máme-li nějaký rychlý algoritmus,
 pak to nemůže být třídící algoritmus --- nalezneme pole, které nesetřídí správně. Představme si tedy, že máme nějaký algoritmus $A$, který na vstupu dostane
@@ -576,14 +578,14 @@ Implementace v pythonu je uvedena na výpisu \ref{alg:bucketsort}.
 Jaká bude složitost? Nalezení minima a maxima a vyrobení přihrádek bude mít složitost $O(n)$. Rozdělení čísel do přihrádek má složitost opět $O(n)$.
 Přihrádek je $(k_{max}-k_{min})/m$, a každou musíme setřídit.  V každé přihrádce je
 nejvýše $m$ čísel, které jsme schopni setřídit v čase $O(m\log m)$. Celkem tedy
-zabere třízení přihrádek (řádky 18.--22.) čas $O( m\log m(k_{max}-k_{min})/m) = O(\log m(k_{max}-k_{min})) = O(k_{max}-k_{min})$\footnote{Poslední rovnost plyne z toho, že $m$ je nějaká předem určená pevně daná konstanta.} Celková složitost algoritmu tedy bude $O(n)+O(n) + O(k_{max}-k_{min}) = O(k_{max}-k_{min})$. Pokud bude rozsah
+zabere třízení přihrádek (řádky 18.--22.) čas $O((k_{max}-k_{min})/m\cdot m\log m) = O((k_{max}-k_{min})\log m) = O(k_{max}-k_{min})$\footnote{Poslední rovnost plyne z toho, že $m$ je nějaká předem pevně daná konstanta.} Celková složitost algoritmu tedy bude $O(n)+O(n) + O(k_{max}-k_{min}) = O(k_{max}-k_{min})$. Pokud bude rozsah
 možných klíčů, t.j. hodnota  $k_{max}-k_{min}$, roven $O(n)$ bude mít algoritmus
 lineární složitost!
 
 \begin{cviceni}
 Při odvození složitosti jsme předpokládali, že každé číslo se vyskytne nanejvýš jednou, z čehož vyplývá, že $n\leq k_{max}-k_{min}$. Tento předpoklad však
 je zbytečný. Není těžké upravit algoritmus tak, aby fungoval i s opakujícími se klíči.
-Dokonce vlastně můžeme využít přímo výše uvedený kód, který ve skutečnosti jediněčnost klíčů nikde nepoužívá. Jediným místem, kde jsme ji využily, byl odhad složitosti setřízení jedné přihrádky. Zkuste se tedy
+Dokonce vlastně můžeme využít přímo výše uvedený kód, který ve skutečnosti jedinečnost klíčů nikde nepoužívá. Jediným místem, kde jsme ji využily, byl odhad složitosti setřízení jedné přihrádky. Zkuste se tedy
 upravit kód tak, aby setřízení přihrádky trvalo vždy $O(m\log m)$ kroků i v situaci
 kdy jedinečnost klíčů nepředpokládáme.
 \end{cviceni}

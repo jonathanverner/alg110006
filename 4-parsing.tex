@@ -11,7 +11,7 @@ Co to znamená \emph{přesně} specifikovat? Dohodněme se, že pro naše účel
 
 \begin{doplneni}
 Přirozené jazyky tuto podmínku nesplňují, protože přípustnost je nejednoznačná ---
-o přípustnosti nějaké věty se často neshodnou ani lingvisté. Jednoduchým diagonálním 
+na přípustnosti nějaké věty se často neshodnou ani lingvisté. Jednoduchým diagonálním 
 argumentem však lze ``zkonstruovat'' jazyky, kde je přípustnost daná jednoznačně, nicméně
 neexistuje algoritmus, který by o přípustnosti rozhodl.  Takové jazyky nás však zajímat nebudou.
 \end{doplneni}
@@ -257,7 +257,7 @@ automaty využít pro rychlé hledání v textu. Nicméně samotný pojem koneč
 je zajímavý i teoreticky, protože se dá ukázat, že charakterizuje třídu regulárních jazyků. 
 
 \begin{definition} Je-li \(\Sigma\) množina znaků (\emph{abeceda}), značíme \(\Sigma^*\) množinu všech
-(konečných) posloupností prvků množiny \(Sigma\). Prvkům množiny \(\Sigma^*\) budeme říkat
+(konečných) posloupností prvků množiny \(\Sigma\). Prvkům množiny \(\Sigma^*\) budeme říkat
 \emph{slova}.  \emph{Jazykem} v abecedě \(\Sigma\) pak rozumíme libovolnou podmnožinu \(L\subseteq\Sigma^*\).
 \end{definition}
 
@@ -276,15 +276,16 @@ Tato definice vypadá velmi abstraktně. Nicméně je překvapivé, že má mnoh
 Jedna možná definice využívá konečné automaty:
 
 \begin{theorem} Jazyk \(L\) je \emph{regulární}, pokud existuje konečný automat \(A\) takový, že
-\(L\) je množinou slov \(w\) takových, že existuje posloupnost stavů \(\overline{s}\), že \((w,\overline{s})\) je
+\(L\) je množinou slov \(w\) takových, že existuje posloupnost stavů \(\overline{s}\), že \((\overline{s},w)\) je
 výpočtem (viz \ref{def:vypocet}) automatu \(A\). 
 \end{theorem}
 
-Nabízí se otázka, zda je každý jazyk regulární.  Jednoduchým argumentem se můžeme přesvědčit, že nikoliv: všech jazyků
+Nabízí se otázka, zda je každý jazyk regulární. Jednoduchým argumentem se můžeme přesvědčit, že nikoliv: všech jazyků
 je totiž nespočetně (kontinuum), ale konečných automatů je jen spočetně (každý konečný automat je konečný objekt).
 Není příliš těžké dokonce přímo sestrojit neregulární jazyk.
 
-\begin{cviceni} Ukažte, že jazyk nad abecedou \(\Sigma=\{(,)\}\) sestávající ze správně uzávorkovaných výrazů, nemůže
+\begin{cviceni}\label{cv:zavorky}
+Ukažte, že jazyk nad abecedou \(\Sigma=\{(,)\}\) sestávající ze správně uzávorkovaných výrazů, nemůže
 být regulární.  (Hint: uvažte řetězec začínající \(n+1\)-otevřenými závorkami, kde \(n\) je počet stavů daného automatu.)
 \end{cviceni}
 
@@ -293,7 +294,8 @@ Ukážeme si ještě jinou ekvivalentní definici regulárního jazyka, která j
 Tento pojem zavedl americký matematik \person{Kleene} a umožňuje velmi kompaktní popis regulárních jazyků. Každému regulárnímu
 výrazu \(R\) odpovídá jazyk \(L(R)\) dle následující definice
 
-\begin{definition} \emph{Regulární výraz} nad abecedou \(\Sigma\) je definován rekurzivně:
+\begin{definition} \emph{Regulární výraz} nad abecedou \(\Sigma\) 
+(neobsahující znaky \(\varepsilon,(,),|,*\)) je definován rekurzivně:
 \begin{itemize}
  \item \(\emptyset, \varepsilon\) jsou regulární výrazy, \(L(\emptyset)=\emptyset, L(\varepsilon) = \{\emptyset\}\),  t.j. prázdný jazyk a jazyk sestávající z prázdného slova,
  \item každý znak \(a\in\Sigma\) je regulárním výrazem, \(L(a) = \{a\}\),

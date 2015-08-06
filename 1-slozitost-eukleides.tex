@@ -52,7 +52,7 @@ def gcdN(n,m):
 Možná, že někteří z Vás se s touto úlohou setkali na střední škole. Tam jste se mohli dozvědět o postupu, který 
 popsal již \person{Euklides}: vezmeme větší z obou čísel a spočítáme si zbytek po dělení menším z obou čísel. Pokud je
 zbytek 0, jsme hotovi (nsd je menší z obou čísel). V opačném případě provedeme totéž, tentokrát s menším číslem 
-a spočítaným zbytkem. V Pythonu bychom tento postup mohli, pomocí rekurze, zapsat následovně:
+a spočítaným zbytkem. V Pythonu lze pomocí rekurze zapsat tento postup následovně:
 
 \begin{python}
 def gcdE(n,m):
@@ -64,7 +64,8 @@ def gcdE(n,m):
     return gcdE(z,n)
 \end{python}
 
-Pokud bychom se chtěli vyhnout rekurzi, mohli bychom stejný algoritmus napsat takto:
+Pokud bychom se chtěli vyhnout rekurzi, mohli by stejný algoritmus vypadat
+například jako výpisu \ref{alg:gcdnre}.
 
 \src{gcdnre}{Eukleidův algoritmus (nerekurzivní verze)}
 
@@ -101,7 +102,7 @@ záporná. Nicméně v některých konkrétních případech to lze. Tímto prob
 otázkám, které je třeba položit. Uvedli jsme si dva algoritmy pro stejnou úlohu a je přirozené se ptát, zda jsou oba stejně ``dobré''.  Tomu se budeme věnovat v následujícím oddíle.
 
 \subsection*{Porovnávání algoritmů} 
-Proto, abychom oba výše popsané algoritmy porovnali, je třeba zvolit nějaké kritérium. Kritérií může být samozřejmě mnoho,
+Proto, abychom oba výše popsané algoritmy mohli porovnávat, je třeba zvolit nějaké kritérium. Kritérií může být samozřejmě mnoho,
 následující seznam zdaleka není vyčerpávající:
 
 \begin{itemize}
@@ -115,16 +116,17 @@ následující seznam zdaleka není vyčerpávající:
 V našem kurzu se budeme zaměřovat na první dva body (a zejména na první bod), ačkoliv jsou situace, kdy mnohem důležitějším
 kritériem může být třeba jednoduchost nebo energetická náročnost.  
 
-Pokusíme se tedy oba algoritmy porovnat z hlediska rychlosti.  Rychle však narazíme na problém: nejjednodušším způsobem,
-jak algoritmy porovnat, je měřit čas $T$ od puštění programu do jeho skončení. To má svá úskalí:
+Pokusme se tedy oba algoritmy porovnat z hlediska rychlosti. Asi nejjednodušším způsobem,
+jak to provést, je měřit čas $T$ od puštění programu do jeho skončení. To však má svá úskalí:
 
 \begin{itemize}
  \item tento čas bude záviset na rychlosti daného počítače, jeho zatíženosti, operačním systému, překladači, interpretu ...
  \item je to experimentální veličina o které lze těžko matematicky něco dokazovat
 \end{itemize}
 
-Budeme tedy muset ideu trochu upravit --- abstrahovat od konkrétního počítače a konkrétní implementace. Nebudeme měřit čas, 
-ale určíme si množinu základních operací (přiřazení, testování booleovské podmínky ({\tt if}), aritmetická operace) a budeme počítat 
+Raději tedy tuto základní ideu trochu upravíme --- úvahy abstrahujeme od konkrétního 
+počítače a konkrétní implementace. Nebudeme měřit čas, ale určíme si množinu 
+základních operací (přiřazení, testování booleovské podmínky ({\tt if}), aritmetická operace) a budeme počítat 
 počet operací,  které program při svém běhu vykoná. Označme si toto číslo $Op$. Je zjevné, že 
 toto číslo bude záviset na vstupních datech. Pokud budeme počítat největšího společného dělitele čísel
 $1235468127495138$ a $2159842611264567486$ budeme muset provést více operací než při počítání společného dělitele čísel
@@ -164,7 +166,7 @@ menší než při předchozím. Funkce {\tt gcdE} se tedy zavolá nejvíce $n$-k
  5 = 2+3\leq Op_E(n,m) \leq 2 + 3n
 \end{displaymath}
 
-Na základě horního odhadu bychom mohli usoudit, že první ``naivní'' algoritmus je ve skutečnosti dokonce lepší než ten složitější
+Na základě tohoto horního odhadu bychom mohli usoudit, že první ``naivní'' algoritmus je ve skutečnosti dokonce lepší než ten složitější
 Eukleidův. Musíme si však uvědomit, že skutečná hodnota $Op_E(n,m)$ může být (a, jak za chvíli
 uvidíme, opravdu je) mnohem menší než výše uvedený odhad. K odvození lepšího horního odhadu zavedeme následující značení. Nechť
 $n_k,m_k$ je hodnota parametrů při $k$-tém volání funkce {\tt gcdE}. Pak platí následující:

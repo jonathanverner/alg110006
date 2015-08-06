@@ -2,7 +2,7 @@
 \input{header}
 \setcounter{section}{1}
 \fi
-\section{Zelinář vykořisťovatel --- Halda (Heap)}
+\section{Základní datové struktury}
 
 V této kapitole se budeme blíže zabývat různými způsoby, jak v paměti ukládat data a jak s nimi pracovat. Naučíme se
 pracovat s frontou a zásobníkem a ukážeme si zajímavou strukturu, které se říká halda. 
@@ -69,7 +69,7 @@ def naRade():
 
 Problém s tímto přístupem je ten, že jména se nám budou v paměti kupit a kupit a kupit $\ldots$ Po nějakém čase dojde paměť, odbavovací systém spadne a 
 v obchodě se strhne mela. To je nepříjemné. Bude proto lepší program trochu přepsat. Tentokrát budeme používat pomocnou proměnnou {\tt fronta}, kde
-budeme mít seznam jmen. Každého nového zákazníka přidáme na konec tohoto programu a zákazníky, které budeme odbavovat budeme naopak brát ze začátku.
+budeme mít seznam jmen. Každého nového zákazníka přidáme na konec tohoto seznamu a zákazníky, které budeme odbavovat, budeme naopak brát ze začátku.
 Program tedy vypadá takto:
 
 \begin{python}
@@ -209,7 +209,7 @@ numberstyle=\small\color{black}
 
 Python problémy se zvětšováním seznamů částečně obchází pomocí elegantního triku. Když totiž vytvoříte nové pole, Python si ve skutečnosti vyhradí chlívečků víc,
 aby měl nějakou rezervu na zvětšování. Přidávat nové prvky je pak jednoduché do té doby, než dojde tato rezerva. Když mu rezerva dojde, musí chtě-nechtě
-vyhradit místo nové a pole kopírovat. Nicméně v tuto chvíli, si opět vytvoří rezervu a pro jistotu si jí vytvoří 2-krát tak velkou jako na počátku.
+vyhradit místo nové a pole kopírovat. Nicméně v tuto chvíli si opět vytvoří rezervu a pro jistotu si jí vytvoří 2-krát tak velkou jako na počátku.
 Když má naopak prvek z konce pole smazat, pouze si poznačí, že pole je kratší a místo toho, aby místo na konci pole uvolnil pro jiné použití,
 zvětší o něj rezervu. Ačkoliv to nemusí být jasné na první pohled, je tento postup v praxi často mnohem výhodnější. Pokud například do pole v průměru stejně 
 často prvky přidáváme jako odebíráme, málokdy nám rezerva dojde a většina operací bude velmi rychlá. Tuto ``výhodnost'' lze matematicky analyzovat ---
@@ -243,7 +243,7 @@ def naRade():
         return None
 \end{python}
 
-Řešení je elegantní a celkem vyhovující. Protože ale nastavená cena přednostní fronty není příliš vysoká, musí se i v ní často celkem dlouho čekat. 
+Řešení je elegantní a celkem vyhovující. Protože ale nastavená cena přednostní fronty není příliš vysoká, musí se i v ní často dlouho čekat. 
 Někteří movitější zákazníci by si klidně připlatili mnohem více, jen aby nemuseli čekat. Šlo by to řešit zavedením superpřednostní fronty, případně
 i hyperpřednostní atd $\ldots$ Vás však napadne mnohem lepší řešení. Fronta bude jen jedna, ale při vyzvednutí lístku bude mít každý možnost zaplatit
 určitou částku dle vlastní volby. Zákazníci pak budou odbavováni v pořadí podle obnosu, který zaplatili. Implementace bude tentokrát trochu
@@ -267,7 +267,7 @@ def naRade():
       
     # Najdi zakaznika s maximalni castkou
     # (zakaznik je vzdy dvojice [ ID, castka ] )
-    max_castka, max_jmeno = zakaznici[0]
+    max_jmeno, max_castka = zakaznici[0]
     max_pos    = 0
     pos        = 0
     
@@ -286,9 +286,11 @@ Pojďme se podívat na složitost tohoto řešení. Funkce {\tt generujListek} p
 složitost ($O(1)$), t.j. nezávisí na velikosti fronty. Funkce {\tt naRade} provede nejprve až 5 inicializačních operací (řádky 10 a 15--18)
 a pak musí projít celou frontu (řádek 20) a s každým prvek provést až 2-5 operací (řádky 21--25). Má tedy v nejhorším případě složitost $5 + 5n = O(n)$,
 kde $n$ je délka fronty. Vzhledem k tomu, že pro $n>1$ funkce nikdy neskončí řádkem 11, jednoduše zjistíme, že v nejlepším případě má složitost
-$5 + 2n = O(n)$, tedy opět lineární v délce fronty. Ukážeme si poněkud důmyslnější řešení, které za cenu zpomalení funkce {\tt generujListek}
+$5 + 2n = O(n)$, tedy opět lineární v délce fronty. Ukážeme si poněkud důmyslnější řešení, které za cenu mírného zpomalení funkce {\tt generujListek}
 výrazně urychlí funkci {\tt naRade}. Trik bude spočívat v tom, že si budeme zákazníky ukládat takovým způsobem, abychom velmi rychle uměli vybrat zákazníka
-s nejvyšší zaplacenou částkou. Budeme k tomu používat tzv. haldu (angl. heap), která je speciálním případem stromu. Musíme se tedy nyní chvíli zabývat stromy.
+s nejvyšší zaplacenou částkou. Budeme k tomu používat tzv. haldu (angl. heap), která je speciálním případem stromu.
+Pojďme se tedy nejprve podívat na (matematické) stromy.
+
 
 \subsection*{Stromy}\pdfbookmark[2]{Stromy}{subsec:Stromy} 
 
@@ -350,7 +352,8 @@ Uzel A je \emph{potomkem} uzlu B, pokud z B do A vede cesta. V takovém případ
 \begin{note}\footnotesize
 Formálně lze tuto situaci modelovat různými způsoby. Například v teorii množin je strom definován jako částečně uspořádaná množina $(T,\leq)$,
 kde prvky $t\in T$ odpovídají uzlům a pro každý uzel $t\in T$ je uspořádání $\leq$ zúžené na množinu $\{s\in T:s\leq t\}$ jeho předchůdců dobré.
-Jiný způsob, který pro nás bude důležitější, reprezentuje strom jako speciální případ tzv. grafu. Grafům se budeme později věnovat podrobněji.
+Jiný způsob, který pro nás bude důležitější, reprezentuje strom jako speciální případ grafu, tzv. orientovaný graf bez cyků, anglicky DAG (directed acyclic graph).
+Grafům se budeme později věnovat podrobněji.
 \end{note}
 
 Pojďme se nyní podívat, jak je možné tuto situaci reprezentovat v Pythonu. Bude pro nás důležité, že v každém uzlu
@@ -456,7 +459,7 @@ s nejvyšší zaplacenou částkou a podobně rychle zákazníky i přidávat. �
 které se říká halda. Halda je speciální případ binárního stromu, ve kterém je v každém uzlu mimo ostatních dat ještě navíc uloženo
 nějaké číslo. Jakožto strom je to strom, ve kterém se každý uzel, který není listem, větví a všechny listy jsou na poslední nebo 
 předposlední hladině s tím, že listy na poslední hladině jsou ``co nejvíce vlevo''. Navíc pro každý uzel platí, že číslo, které je v něm uloženo,
-že je menší než čísla uložená ve všech jeho potomcích. Příkladem haldy je například následující strom:
+je menší než čísla uložená ve všech jeho potomcích. Příkladem haldy je například následující strom:
 \begin{center}
 \Tree [.2 [.10 [.11 ] [.10 ] ] [.20 ] ]
 \end{center}
@@ -552,7 +555,7 @@ Jaká je složitost těchto operací? Pro přidávání potřebuji
 
 Složitost přidání v nejhorším případě tedy bude záviset na výšce stromu. Není těžké si uvědomit, že pokud je strom haldou a má $n$
 uzlů, pak jeho výška bude buď $\log_2 n$ nebo,  $\log_2 n + 1$. Celková složitost tedy bude asymptoticky $O(\log n)$ + složitost
-přidání prvku na konec haldy. To bude samozřejmě záviset na konkrétním naprogramování, ale v jakékoliv rozumné verzi to nebude
+přidání prvku na konec haldy. To bude samozřejmě záviset na konkrétním kódu, ale v jakékoliv rozumné verzi to nebude
 horší než $O(\log n)$. Podobně to vyjde pro operaci odebrání prvku. Pokud bychom chtěli jen zjistit, jaký je nejmenší prvek,
 bude to dokonce $O(1)$. 
 
