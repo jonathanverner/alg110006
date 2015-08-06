@@ -607,6 +607,39 @@ Stačí si pamatovat celkový počet odbavených zákazníků a při odbavován�
 odečíst od zaplacené částky. 
 \end{reseni}
 
+\subsection*{Zásobník}\pdfbookmark[2]{Zásobník}{subsec:Zásobník} 
+
+V předchozích oddílech jsme si představili dvě základní ``datové struktury'': 
+frontu a haldu. Zajímavých šikovných způsobů jak ukládat data je samozřejmě 
+mnohem více  (Red-Black Stromy, Hashovací tabulky, ...), ale v této přednášce 
+nám na ně nezbude čas. Přesto bychom rádi zmínili ještě alespoň \emph{zásobník} 
+(anglicky stack, nebo také LIFO --- last in, first out). V jistém smyslu se 
+velmi podobá frontě: je to obyčejný seznam prvků, do kterého umíme přidávat 
+prvky (funkce append) a prvky z něj vybírat (funkce pop). Prvky se do zásobníku
+ukládají stejně jako do fronty --- na konec seznamu. Rozdíl spočívá ve funkci
+pop, která prvky neodebírá ze začátku (jako u fronty), ale z konce. V Pythonu
+se každý seznam standardně chová jako zásobník:
+
+\begin{python}
+>>> z = []
+>>> z.append(1)
+>>> z.append(2)
+>>> z.append(3)
+>>> z.pop()
+3
+>>> 
+\end{python}
+
+\begin{cviceni} Představte si, že máte k dispozici dvě proměnné typu zásobník
+(t.j. máte funkce {\tt append} a {\tt pop}, které se chovají jak bylo výše popsáno).
+Zkuste pomocí těchto dvou zásobníků naprogramovat frontu. (Nápověda: co se stane,
+když z jednoho zásobníku postupně vyberete všechny prvky a dáte je na druhý zásobník?)
+\end{cviceni}
+
+\begin{reseni}
+\end{reseni}
+
+
 \ifx\ucebnice\undefined
 \input{footer}
 \fi
