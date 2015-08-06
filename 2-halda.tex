@@ -290,7 +290,6 @@ $5 + 2n = O(n)$, tedy opět lineární v délce fronty. Ukážeme si poněkud d�
 výrazně urychlí funkci {\tt naRade}. Trik bude spočívat v tom, že si budeme zákazníky ukládat takovým způsobem, abychom velmi rychle uměli vybrat zákazníka
 s nejvyšší zaplacenou částkou. Budeme k tomu používat tzv. haldu (angl. heap), která je speciálním případem stromu. Musíme se tedy nyní chvíli zabývat stromy.
 
-\eject
 \subsection*{Stromy}\pdfbookmark[2]{Stromy}{subsec:Stromy} 
 
 Matematický pojem stromu je dobře ilustrován následujícím obrázkem znázorňujícím dělení živých organizmů:
@@ -321,12 +320,12 @@ Matematický pojem stromu je dobře ilustrován následujícím obrázkem znázo
       }
       child {node {savci}
         [sibling distance=1.5cm]
-        child {node {delfínovití}}
+%         child {node {delfínovití}}
         child {node {primáti}
          [sibling distance=0.7cm]
          child {node {hominidae}}
         }
-        child {node {kytovci}}
+%         child {node {kytovci}}
       }
     }
   };
@@ -359,7 +358,7 @@ chceme uchovávat nějaká data --- třeba pojmenování toho uzlu. Nejjednoduš
 kde {\tt deti} je seznam uzlů, které jsou dětmi uzlu {\tt u}. Zde je názorný příklad:
 
 \begin{center}
-\begin{minipage}{8cm}
+\begin{minipage}{7cm}
 \lstset{
 numbers=none,
 stepnumber=1,
@@ -376,7 +375,7 @@ numberstyle=\small\color{black}
 		  ])
 \end{python}
 \end{minipage}
-\begin{minipage}{5cm}
+\begin{minipage}{3.5cm}
 \begin{tikzpicture}
 [sibling distance=1.5cm,-,thick]
 \footnotesize
@@ -465,15 +464,15 @@ předposlední hladině s tím, že listy na poslední hladině jsou ``co nejví
 Naopak ani jeden z následujících stromů haldou není.
 \begin{center}
 (A)
-\begin{minipage}{4cm}
+\begin{minipage}{2.5cm}
 \Tree [.0 [.10 [.11 ] [.9 ] ] [.20 ] ] 
 \end{minipage}
 (B)
-\begin{minipage}{6cm}
+\begin{minipage}{4.5cm}
 \Tree [.0 [.10 [.11 [.15 ] [.16 ] ] [.9 ] ] [.20 [.30 [.35 ] [.37 ] ] [.31 [.32 ] [.33 ] ] ] ]
 \end{minipage}
 (C)
-\begin{minipage}{4cm}
+\begin{minipage}{2.5cm}
 \Tree [.0 [.10 [.11 ] [.9 ] ] ]
 \end{minipage}
 \end{center}
@@ -489,25 +488,25 @@ jinak pokračujeme v prohazovaní dokud se nedostaneme do kořene, který žádn
 Příklad přidávání prvku $1$ do haldy:
 
 \begin{center}
-\begin{minipage}{4cm}
+\begin{minipage}{2.5cm}
 \Tree [.2 [.10 [.11 ] [.10 ] ] [.20 ] ]
 \end{minipage}
 $\Rightarrow$
-\begin{minipage}{4cm}
+\begin{minipage}{3cm}
 \begin{tikzpicture}
 \Tree [.2 [.10 [.11 ] [.10 ] ] [.\node(a){20}; [.\node(b){1}; ] ] ]
 \draw[thick,<->](a)..controls +(south east:0.7).. (b);
 \end{tikzpicture}
 \end{minipage}
 $\Rightarrow$
-\begin{minipage}{4cm}
+\begin{minipage}{3cm}
 \begin{tikzpicture}
 \Tree [.\node(a){2}; [.10 [.11 ] [.10 ] ] [.\node(b){1}; [.20 ] ] ]
 \draw[thick,<->](a)..controls +(east:0.8).. (b);
 \end{tikzpicture}
 \end{minipage}
 $\Rightarrow$
-\begin{minipage}{4cm}
+\begin{minipage}{2.5cm}
 \Tree [.1 [.10 [.11 ] [.10 ] ] [.2 [.20 ] ] ]
 \end{minipage}
 \end{center}

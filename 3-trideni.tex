@@ -72,10 +72,28 @@ Pojďme se nejprve přesvědčit, že algoritmus je správný. Jak je u rekurziv
  \item[{\tt n=1}] Pokud je {\tt end-start == 1}, pak {\tt middle == start} a {\tt slovnik[start:end] = slovnik[start]}. Pokud je tedy {\tt slovo == slovnik[middle]}, algoritmus
 vrátí {\tt True}, jinak se tam slovo nevyskytuje. Pokud se tam nevyskytuje, zavolá se buď {\tt contains(slovo, slovnik, start, start)} nebo {\tt contains(slovo, slovnik, end,end)} což obojí
 správně vrátí {\tt False}.
- \item[{\tt n+1}] Indukční krok. Předpokládejme že pro {\tt end-start = n >=1 } algoritmus pracuje a uvažujme {\tt end-start = n+1}. Je jasné, že 
-pokud se slovo v seznamu {\tt slovnik[start:end]} vyskytuje, pak je buď rovno {\tt slovnik[middle]} nebo se vyskytuje v {\tt slovnik[start:middle]} nebo v {\tt slovnik[middle+1:end]}.
-První případ je jasný a na druhé dva můžeme použít indukční předpoklad, protože jak {\tt middle-start < end-start} tak {\tt end-(middle+1) < end-start} (první
-případ plyne z toho, že {\tt start-end >= n+1>=2}).
+ \item[{\tt n+1}] Indukční krok. Předpokládejme že pro {\tt end-start = n >= 1 } algoritmus pracuje a uvažujme {\tt end-start = n+1}. Je jasné, že 
+pokud se slovo v seznamu {\tt slovnik[start:end]} vyskytuje, pak je buď rovno
+\begin{center}
+{\tt slovnik[middle]} 
+\end{center}
+nebo se vyskytuje v
+\begin{center}
+{\tt slovnik[start:middle]}
+\end{center}
+nebo v
+\begin{center}
+{\tt slovnik[middle+1:end]}.
+\end{center}
+První případ je jasný a na druhé dva můžeme použít indukční předpoklad, protože jak 
+\begin{center}
+{\tt middle-start < end-start} 
+\end{center}
+tak 
+\begin{center}
+{\tt end-(middle+1) < end-start} 
+\end{center}
+(první případ plyne z toho, že {\tt start-end >= n+1>=2}).
 \end{itemize}
 
 A jaká je složitost algoritmu? Protože v každém kroku provedeme maximálně tři porovnání a jedno přiřazení a zároveň zmenšíme rozdíl {\tt end-start} na polovinu,

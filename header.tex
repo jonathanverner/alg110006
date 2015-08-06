@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt,oneside]{article}
+\documentclass[a5paper,10pt,twoside]{book}
 \usepackage{latexsym}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -12,20 +12,23 @@
 \usepackage{tikz-qtree}
 \usepackage{url}
 \usepackage{xcolor}
+\usepackage{pdfpages}
+\usepackage[czech]{babel}
 \definecolor{svlinks}{rgb}{.0,0.3,0.6} %tmavě modrá
 \usepackage[bookmarks, colorlinks=false,pdfhighlight=/O,linkcolor=svlinks,urlcolor=svlinks,
-            pdftitle={Úvod do programování --- Algoritmy},
+            pdftitle={Úvod do programování (část II: Algoritmy},
             pdfauthor={Jonathan L. Verner}, 
             pdfsubject={Algoritmy a složitost}, 
             pdfkeywords={algoritmus, složitost, Python, třídění, grafy},
             bookmarksdepth=3
             ]{hyperref}
-\usepackage[toc]{glossaries}
-\usepackage[margin=1cm]{geometry}
+\usepackage[toc,xindy,nopostdot,nonumberlist]{glossaries}
+\usepackage[top=2cm,bottom=2cm,left=1cm,right=1cm]{geometry}
 \usepackage{fancyhdr}
 \usetikzlibrary{decorations.fractals,chains,fit,shapes,patterns}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{palatino}
 \usepackage{attachfile}
 \relpenalty=9999
 \binoppenalty=9999
@@ -36,9 +39,9 @@
 %math definitions
 
 \newcommand{\R}{\mathbb R}
-\newcommand{\C}{{\mathcal C}}
+% \newcommand{\C}{{\mathcal C}}
 \newcommand{\F}{{{\mathcal F}}}
-\newcommand{\U}{{{\mathcal U}}}
+% \newcommand{\U}{{{\mathcal U}}}
 \newcommand{\V}{{{\mathcal V}}}
 \newcommand{\cont}{{\mathfrak{c}}}
 \newcommand{\force}{\Vdash}
@@ -54,13 +57,15 @@
             description={Source code for #3},
             mimetype={text/x-python},
             print=false,
-            icon={Paperclip}]{kod/#2.py}}
-\label{alg:#2}\includecode[#1]{kod/#2.py}
+            color=1 1 1,
+            icon={Tag}]{kod/#2.py}}
+\label{alg:#2}{\includecode[#1]{kod/#2.py}}
 \end{program}}
 
 \newcommand{\sniphere}[1]{%
 \label{alg:#1}\includecode[]{kod/#1.py}
 }
+
 
 \newcommand{\srchere}[2]{%
 \begin{programhere}%
@@ -89,8 +94,8 @@
  
  %% ALGORITHMS
  \floatstyle{ruled}
- \newfloat{program}{htbp}{listings}[section]
- \newfloat{programhere}{H}{listings}[section]
+ \newfloat{program}{htbp}{listings}[chapter]
+ \newfloat{programhere}{H}{listings}[chapter]
  \floatname{program}{Algoritmus}
  \floatname{programhere}{Algoritmus}
 
@@ -157,12 +162,14 @@
 \lstset{
 numbers=left,
 stepnumber=1,
-numbersep=5pt,
-numberstyle=\small\color{black}
+numbersep=5pt
 }
 
 %-------------opening--------------------------
 \begin{document}
+\includepdf[pages={1},noautoscale=true,fitpaper=true,offset=-8cm 0]{obalka-black.pdf}
+
+
 \title{}
 
 % \author{Jonathan Verner}
@@ -177,9 +184,40 @@ numberstyle=\small\color{black}
 %\begin{abstract}
 %\end{abstract}
 %\maketitle
-% \thispagestyle{empty}
-\pagestyle{empty}
+% \pagestyle{empty}
+
+\pagestyle{fancy}
 
 %\hsize=16cm
 \parindent=0cm
 \parskip=0.2cm
+\thispagestyle{empty}
+\
+\vskip1cm
+Jonathan L. Verner, PhD.\\
+Katedra Logiky\\
+Filozofická fakulta UK\\
+Palachovo náměstí 2\\
+116 18 Praha 1
+\vfill
+\copyright\ Jonathan L. Verner, 2015 \\[3mm]
+{\small Tato učebnice slouží jako skripta k letnímu semestru přednášky 
+\emph{Úvod do programování}, vypsané pod kódem ALG110006 na Katedře logiky FF UK
+v letech 2011--2015. Jejich příprava byla podpořena projektem 
+OPVK CZ.1.07/2.2.00/28.0216 \emph{Logika: systémový rámec rozvoje oboru v ČR a 
+koncepce logických propedeutik pro mezioborová studia}\\}
+
+\includegraphics[width=13cm]{logolink}
+\eject
+\thispagestyle{empty}
+\
+\vskip3cm
+\begin{center}
+ \Huge Úvod do programování\\[1cm]
+ \Large část II: Algoritmy
+\end{center}
+\vfill
+\eject
+
+
+\tableofcontents

@@ -1,6 +1,8 @@
 \ifx\ucebnice\undefined
 \input{header}
 \setcounter{section}{0}
+\else
+\renewcommand{\section}[1]{\chapter{#1}}
 \fi
 \section{Porovnávání algoritmů, Eukleidův algoritmus}
 
