@@ -504,13 +504,101 @@ podstromy. Výsledkem by byl následující výraz
 \begin{center}
  ( * ( + 8 7 ) 5 )
 \end{center}
-Ačkoliv to na první pohled nemusí vypadat příliš užitečně, má tento zápis
+Nazvěme takto změněnou funkci {\tt tree\_to\_expr\_preorder}. Ačkoliv její výstup
+na první pohled nemusí vypadat příliš užitečně, má tento zápis
 svůj smysl a dokonce i jméno --- říká se mu prefixový zápis (a odpovídajícímu 
 způsobu procházení stromu se říká preorder). V tomto zápise se nejprve zapíše
 operace a po ní teprve následují operandy. Výhoda tohoto zápisu je (ačkoliv to možná
 není hned vidět), že se obejde bez závorek a tudíž odpadají nejednoznačnosti, 
-které se závorkami souvisí. Navíc je relativně jednoduché tento zápis převést
-zpět na odpovídající strom. 
+které se závorkami souvisí. Je však třeba dát pozor na to, že narozdíl od 
+standardního tzv. \emph{infixového} zápisu, je třeba nějak oddělovat čísla 
+(atomické výrazy): u výrazu '+875' totiž není jasné, zda se mají
+sčítat čísla 8 a 75 nebo čísla 87 a 5. Další výhodou tohoto zápisu je, že lze
+jednoduše převést zpět na stromovou reprezentaci:
+
+\begin{python}
+def parse_prefix(token_list):
+    OPs = ['+','-','*','/']
+    token = token_list.pop(0)
+    if token in OPs:
+        L = parse_prefix(token_list)
+        R = parse_prefix(token_list)
+    else:
+        token = int(token)
+        L = None
+        R = None
+    return (token,L,R)
+\end{python}
+
+Funkce {\tt parse\_prefix} dostane na vstupu prefixově zapsaný výraz jako 
+seznam jednotlivých prvků výrazu (prvek je buď operátor nebo číslo) a vrátí
+stromovou reprezentaci. 
+
+\begin{cviceni} Indukcí ukažte, že funkce {\tt parse\_prefix} je správně napsaná.
+\end{cviceni}
+
+Funkci {\tt parse\_prefix} lze jednoduše upravit tak, aby výraz místo převedení
+na stromovou reprezentaci rovnou vyhodnotila. Tuto variantu si ukážeme v 
+nerekurzivním provedení, které používá zásobník:
+
+\begin{python}
+def eval_prefix(token_list):
+    OPs = ['+','-','*','/']
+    stack = []
+    while len(token_list) > 0:
+        token = token_list.pop()
+        if token in OPs:
+          L = stack.pop()
+          R = stack.pop()
+          if token == '+':
+            stack.append(L+R)
+          elif token == '-'
+            stack.append(L-R)
+          elif token == '*'
+            stack.append(L*R)
+          elif token == '/'
+            stack.append(L/R)
+        else:
+          stack.append(int(token))
+    return stack.pop()
+\end{python}
+
+Zásobník ve skutečnosti pouze simuluje použití rekurze --- pokud bychom 
+výraz {\tt stack.pop} nahradili rekurzivním voláním a výraz {\tt stack.append}
+příkazem return, dostali bychom rekurzivní variantu.
+
+\begin{cviceni} Pokud ve funkci {\tt tree\_to\_expr\_inorder} prohodíme naopak
+řádky 9 a 10, dostaneme funkci, kterou je vhodné nazvat 
+{\tt tree\_to\_expr\_postorder}. Tato funkce vrátí výraz v tzv. \emhp{postfixové}
+notaci. Naprogramujte funkce {\tt parse\_postfix} a {\tt eval\_postfix}.
+\end{cviceni}
+
+\paragraph{Zpracování infixové notace}
+Vraťme se nyní k standardní t.j. infixové notaci a pokusme se navrhnout
+algoritmus, který ji převede na stromovou reprezentaci. Jak jsme již zmínili,
+infixová notace má problémy s jednoznačností --- jednomu výrazu mohou odpovídat
+různé stromy. Tento problém by šlo vyřešit vhodnou modifikací jazyka aritmetických
+výrazů, která by pomocí závorek zajistila jednoznačnost. Operaci \(OP2\) (závorkování)
+bychom úplně vypustili a operaci \(OP1\) bychom modifikovali:
+\[
+ OP1(a,b,o) = (aob)
+\]
+Takto modifikovaný jazyk je však pro lidi trochu nešikovný --- vede k nadměrnému
+množství závorek. Místo toho se problém jednoznačnosti obvykle řeší zavedením
+tzv. \emph{priority operátorů}: operátory s vyšší prioritou se vyhodnocují před
+operátory s nižší prioritou. Toto pravidlo umožňuje každému výrazu jednoznačně
+přiřadit příslušný strom. Popíšeme nyní způsob, jak převést infixový zápis
+na strom při respektování priority operátorů. Na vstupu předpokládáme řetězec.
+V prvním kroku z tohoto řetězce odstraníme vnější závorky. Pokud se ve zbývajícím
+výrazu nenachází žádné operátory, pak máme atomický výraz odpovídající jednoprvkovému
+stromu. V opačném případě v řetězci nalezneme operátor s nejnižší prioritou mezi 
+těmi, co se nacházejí vně všech závorek. Pokud je takovýchto operátorů více, 
+vezmeme z nich nejpravější. Tento operátor vložíme do kořene stromu. Zároveň
+nám operátor výraz rozdělí na dvě části. Rekurzivním voláním převedeme levou i
+pravou část na stromy, které napojíme na kořen. V Pythonu to bude vypadat
+třeba jako na výpisu \ref{alg:parse_infix}.
+
+\src[firstline=2]{parse_infix}{Parsování infixových výrazů}
 
 
 \paragraph{Bezkontextové gramatiky}
