@@ -600,6 +600,29 @@ třeba jako na výpisu \ref{alg:parse_infix}.
 
 \src[firstline=2]{parse_infix}{Parsování infixových výrazů}
 
+Výhoda výše uvedeného algoritmu je jeho jednoduchost; není však příliš efektivní.
+Ukážeme si proto algoritmus, který zvládne infixový výraz zpracovat v lineárním
+čase. Pro jednoduchost uvedeme pouze verzi, která výraz rovnou vyhodnotí. 
+Návrh verze, která zároveň postaví i strom, ponecháme do cvičení. Idea algoritmu
+je založená na jednoduchém pozorování. Pokud priorita operátorů ve vyhodnocovaném
+výraze zleva doprava neklesá, pak lze výraz jednoduše vyhodnotit tak, že si
+pamatujeme aktuální hodnotu výrazu a procházíme zprava do leva jí postupně 
+upravujeme prováděním příslušných operací. Například pro výraz '1+2+3*6/3'
+provedeme následující kroky:
+\begin{python}
+ z = 3
+ z = 6 / z
+ z = 3 * z
+ z = 2 + z
+ z = 1 + z
+\end{python}
+V reálu samozřejmě musíme umět zpracovat i výrazy, kde priorita klesne. To
+provedeme jednoduše tak, že si vezmeme nejdelší začátek výrazu, kde 
+priorita neklesá, ten vyhodnotíme a celý tento začátek nahradíme jeho vyhodnocením.
+Tak pokračujeme dokud výraz nezpracujeme celý. Např pro výraz '1+8*2+1' 
+v prvním kroku zvolíme podvýraz '1+8*2', ten vyhodnotíme a dostaneme '17'. Jeho
+nahrazením získáme výraz '17+1', který opět můžeme vyhodnotit a získáme výsledek
+'18'. 
 
 \paragraph{Bezkontextové gramatiky}
 
