@@ -609,6 +609,7 @@ výraze zleva doprava neklesá, pak lze výraz jednoduše vyhodnotit tak, že si
 pamatujeme aktuální hodnotu výrazu a procházíme zprava do leva jí postupně 
 upravujeme prováděním příslušných operací. Například pro výraz '1+2+3*6/3'
 provedeme následující kroky:
+
 \begin{python}
  z = 3
  z = 6 / z
@@ -616,13 +617,41 @@ provedeme následující kroky:
  z = 2 + z
  z = 1 + z
 \end{python}
+
 V reálu samozřejmě musíme umět zpracovat i výrazy, kde priorita klesne. To
 provedeme jednoduše tak, že si vezmeme nejdelší začátek výrazu, kde 
 priorita neklesá, ten vyhodnotíme a celý tento začátek nahradíme jeho vyhodnocením.
 Tak pokračujeme dokud výraz nezpracujeme celý. Např pro výraz '1+8*2+1' 
 v prvním kroku zvolíme podvýraz '1+8*2', ten vyhodnotíme a dostaneme '17'. Jeho
-nahrazením získáme výraz '17+1', který opět můžeme vyhodnotit a získáme výsledek
-'18'. 
+dosazením do původního výrazu získáme výraz '17+1', který opět můžeme vyhodnotit
+a získáme konečný výsledek '18'. Praktická implementace bude používat dva
+zásobníky. Do jednoho si bude ukládat operátory, do druhého operandy (čísla).
+Na operátorový zásobník bude vkládat operace tak, aby jejich priorita vzrůstala.
+V okamžiku, kdy narazíme na operátor s nižší prioritou než má poslední operátor
+na zásobníku, nejprve vyhodnotíme dosavadní výraz. To provedeme tak, že budeme
+ze zásobníku odstraňovat operátory s vyšší prioritou. Pro každý odstraněný operátor
+si ze zásobníku hodnot vezmeme dvě čísla, aplikujeme na ně operátor k odstranění
+a výsledek uložíme zpět do zásobníku hodnot. Zbývá vyřešit případné závorky.
+Idea je jednoduchá: každá závorka určuje podvýraz, který vyhodnotíme samostatně
+a pak ho v původním výrazu nahradíme výslednou hodnotou. Praktická implementace
+může být rekurzivní, případně může využít operátorového zásobníku: když narazíme
+na otevírající závorku, vložíme jí na operátorový zásobník. Při případném
+odstraňování operátorů při částečném vyhodnocováním si dáváme pozor, že se
+vždy zastavíme, pokud narazíme na otevřenou závorku. Když pak narazíme na
+zavírající závorku můžeme si být jistí, že od předchozí otevírající závorky
+mají operátory na zásobníku vzrůstající prioritu, můžeme je tedy jeden po
+druhém odstranit (a vyhodnotit) a nakonec odstranit i jednu otevírající závorku.
+Implementace v Pythonu je uvedena na výpisu \ref{alg:eval_infix}.
+
+\src[firstline=2]{eval_infix}{Vyhodnocování infixových výrazů}
+
+\begin{cviceni} Přepište algoritmus \ref{alg:eval_infix} tak, aby místo 
+vyhodnocení výrazu vrátil jeho stromovou reprezentaci. Nápověda: Stačí 
+si na zásobník s hodnotami ukládat místo čísel (částečné) stromy.
+\end{cviceni}
+
+
+
 
 \paragraph{Bezkontextové gramatiky}
 
