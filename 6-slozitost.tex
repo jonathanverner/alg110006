@@ -1,0 +1,88 @@
+\ifx\ucebnice\undefined
+\input{header}
+\setcounter{section}{5}
+\fi
+\section{Složitost podruhé}
+V předchozích kapitolách jsme se setkali s výběrem některých typických úloh, se kterými
+se programátoři setkávají. Ke každé takové úloze jsme si ukazovali i postup, jak jí vyřešit
+a zkoumali efektivnost tohoto postupu. Pro většinu úloh jsme nalezli řešení, které bylo
+z mnoha hledisek efektivní, nicméně občas jsme zmínili (vzpomeňte třeba
+úlohu \ref{uloha:minimalcoloring}, kde šlo o nalezení optimálního obarvení grafu), že 
+efektivní postup není znám a naznačili jsme, že možná ani neexistuje. Nyní se
+budeme tímto problémem zabývat podrobněji. 
+
+Když bychom na chvíli zapomněli na efektivnost, mohli bychom alespoń doufat, že každý problém, na který
+narazíme, bude mít nějaké --- třeba i velmi neefektivní --- řešení. Ukážeme si, že tato naděje
+je planá. Existují totiž i velmi jednoduché a prakticky zajímavé problémy, které neumíme
+vyřešit žádným algoritmem. A to nikoliv protože bychom nebyli dostatečně vynalézaví, ale protože
+žádný algoritmus, který by úlohu řešil, neexistuje. Hned si jednu takovou úlohu ukážeme. Když jsme 
+se učili pracovat s rekurzí, bylo třeba dát pozor, abychom ošetřili základní případy. Jinak by 
+došlo k tomu, že by se program do nekonečna zacyklil. Podobný problém nastává u while cyklů, 
+pokud si nedáme pozor na cyklící podmínku. Asi každému bude na první pohled jasné, že následující 
+program nikdy neskončí, protože se zacyklí:
+
+\begin{python}
+i=0
+while True:
+   i = i * i 
+\end{python}
+
+Poněkdu zákeřnější může být funkce, která zdánlivě počítá faktoriál:
+
+\begin{python}
+def bad_factorial(n):
+    ret = 1
+    while n != 1:
+        ret *= n
+        n = n - 1
+    return ret
+\end{python}
+
+Funkce možná vypadá správně, ale zkuste si rozmyslet, co se stane, když se pomocí ní pokusím spočítat
+faktoriál 0. Nejen, že nespočítá správný výsledek 1, ona totiž nespočítá vůbec žádný výsledek ---
+do nekonečna se zacyklí! Zkušenější programátor uvidí chybu okamžitě, ale asi si dokážeme představit,
+že u složitějšího kódu, který bude mít třeba desítky tisíc řádků, už bude chybu hledat velmi dlouho.
+Bylo by proto výhodné, kdyby mu práci usnadnil počítač. To vede k následující úloze:
+
+\begin{uloha}\label{uloha:halting-problem} Pro zadaný program a vstupní data určete, zda se program zastaví, nebo se zacyklí.
+\end{uloha}
+
+Když bychom se pustili do řešení, asi bychom se snažili nejprve najít všechny while cykly a nějak analyzovat
+podmínky, za kterých se cyklus ukončí. Naše funkce by mohla vypadat třeba takto:
+
+\begin{python}
+def zacykli( funkce, parametry ):
+    """ Vrátí true, pokud se příkaz 
+    
+         funkce(parametry)
+       
+        zacyklí. V opačném případě vrátí False.
+    """
+    ...
+\end{python}
+
+Zbývá už jen doplnit zmíněnou analýzu cyklů... Řekněme, že by se nám to povedlo a zkusme se podívat na následující
+příklad:
+
+\begin{python}
+def priklad():
+    if zacykli(priklad, None):
+        return 0
+    else:
+        while True:
+          i = 1
+\end{python}
+
+Funkce {\tt priklad} vypadá trochu podezřele. V prvním kroku použije naší důmyslnou funkci {\tt zacykli} a
+zeptá se, co si myslí o volání funkce {\tt priklad}. Pokud je odpovědí, že se zacyklí, pak funkce
+{\tt priklad} vrátí 1. V opačném případě se zacyklí. Na tomto slovním popisu je už asi vidět, že ta
+podezřelost je oprávněná, někde dojde k problémům. Co se stane, když nyní na tuto funkci aplikujeme
+{\tt zacykli}? Dostaneme špatnou odpoveď! Pokud totiž bude odpoveď True, mělo by to znamenat, že funkce
+{\tt priklad} se zacykli. Jenže když si jí projdeme, pak zjistíme, že se nemohla zacyklit, protože
+skončila na řádku 3 vrácením 0. No dobrá, tak tedy odpověď musí být False, což má znamenat, že se
+funkce {\tt priklad} nezacyklí. Ale ouha, to je zase špatně --- v tomto případě se totiž funkce {\tt priklad}
+dostane na řádek 5 a nenávratně se zacyklí.
+
+\ifx\ucebnice\undefined
+\input{footer}
+\fi
