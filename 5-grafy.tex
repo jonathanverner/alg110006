@@ -423,8 +423,8 @@ v jakém pořadí algoritmus vrcholy procházel):
 \begin{center}
 1, 2, 3, 4, 5, 6, 7, 8.
 \begin{tikzpicture}[node distance=1.5cm]
-\tikzstyle{vr}=[draw,circle,fill=red]
-\tikzstyle{vb}=[draw,circle,fill=blue]
+\tikzstyle{vr}=[draw,circle,fill=UKRed]
+\tikzstyle{vb}=[draw,circle,fill=UKBlue]
 \node [vr] (a){1};
 \node [vr,below of=a] (b){2};
 \node [vr,below of=b] (c){3};
@@ -454,10 +454,10 @@ v jakém pořadí algoritmus vrcholy procházel):
 \begin{center}
 1,5,2,6,3,7,4,8
 \begin{tikzpicture}[node distance=1.5cm]
-\tikzstyle{va}=[draw,circle,fill=red]
-\tikzstyle{vb}=[draw,circle,fill=blue]
-\tikzstyle{vc}=[draw,circle,fill=yellow]
-\tikzstyle{vd}=[draw,circle,fill=green]
+\tikzstyle{va}=[draw,circle,fill=UKRed]
+\tikzstyle{vb}=[draw,circle,fill=UKBlue]
+\tikzstyle{vc}=[draw,circle,fill=UKYellow]
+\tikzstyle{vd}=[draw,circle,fill=UKGreen]
 \node [va] (a){1};
 \node [vb,below of=a] (b){2};
 \node [vc,below of=b] (c){3};
@@ -505,14 +505,14 @@ Výpis algoritmu naleznete na straně \pageref{alg:colorgraph}.
 \begin{figure}[p!]
 \caption{Graf a jeho obarvení získané algoritmem \ref{alg:colorgraph}}
 \begin{tikzpicture}[node distance=1.6cm]
-\tikzstyle{vertexB}=[draw,circle,fill=blue]
-\tikzstyle{vertexC}=[draw,circle,fill=green]
-\tikzstyle{vertexB}=[draw,circle,fill=blue]
-\tikzstyle{vertexC}=[draw,circle,fill=green]
-\tikzstyle{vertexA}=[draw,circle,fill=red]
-\tikzstyle{vertexA}=[draw,circle,fill=red]
-\tikzstyle{vertexB}=[draw,circle,fill=blue]
-\tikzstyle{vertexA}=[draw,circle,fill=red]
+\tikzstyle{vertexB}=[draw,circle,fill=UKBlue]
+\tikzstyle{vertexC}=[draw,circle,fill=UKGreen]
+\tikzstyle{vertexB}=[draw,circle,fill=UKBlue]
+\tikzstyle{vertexC}=[draw,circle,fill=UKGreen]
+\tikzstyle{vertexA}=[draw,circle,fill=UKRed]
+\tikzstyle{vertexA}=[draw,circle,fill=UKRed]
+\tikzstyle{vertexB}=[draw,circle,fill=UKBlue]
+\tikzstyle{vertexA}=[draw,circle,fill=UKRed]
 
 \node [vertexB] (B){1};
 \node [vertexC,right of=B] (C){2};
