@@ -1,4 +1,5 @@
 \documentclass[a5paper,10pt,twoside]{book}
+\usepackage{luatex85}
 \usepackage{latexsym}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -23,15 +24,33 @@
             bookmarksdepth=3
             ]{hyperref}
 \usepackage[toc,xindy,nopostdot,nonumberlist]{glossaries}
-\usepackage[top=2cm,bottom=2cm,left=1cm,right=1cm]{geometry}
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=1cm]{geometry}
 \usepackage{fancyhdr}
 \usetikzlibrary{decorations.fractals,chains,fit,shapes,patterns}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{palatino}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{palatino}
+\usepackage{unicode-math}
+\usepackage{fontspec}
 \usepackage{attachfile}
+\usepackage{minted}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{titlesec,titletoc}
+\usepackage[letterspace=150]{microtype}
 \relpenalty=9999
 \binoppenalty=9999
+
+
+% \ifblackandwhite
+%   \newcommand{\logoUK}{\includegraphics[width=20mm]{UK-logo}}
+%   \definecolor{UKRed}{RGB}{0,0,0}
+%   \definecolor{Gray}{RGB}{0,0,0}
+% \else
+  \newcommand{\logoUK}{\includegraphics[width=20mm]{UK-logo-red}}
+  \definecolor{UKRed}{RGB}{210,45,64}
+  \definecolor{Gray}{HTML}{5e6a71}
+% \fi
 
 %----------definitions---------------------------
 
@@ -59,23 +78,42 @@
             print=false,
             color=1 1 1,
             icon={Tag}]{kod/#2.py}}
-\label{alg:#2}{\includecode[#1]{kod/#2.py}}
+\label{alg:#2}{\inputminted[linenos]{python}{kod/#2.py}}
 \end{program}}
 
-\newcommand{\sniphere}[1]{%
-\label{alg:#1}\includecode[]{kod/#1.py}
-}
 
-
-\newcommand{\srchere}[2]{%
-\begin{programhere}%
-\caption{#2\hfill%
+\newcommand{\srcsplit}[4][]{%
+\begin{program}%
+\caption{#3\hfill%
 \attachfile[author={Jonathan Verner},
-            description={Source code for #2},
+            description={Source code for #3},
             mimetype={text/x-python},
             print=false,
-            icon={Paperclip}]{kod/#1.py}}
-\label{alg:#1}\includecode[]{kod/#1.py}
+            color=1 1 1,
+            icon={Tag}]{kod/#2.py}}
+\label{alg:#2}{\inputminted[linenos,lastline=#4]{python}{kod/#2.py}}
+\end{program}
+\begin{program}%
+\caption*{#3\hfill%
+(pokračování algoritmu \ref{alg:#2})}
+\inputminted[linenos,firstline=#4]{python}{kod/#2.py}
+\end{program}
+}
+
+\newcommand{\sniphere}[1]{%
+\label{alg:#1}\inputminted[linenos]{python}{kod/#1.py}
+}
+
+\newcommand{\srchere}[3][]{%
+\begin{programhere}%
+\caption{#3\hfill%
+\attachfile[author={Jonathan Verner},
+            description={Source code for #3},
+            mimetype={text/x-python},
+            print=false,
+            color=1 1 1,
+            icon={Tag}]{kod/#2.py}}
+\label{alg:#2}\inputminted[linenos,#1]{python}{kod/#2.py}
 \end{programhere}}
 
 
@@ -87,7 +125,7 @@
             mimetype={text/x-python},
             print=false,
             icon={Paperclip}]{kod/#2.py}}
-\label{alg:#2}\includecode[#1]{kod/#2.py}
+\label{alg:#2}\inputminted[linenos]{python}{kod/#2.py}
 \end{program}}
 
 
@@ -139,6 +177,14 @@
 \rightskip1cm
 \small
 }{\par}
+
+\newenvironment{python}{%
+ \VerbatimEnvironment
+ \begin{minted}[linenos]{python}}
+{%
+\end{minted}%
+}
+
 \loadglsentries[person]{people.tex}
 \makeglossaries
 % \printglossary[type=person,title={Lidé}]
@@ -150,20 +196,58 @@
     linkcolor=black,%
     urlcolor=black
 }
- 
-\pdfinfo{
-      /Author (Jonathan Verner)
-      /Title (ALG110006 Úvod do programování: Poznámky k přednášce, LS)
-      /Subject (programování, algoritmy)
-      /Keywords (quicksort,heapsort,dijsktra,graph,euclid)
-   }
-\include{pythonlisting}
 
-\lstset{
-numbers=left,
-stepnumber=1,
-numbersep=5pt
-}
+% \pdfinfo{
+%       /Author (Jonathan Verner)
+%       /Title (ALG110006 Úvod do programování: Poznámky k přednášce, LS)
+%       /Subject (programování, algoritmy)
+%       /Keywords (quicksort,heapsort,dijsktra,graph,euclid)
+%    }
+
+
+
+% Chater & Section title formatting (uses the titlesec package)
+\titleformat{\chapter}[block]{\sf\Huge\raggedright}{\hskip-1cm{\color{UKRed}\thechapter\hskip5mm\vrule}}{1em}{}
+\titleformat{\section}[block]{\sf\Large}{\hskip-1cm{\color{UKRed}\thesection}}{3.5mm}{}
+
+% Table of contents formatting
+\titlecontents{chapter}
+[0pt]
+{\addvspace{1pc}}
+{\contentsmargin{0pt}%
+\makebox[0pt][r]{\sf\color{UKRed}\large\thecontentslabel\enspace}%
+\sf\large}
+{\contentsmargin{0pt}%
+\large}
+{\hfill\quad\sf\thecontentspage}
+[\addvspace{2mm}]
+
+\titlecontents{section}
+[7mm]
+{}
+{\contentsmargin{10pt}%
+\makebox[0pt][r]{\sf\color{UKRed}\thecontentslabel\enspace}%
+\sf}
+{\contentsmargin{10pt}}
+{\hfill\quad\sf\thecontentspage}
+[]
+
+
+
+% Table of contents has two-column layout with a 2cm gap
+% Note that the following can lead to conflicts with some packages
+% which aggressively want to execute code AtEnd and AtBegin
+% \columnsep=2cm
+% \AtBeginDocument{\addtocontents{toc}{\protect\begin{multicols*}{2}}}
+% \AtEndDocument{\addtocontents{toc}{\protect\end{multicols*}}}
+
+
+
+\setsansfont{gill-sans-mt}
+\setmainfont[Ligatures={Common,Rare,Historic,TeX}]{Caladea}
+\setmathfont{cambria-math}
+\setmonofont{Inconsolata}
+\newfontfamily\Bodoni{Libre Bodoni}
 
 %-------------opening--------------------------
 \begin{document}
@@ -186,6 +270,7 @@ numbersep=5pt
 %\maketitle
 % \pagestyle{empty}
 
+\headheight=12.4pt
 \pagestyle{fancy}
 
 %\hsize=16cm
@@ -207,17 +292,20 @@ v letech 2011--2015. Jejich příprava byla podpořena projektem
 OPVK CZ.1.07/2.2.00/28.0216 \emph{Logika: systémový rámec rozvoje oboru v ČR a 
 koncepce logických propedeutik pro mezioborová studia}\\}
 
-\includegraphics[width=13cm]{logolink}
+\includegraphics[width=12cm]{logolink}
 \eject
 \thispagestyle{empty}
 \
 \vskip3cm
 \begin{center}
- \Huge Úvod do programování\\[1cm]
- \Large část II: Algoritmy
+ \sf\Huge Úvod do programování\\[1cm]
+ \sf\Large část II: Algoritmy
 \end{center}
 \vfill
 \eject
 
+\lhead[\sf{\bf\thepage}]{\sf\nouppercase{\leftmark}}
+\rhead[\sf\nouppercase{\leftmark}]{\sf\bf\thepage}
+\cfoot{}
 
 \tableofcontents
