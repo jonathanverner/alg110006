@@ -5,12 +5,12 @@
 \section{Základní datové struktury}
 
 V této kapitole se budeme blíže zabývat různými způsoby, jak v paměti ukládat data a jak s nimi pracovat. Naučíme se
-pracovat s frontou a zásobníkem a ukážeme si zajímavou strukturu, které se říká halda. 
+pracovat s frontou a zásobníkem a ukážeme si zajímavou strukturu, které se říká halda.
 
-\subsection*{Fronta}\pdfbookmark[2]{Fronta}{subsec:Fronta} 
+\subsection*{Fronta}\pdfbookmark[2]{Fronta}{subsec:Fronta}
 
-Začněme následující, možná trochu šroubovanou, situací. Ve vašem městě podniká populární zelinář. Protože prodává kvalitní ovoce a zeleninu, 
-které sám nakupuje od farmářů, podnikání se mu daří a jeho malou samoobsluhu navštěvuje stále více a více lidí. S tím však 
+Začněme následující, možná trochu šroubovanou, situací. Ve vašem městě podniká populární zelinář. Protože prodává kvalitní ovoce a zeleninu,
+které sám nakupuje od farmářů, podnikání se mu daří a jeho malou samoobsluhu navštěvuje stále více a více lidí. S tím však
 přichází i nepříjemný fenomén --- fronty. Zelinář je nadšený do moderních technologií a rozhodne se problém řešit za pomoci
 elektronického zákaznického odbavovacího systému. Představuje si to takto: zákazník si naloží věci do košíku a pak si u jednoho ze stojanů,
 roztroušených po obchodě, vyzvedne pořadové číslo. Se svým košíkem se pohodlně usadí do k tomu účelu přistavených
@@ -35,7 +35,7 @@ def generujListek():
     global last
     last = last + 1
     return last
-    
+
 def naRade():
     global last, current
     if current == last:
@@ -57,7 +57,7 @@ def generujListek( jmeno ):
     global last,jmena
     last = last + 1
     jmena.append(jmeno)
-    
+
 def naRade():
     global last,jmena, current
     if current == last:
@@ -67,7 +67,7 @@ def naRade():
     return jmena[current-1]
 \end{python}
 
-Problém s tímto přístupem je ten, že jména se nám budou v paměti kupit a kupit a kupit $\ldots$ Po nějakém čase dojde paměť, odbavovací systém spadne a 
+Problém s tímto přístupem je ten, že jména se nám budou v paměti kupit a kupit a kupit $\ldots$ Po nějakém čase dojde paměť, odbavovací systém spadne a
 v obchodě se strhne mela. To je nepříjemné. Bude proto lepší program trochu přepsat. Tentokrát budeme používat pomocnou proměnnou {\tt fronta}, kde
 budeme mít seznam jmen. Každého nového zákazníka přidáme na konec tohoto seznamu a zákazníky, které budeme odbavovat, budeme naopak brát ze začátku.
 Program tedy vypadá takto:
@@ -78,7 +78,7 @@ fronta=[]
 def generujListek( jmeno ):
     global fronta
     fronta.append(jmeno)
-    
+
 def naRade():
     global fronta
     if len(fronta) == 0:
@@ -98,8 +98,8 @@ def pop(seznam, index):
 
 Zkusme se nyní podívat na složitost našeho programu. V podstatě jde o to, jak jsou složité funkce {\tt append} a funkce {\tt pop}.
 
-Jejich rychlost závisí na tom, jak Python uvnitř realizuje datový typ \emph{list}. Pythonovský \emph{list} je ve skutečnosti realizován 
-jako něco, čemu se v jiných programovacích jazycích říká \emph{pole}. Když Pythonu řeknete, aby vytvořil list o 
+Jejich rychlost závisí na tom, jak Python uvnitř realizuje datový typ \emph{list}. Pythonovský \emph{list} je ve skutečnosti realizován
+jako něco, čemu se v jiných programovacích jazycích říká \emph{pole}. Když Pythonu řeknete, aby vytvořil list o
 $n$-prvcích, Python si na to v paměti vyhradí $n$ po sobě jdoucích ``chlívečků''. Když chceme přistoupit k $i$-tému prvku pole, je třeba
 zjistit, kde v paměti se nachází odpovídající chlíveček. Ale to je velmi jednoduché, stačí vědět, kde pole začíná a pak k tomuto začátku přičíst
 $i$-krát velikost chlívečku. Zkracování pole (funkce {\tt pop(-1), pop(0)}) je také jednoduché --- Python prostě poslední (první) ``chlíveček'' uvolní k
@@ -111,16 +111,11 @@ někde jinde dostatek místa pro všechny chlívečky nového pole a staré pole
 
 \begin{center}
 \begin{minipage}{6cm}
-\lstset{
-numbers=none,
-stepnumber=1,
-numbersep=5pt,
-numberstyle=\small\color{black}
-}
-\begin{python}
+
+\begin{minted}{python}
 >>> seznam = ['A','B','C',5]
 >>> seznam.append('Q')
-\end{python}
+\end{minted}
 \end{minipage}
 \begin{minipage}{5cm}
 \begin{tikzpicture}
@@ -146,7 +141,7 @@ numberstyle=\small\color{black}
     \draw[draw,->]
       (start)..controls +(south:0.1) ..(startl);
     \draw[draw,->]
-      (end)..controls +(south:0.1) ..(endl);      
+      (end)..controls +(south:0.1) ..(endl);
     \draw[dashed,->]
       (end)..controls +(south:0.8) and +(north:0.9)..(endlone);
 \end{scope}
@@ -177,25 +172,25 @@ numberstyle=\small\color{black}
     \draw[draw,->]
       (start)..controls +(south:0.1) ..(startl);
     \draw[draw,->]
-      (end)..controls +(south:0.1) ..(endl);      
+      (end)..controls +(south:0.1) ..(endl);
     \draw[dashed,->]
       (end)..controls +(south:0.8) and +(north:0.9)..(endlone);
     \draw[dashed,->]
       (start)..controls +(south:0.8) and +(north:0.9)..(startlone);
     \draw[dashed,->]
       (start)..controls +(south:0.8) and +(north:0.9)..(startlone);
-    
+
     \draw[dashed,->]
-      (startl)..controls +(south:0.8) and +(south:0.9)..(newA);      
+      (startl)..controls +(south:0.8) and +(south:0.9)..(newA);
     \draw[dashed,->]
-      (oldB)..controls +(south:0.8) and +(south:0.9)..(newB);  
+      (oldB)..controls +(south:0.8) and +(south:0.9)..(newB);
     \draw[dashed,->]
-      (oldC)..controls +(south:0.8) and +(south:0.9)..(newC);  
+      (oldC)..controls +(south:0.8) and +(south:0.9)..(newC);
     \draw[dashed,->]
-      (endl)..controls +(south:0.8) and +(south:0.9)..(newD);  
-      
+      (endl)..controls +(south:0.8) and +(south:0.9)..(newD);
+
 %     \draw[draw,->]
-%       (copyStart)..controls +(south:0.8) and +(south:0.9)..(newC);  
+%       (copyStart)..controls +(south:0.8) and +(south:0.9)..(newC);
 \end{scope}
 \begin{scope}[shift={(6.5cm,1cm)}]
     \node [draw] {\tt seznam};
@@ -211,7 +206,7 @@ Python problémy se zvětšováním seznamů částečně obchází pomocí eleg
 aby měl nějakou rezervu na zvětšování. Přidávat nové prvky je pak jednoduché do té doby, než dojde tato rezerva. Když mu rezerva dojde, musí chtě-nechtě
 vyhradit místo nové a pole kopírovat. Nicméně v tuto chvíli si opět vytvoří rezervu a pro jistotu si jí vytvoří 2-krát tak velkou jako na počátku.
 Když má naopak prvek z konce pole smazat, pouze si poznačí, že pole je kratší a místo toho, aby místo na konci pole uvolnil pro jiné použití,
-zvětší o něj rezervu. Ačkoliv to nemusí být jasné na první pohled, je tento postup v praxi často mnohem výhodnější. Pokud například do pole v průměru stejně 
+zvětší o něj rezervu. Ačkoliv to nemusí být jasné na první pohled, je tento postup v praxi často mnohem výhodnější. Pokud například do pole v průměru stejně
 často prvky přidáváme jako odebíráme, málokdy nám rezerva dojde a většina operací bude velmi rychlá. Tuto ``výhodnost'' lze matematicky analyzovat ---
 podobně jako jsme to udělali se složitostí algoritmů --- pomocí tzv. ``amortizované složitosti'' (více viz např. \cite{Tarjan:1985}), nicméně my to nyní
 dělat nebudeme a vrátíme se k našemu zelináři.
@@ -232,7 +227,7 @@ def generujListek( jmeno, prednostni = False ):
         f_predn.append(jmeno)
     else:
         f_obyc.append(jmeno)
-    
+
 def naRade():
     global f_obyc, f_predn
     if len(f_predn) > 0:
@@ -243,7 +238,7 @@ def naRade():
         return None
 \end{python}
 
-Řešení je elegantní a celkem vyhovující. Protože ale nastavená cena přednostní fronty není příliš vysoká, musí se i v ní často dlouho čekat. 
+Řešení je elegantní a celkem vyhovující. Protože ale nastavená cena přednostní fronty není příliš vysoká, musí se i v ní často dlouho čekat.
 Někteří movitější zákazníci by si klidně připlatili mnohem více, jen aby nemuseli čekat. Šlo by to řešit zavedením superpřednostní fronty, případně
 i hyperpřednostní atd $\ldots$ Vás však napadne mnohem lepší řešení. Fronta bude jen jedna, ale při vyzvednutí lístku bude mít každý možnost zaplatit
 určitou částku dle vlastní volby. Zákazníci pak budou odbavováni v pořadí podle obnosu, který zaplatili. Implementace bude tentokrát trochu
@@ -264,20 +259,20 @@ def naRade():
     # Pokud je fronta prazdna, vrat None
     if len(fronta) < 1:
       return None
-      
+
     # Najdi zakaznika s maximalni castkou
     # (zakaznik je vzdy dvojice [ ID, castka ] )
     max_jmeno, max_castka = zakaznici[0]
     max_pos    = 0
     pos        = 0
-    
+
     for (jmeno, castka) in zakaznici:
         if castka > max_castka:
 	    max_castka = castka
             max_jmeno = jmeno
             max_pos = pos
         pos = pos + 1
-    
+
     del zakaznici[pos]
     return max_jmeno
 \end{python}
@@ -292,7 +287,7 @@ s nejvyšší zaplacenou částkou. Budeme k tomu používat tzv. haldu (angl. h
 Pojďme se tedy nejprve podívat na (matematické) stromy.
 
 
-\subsection*{Stromy}\pdfbookmark[2]{Stromy}{subsec:Stromy} 
+\subsection*{Stromy}\pdfbookmark[2]{Stromy}{subsec:Stromy}
 
 Matematický pojem stromu je dobře ilustrován následujícím obrázkem znázorňujícím dělení živých organizmů:
 
@@ -300,9 +295,10 @@ Matematický pojem stromu je dobře ilustrován následujícím obrázkem znázo
 \begin{tikzpicture}
 [sibling distance=6cm,-,thick]
 \footnotesize
+\tiny
 \node {organizmy}
   child {node {rostliny}
-    [sibling distance=2cm]
+    [sibling distance=1.5cm]
     child {node {semenné}
       child {node {jehličnany}}
       child {node {liánovce}}
@@ -310,7 +306,7 @@ Matematický pojem stromu je dobře ilustrován následujícím obrázkem znázo
     child {node {kapraďorosty}}
   }
   child {node {živočichové}
-    [sibling distance=2.5cm]
+    [sibling distance=2cm]
     child {node {bezobratlí}}
     child {node {obratlovci}
       [sibling distance=4.7cm]
@@ -336,17 +332,17 @@ Matematický pojem stromu je dobře ilustrován následujícím obrázkem znázo
 
 
 Schematicky ho můžeme popsat takto: na obrázku je množina kategorií (obratlovci, savci, $\ldots$), které se ve stromové terminologii často říká množina
-uzlů. Mezi některými kategoriemi pak vede čára (hrana), znázorňující vztah kategorie-podkategorie (obratlovci--savci, $\ldots$), ve stromové terminologii se tomuto vztahu 
+uzlů. Mezi některými kategoriemi pak vede čára (hrana), znázorňující vztah kategorie-podkategorie (obratlovci--savci, $\ldots$), ve stromové terminologii se tomuto vztahu
 často říká vztah rodič--dítě (motivace pochází z rodokmenů, které se také často znázorňují pomocí stromů). Zavedeme si ještě několik pomocných pojmů:
 
 \begin{definition}
 \emph{kořen} je uzel, který je úplně na vrcholu, t.j. čáry vedou pouze z něj, žádná čára nevede do něj. Na našem obrázku je kořenem kategorie ``organizmy''.
 Naopak \emph{list} je uzel, ze kterého nevede žádná čára (např. ``vlaštovka'', ...) a uzly, které nejsou listy (včetně kořene) budeme souhrnně nazývat
 \emph{vnitřními} uzly. Pokud má uzel alespoň dvě děti (t.j. vedou z něj dvě čáry), řekneme, že se \emph{větví}, resp. že je to \emph{větvící} uzel.
-Pokud mají všechny uzly nejvýše dvě děti, říkáme, že strom je binární (podobně definujeme ternární strom atd.). \emph{Cestou} ve stromu rozumíme posloupnost uzlů, 
-které jsou postupně mezi sebou pospojované hranami vedoucími vždy od rodiče k dítěti. Cestu od kořene k nějakému 
+Pokud mají všechny uzly nejvýše dvě děti, říkáme, že strom je binární (podobně definujeme ternární strom atd.). \emph{Cestou} ve stromu rozumíme posloupnost uzlů,
+které jsou postupně mezi sebou pospojované hranami vedoucími vždy od rodiče k dítěti. Cestu od kořene k nějakému
 listu nazveme \emph{větví}. \emph{Hloubkou} stromu rozumíme délku nejdelší větve. \emph{Hladinou} ve stromě rozumíme množinu uzlů, které mají stejnou hloubku.
-Uzel A je \emph{potomkem} uzlu B, pokud z B do A vede cesta. V takovém případě říkáme též, že uzel B je \emph{předkem} uzlu A. 
+Uzel A je \emph{potomkem} uzlu B, pokud z B do A vede cesta. V takovém případě říkáme též, že uzel B je \emph{předkem} uzlu A.
 \end{definition}
 
 \begin{note}\footnotesize
@@ -357,18 +353,12 @@ Grafům se budeme později věnovat podrobněji.
 \end{note}
 
 Pojďme se nyní podívat, jak je možné tuto situaci reprezentovat v Pythonu. Bude pro nás důležité, že v každém uzlu
-chceme uchovávat nějaká data --- třeba pojmenování toho uzlu. Nejjednodušší bude reprezentovat uzel jako dvojici  {\tt u = (data, deti)}, 
+chceme uchovávat nějaká data --- třeba pojmenování toho uzlu. Nejjednodušší bude reprezentovat uzel jako dvojici  {\tt u = (data, deti)},
 kde {\tt deti} je seznam uzlů, které jsou dětmi uzlu {\tt u}. Zde je názorný příklad:
 
 \begin{center}
 \begin{minipage}{7cm}
-\lstset{
-numbers=none,
-stepnumber=1,
-numbersep=5pt,
-numberstyle=\small\color{black}
-}
-\begin{python}
+\begin{minted}{python}
 >>> T = ('Koren',[
 	          ('List A',[]),
 		  ('B',[
@@ -376,7 +366,7 @@ numberstyle=\small\color{black}
 			('List D',[])
 			])
 		  ])
-\end{python}
+\end{minted}
 \end{minipage}
 \begin{minipage}{3.5cm}
 \begin{tikzpicture}
@@ -393,7 +383,7 @@ numberstyle=\small\color{black}
 \end{minipage}
 \end{center}
 
-Ukažme si na dvou jednoduchých příkladech, jak s takovými stromy pracovat. Často bude velmi přirozené používat rekurzi. Například procedura, 
+Ukažme si na dvou jednoduchých příkladech, jak s takovými stromy pracovat. Často bude velmi přirozené používat rekurzi. Například procedura,
 která vrátí seznam jmen všech listů může vypadat takto:
 
 \begin{python}
@@ -405,7 +395,7 @@ def listy(T):
     return [jmeno]
   else:
     # Projdeme všechny děti a do našeho seznamu přidáme listy,
-    # které jsou jejich potomkem 
+    # které jsou jejich potomkem
     for d in deti:
       ret = ret + listy(d)
   return ret
@@ -443,7 +433,7 @@ def delitele(n):
     if n % d == 0:
       ret.append(d)
   return ret
-  
+
 def strom_delitelu(n):
   delit = delitele(n):
   deti = []
@@ -452,12 +442,12 @@ def strom_delitelu(n):
   return (n,deti)
 \end{python}
 
-\subsection*{Haldy}\pdfbookmark[2]{Haldy}{subsec:Haldy} 
+\subsection*{Haldy}\pdfbookmark[2]{Haldy}{subsec:Haldy}
 
 Vraťme se nyní k našemu zelináři. Řekli jsme, že budeme chtít ukládat zákazníky tak, abychom uměli velmi rychle vybírat zákazníka
 s nejvyšší zaplacenou částkou a podobně rychle zákazníky i přidávat. Řešení spočívá v tom, že je budeme ukládat do stromové struktury,
 které se říká halda. Halda je speciální případ binárního stromu, ve kterém je v každém uzlu mimo ostatních dat ještě navíc uloženo
-nějaké číslo. Jakožto strom je to strom, ve kterém se každý uzel, který není listem, větví a všechny listy jsou na poslední nebo 
+nějaké číslo. Jakožto strom je to strom, ve kterém se každý uzel, který není listem, větví a všechny listy jsou na poslední nebo
 předposlední hladině s tím, že listy na poslední hladině jsou ``co nejvíce vlevo''. Navíc pro každý uzel platí, že číslo, které je v něm uloženo,
 je menší než čísla uložená ve všech jeho potomcích. Příkladem haldy je například následující strom:
 \begin{center}
@@ -468,7 +458,7 @@ Naopak ani jeden z následujících stromů haldou není.
 \begin{center}
 (A)
 \begin{minipage}{2.5cm}
-\Tree [.0 [.10 [.11 ] [.9 ] ] [.20 ] ] 
+\Tree [.0 [.10 [.11 ] [.9 ] ] [.20 ] ]
 \end{minipage}
 (B)
 \begin{minipage}{4.5cm}
@@ -557,9 +547,9 @@ Složitost přidání v nejhorším případě tedy bude záviset na výšce str
 uzlů, pak jeho výška bude buď $\log_2 n$ nebo,  $\log_2 n + 1$. Celková složitost tedy bude asymptoticky $O(\log n)$ + složitost
 přidání prvku na konec haldy. To bude samozřejmě záviset na konkrétním kódu, ale v jakékoliv rozumné verzi to nebude
 horší než $O(\log n)$. Podobně to vyjde pro operaci odebrání prvku. Pokud bychom chtěli jen zjistit, jaký je nejmenší prvek,
-bude to dokonce $O(1)$. 
+bude to dokonce $O(1)$.
 
-Zavedli jsme haldu takovým způsobem, aby měla v kořeni nejmenší číslo. Pro náš zelinářský software by se však 
+Zavedli jsme haldu takovým způsobem, aby měla v kořeni nejmenší číslo. Pro náš zelinářský software by se však
 hodilo naopak mít v kořeni číslo největší. Rozmyslete si, že pokud v haldě obrátím podmínku na čísla, t.j. pokud budu požadovat,
 aby číslo uzlu bylo větší, než číslo všech jeho potomků, bude všechno opět fungovat (po jednoduché úpravě operací). V následující
 praktické implementaci v Pythonu uvedeme tuto ``opačnou'' verzi haldy.
@@ -567,23 +557,23 @@ praktické implementaci v Pythonu uvedeme tuto ``opačnou'' verzi haldy.
 Ukážeme si nyní práci s haldou v Pythonu. Mohli bychom s ní pracovat jako s obyčejným stromem. V takovém případě by bylo dobré si u každého
 uzlu navíc pamatovat i jeho rodiče. Tedy uzel by mohl být třeba čtveřice {\tt (data, hodnota, rodic, deti)}. S takovouto reprezentací
 by se ale pracovalo trochu nešikovně, protože neumožňuje jednoduše zjistit nejlevější list na předposlední hladině (resp. na poslední, pokud takový není).
-Bude proto lepší si umět haldu uchovávat v seznamu (a v budoucnu se nám to bude hodit). 
+Bude proto lepší si umět haldu uchovávat v seznamu (a v budoucnu se nám to bude hodit).
 
 \begin{todo}
 Obecně lze v poli ukládat i jiné stromy resp. grafy než haldu --- a naše původní reprezentace je ve skutečnosti (uvnitř Pythonu)
 právě taková.
 \end{todo}
 
-Haldu budeme ukládat po jednotlivých hladinách, každý prvek seznamu bude dvojice {\tt (data, hodnota)}. Jeho index v poli bude určovat jeho pozici ve stromu. 
+Haldu budeme ukládat po jednotlivých hladinách, každý prvek seznamu bude dvojice {\tt (data, hodnota)}. Jeho index v poli bude určovat jeho pozici ve stromu.
 Na prvním místě bude kořen, na druhém a třetím jeho případné dvě děti, a tak dále. Protože ukládaný strom je haldou, můžeme si z pozice uzlu {\tt u} jednoduše vypočítat
 pozice jeho dětí a rodičů. Je-li totiž jeho pozice {\tt n}, pak jeho děti mají pozici {\tt 2*n + 1} a {\tt 2n + 2} a jeho rodič má index
-{\tt (n-1)/2}. Uvědomte si, že zde využíváme faktu, že jde o haldu, u obecného stromu by to nefungovalo! Elegance tohoto přístupu spočívá v tom, 
+{\tt (n-1)/2}. Uvědomte si, že zde využíváme faktu, že jde o haldu, u obecného stromu by to nefungovalo! Elegance tohoto přístupu spočívá v tom,
 že nejlevější list je prostě poslední prvek pole. Operace v Pythonu pak můžou vypadat třeba následovně jako na výpisu \ref{alg:heap}.
 
-\src{heap}{Operace s haldou}
+\srcsplit{heap}{Operace s haldou}{36}
 
 
-\subsection*{Zelinář --- pokračování}\pdfbookmark[2]{Zelinář --- pokračování}{subsec:zelinarcont} 
+\subsection*{Zelinář --- pokračování}\pdfbookmark[2]{Zelinář --- pokračování}{subsec:zelinarcont}
 
 Říkali jsme, že upravíme náš zákaznický systém tak, aby jak tištění lístků (funkce {\tt generujListek}) tak vyvolávání zákazníků
 (funkce {\tt naRade}) pracovaly rychle. Uděláme to tak, že využijeme výše uvedené funkce pro práci s haldou a zákazníky si budeme
@@ -595,7 +585,7 @@ def generujListek( jmeno, castka ):
   push( halda, jmeno, castka)
 
 def naRade():
-  return pop( halda ) 
+  return pop( halda )
 \end{python}
 
 \begin{cviceni} Náš kamarád zelinář si upravený zákaznický systém velmi pochvaluje, nicméně všiml si jedné nepříjemné vlastnosti.
@@ -607,17 +597,17 @@ tím zamyslíte, nebude to vůbec složité $\ldots$
 
 \begin{reseni}
 Stačí si pamatovat celkový počet odbavených zákazníků a při odbavování tento počet (případně vynásobený nějakou vhodnou konstantou)
-odečíst od zaplacené částky. 
+odečíst od zaplacené částky.
 \end{reseni}
 
-\subsection*{Zásobník}\pdfbookmark[2]{Zásobník}{subsec:Zásobník} 
+\subsection*{Zásobník}\pdfbookmark[2]{Zásobník}{subsec:Zásobník}
 
-V předchozích oddílech jsme si představili dvě základní ``datové struktury'': 
-frontu a haldu. Zajímavých šikovných způsobů jak ukládat data je samozřejmě 
-mnohem více  (Red-Black Stromy, Hashovací tabulky, ...), ale v této přednášce 
-nám na ně nezbude čas. Přesto bychom rádi zmínili ještě alespoň \emph{zásobník} 
-(anglicky stack, nebo také LIFO --- last in, first out). V jistém smyslu se 
-velmi podobá frontě: je to obyčejný seznam prvků, do kterého umíme přidávat 
+V předchozích oddílech jsme si představili dvě základní ``datové struktury'':
+frontu a haldu. Zajímavých šikovných způsobů jak ukládat data je samozřejmě
+mnohem více  (Red-Black Stromy, Hashovací tabulky, ...), ale v této přednášce
+nám na ně nezbude čas. Přesto bychom rádi zmínili ještě alespoň \emph{zásobník}
+(anglicky stack, nebo také LIFO --- last in, first out). V jistém smyslu se
+velmi podobá frontě: je to obyčejný seznam prvků, do kterého umíme přidávat
 prvky (funkce append) a prvky z něj vybírat (funkce pop). Prvky se do zásobníku
 ukládají stejně jako do fronty --- na konec seznamu. Rozdíl spočívá ve funkci
 pop, která prvky neodebírá ze začátku (jako u fronty), ale z konce. V Pythonu
@@ -630,7 +620,7 @@ se každý seznam standardně chová jako zásobník:
 >>> z.append(3)
 >>> z.pop()
 3
->>> 
+>>>
 \end{python}
 
 \begin{cviceni} Představte si, že máte k dispozici dvě proměnné typu zásobník

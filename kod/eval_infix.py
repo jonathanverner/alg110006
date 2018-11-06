@@ -1,4 +1,3 @@
-# coding: utf-8
 OPS = ['+','-','*','/',')','(']
 precedence = {'+':0,'-':0,'*':1,'/':1,'(':-1,')':-1}
 def reduce_stack(op_stack, arg_stack, prec):
@@ -32,8 +31,3 @@ def eval_infix(token_list):
             arg_stack.append(token)
     reduce_stack(op_stack,arg_stack,-1)
     return arg_stack.pop()
-    
-        
-                                
-                
-    

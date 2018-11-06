@@ -45,7 +45,7 @@ Zkusme tuto otázku formulovat v řeči grafů. Máme-li dánu mapu, vytvoříme
 spojeny hranou. Můžeme tedy zkusit formulovat otázku \ref{question:barvenimapy}
 následujícím způsobem:
 
-\begin{question}\label{question:generalcoloring} Lze vrcholy každého grafu obarvit čtyřmi barvami tak, aby sousední 
+\begin{question}\label{question:generalcoloring} Lze vrcholy každého grafu obarvit čtyřmi barvami tak, aby sousední
 vrcholy měly vždy různou barvu?
 \end{question}
 
@@ -134,7 +134,7 @@ Je to tzv. úplný graf o osmi vrcholech --- t.j. graf, který má osm vrcholů 
 Jenže otázka \ref{question:generalcoloring} neodpovídá původní otázce přesně. Není
 totiž vůbec jasné, zda každý graf odpovídá nějaké mapě, t.j. lze ho získat výše uvedeným způsobem z nějaké mapy. Například graf na předchozím obrázku žádné reálné
 mapě odpovídat nemůže. Při grafové formulaci musíme být tedy opatrnější a omezit
-se pouze na grafy, \emph{které odpovídají nějaké mapě}. Takovým grafům se říká 
+se pouze na grafy, \emph{které odpovídají nějaké mapě}. Takovým grafům se říká
 \emph{planární} nebo \emph{rovinné} (protože je lze zakreslit do roviny tak, aby se žádné dvě hrany nekřížily).
 
 \begin{question}\label{question:planarcoloring} Lze vrcholy každého planárního grafu obarvit čtyřmi barvami tak, aby žádné dva sousedící vrcholy neměly stejnou barvu?
@@ -148,7 +148,7 @@ Odpoveď na tuto otázku je ano. A číslo čtyři, je nejlepší možné.
 Historie tohoto problému je velmi zajímavá. Problém položil v roce 1852 jistý Francis Guthrie (jeho bratr studoval u De~Morgana). Kolem roku 1890
 byl publikován důkaz tvrzení, že stačí barev pět. Nicméně důkaz, že opravdu stačí pouze čtyři barvy, byl publikován až v roce 1976 a byl to první
 důkaz významného matematického tvrzení, který byl získán za pomoci počítače --- autoři problém rozdělili na 1936 případů, které postupně analyzovali
-počítačovým programem. Menší vadou na kráse tohoto důkazu je fakt, že v počítačových programech jsou často chyby. Vzhledem k tomu, že 
+počítačovým programem. Menší vadou na kráse tohoto důkazu je fakt, že v počítačových programech jsou často chyby. Vzhledem k tomu, že
 analyzovat oněch 1936 případů ručně bylo neproveditelné, zůstala otázka, zda je důkaz opravdu správně. Mnoho matematiků proto tento důkaz nepovažovalo
 za důkaz. Od té doby bylo publikováno ještě několik důkazů, nicméně všechny částečně spoléhaly na práci počítače a dodnes není k dispozici důkaz, který
 by počítačovou analýzu nevyužíval.
@@ -157,7 +157,7 @@ Když problém formulujeme v řeči grafů, zdá se, že omezení na planární 
 definici:
 
 \begin{definition} Je-li $G=(V,E)$ neorientovaný graf, řekneme, že funkce $\chi: V\to \{1,2,\ldots, k\}$ je \emph{obarvení}, pokud pro každé dva vrcholy $v,w\in V$,
-které jsou spojeny hranou, t.j. $vEw$, platí $\chi(v)\neq \chi(w)$. \emph{Chromatické číslo} grafu $G$, značené $\chi(G)$ je nejmenší přirozené číslo $k$ takové, 
+které jsou spojeny hranou, t.j. $vEw$, platí $\chi(v)\neq \chi(w)$. \emph{Chromatické číslo} grafu $G$, značené $\chi(G)$ je nejmenší přirozené číslo $k$ takové,
 že existuje obarvení $\chi:V\to\{1,2,\ldots,k\}$ grafu $G$. Obarvení $\chi$ grafu $G$ je \emph{minimální}, pokud je to obarvení $\chi(G)$ barvami.
 \end{definition}
 
@@ -172,7 +172,7 @@ algoritmus, který by úlohu dokázal řešit v čase, který by byl polynomiál
 Tato úloha má mimochodem praktické využití. Představte si, že potřebujete naplánovat sadu událostí s tím, že některé události nemohou probíhat současně (např. proto, že
 jsou k dispozici pouze omezené prostředky). Tuto úlohu můžeme převést na nalezení minimálního obarvení grafu, ve kterém vrcholy odpovídají událostem a hrany spojují
 ty události, které nemohou probíhat současně. Minimální obarvení daného grafu totiž jednoduše odpovídá optimálnímu naplánování: v kroku 1 proběhnou události
-jejichž vrchol má barvu 1. V kroku 2 události s barvou 2. A tak dále. 
+jejichž vrchol má barvu 1. V kroku 2 události s barvou 2. A tak dále.
 
 Ačkoliv je úloha \ref{uloha:minimalcoloring} NP-težká, ukážeme si, jak lze rychle nalézt relativně dobré obarvení grafu --- dobré v tom smyslu, že používá málo barev. Nejdříve se však podíváme na různé způsoby, jak můžeme graf v Pythonu reprezentovat. Uvažujme následující graf o osmi vrcholech:
 
@@ -218,12 +218,6 @@ Ačkoliv je úloha \ref{uloha:minimalcoloring} NP-težká, ukážeme si, jak lze
 \paragraph{Matice souslednosti} reprezentuje graf o $n$ vrcholech pomocí matice $n\times n$, kde v $i$-tém sloupci a $j$-tém řádku je jednička, pokud
 je $i$-tý vrchol s $j$-tým vrcholem spojený hranou, v opačném případě je tam nula. Výše uvedenému grafu by odpovídala matice (+ zápis v pythonu)
 \begin{center}
-\lstset{
-numbers=none,
-stepnumber=1,
-numbersep=5pt,
-numberstyle=\small\color{black}
-}
 \begin{minipage}{3.5cm}
 $$
 \left(
@@ -242,7 +236,7 @@ $$
 \end{minipage}
 \hskip2cm
 \begin{minipage}{7cm}
-\begin{python}
+\begin{minted}{python}
 >>> g = [[0, 1, 0, 0, 0, 1, 0, 1],
 	 [1, 0, 1, 0, 0, 1, 0, 1],
 	 [0, 1, 0, 1, 0, 1, 0, 1],
@@ -251,7 +245,7 @@ $$
 	 [1, 1, 1, 0, 0, 0, 1, 0],
 	 [0, 0, 0, 1, 0, 1, 0, 1],
 	 [1, 1, 1, 1, 0, 0, 1, 0]]
-\end{python}
+\end{minted}
 \end{minipage}
 \end{center}
 
@@ -259,12 +253,6 @@ $$
 odpovídají hranám a sloupce vrcholům. V $i$-tém řádku jsou jedničky těch dvou sloupcích, které odpovídají vrcholům jež $i$-tá hrana spojuje. V ostatních sloupcích jsou nuly.
 Výše uvedenému grafu by odpovídala matice (+ zápis v pythonu)
 \begin{center}
-\lstset{
-numbers=none,
-stepnumber=1,
-numbersep=5pt,
-numberstyle=\small\color{black}
-}
 \begin{minipage}{3.5cm}
 $$
 \left(
@@ -287,7 +275,7 @@ $$
 \end{minipage}
 \hskip2cm
 \begin{minipage}{7cm}
-\begin{python}
+\begin{minted}{python}
 >>> g = [[1, 1, 0, 0, 0, 0, 0, 0],
 	 [1, 0, 0, 0, 0, 1, 0, 0],
 	 [1, 0, 0, 0, 0, 0, 0, 1],
@@ -301,21 +289,14 @@ $$
 	 [0, 0, 0, 1, 0, 0, 0, 1],
 	 [0, 0, 0, 0, 0, 1, 1, 0],
 	 [0, 0, 0, 0, 0, 0, 1, 1]]
-\end{python}
+\end{minted}
 \end{minipage}
 \end{center}
 
 \paragraph{Seznam sousedů.} Při této reprezentaci si ke každému vrcholu pamatujeme seznam jeho ``sousedů'', t.j. vrcholů do nichž z něj vede hrana.
 Výše uvedený graf by v pythonu byl reprezentován například takto:
 
-{
-\lstset{
-numbers=none,
-stepnumber=1,
-numbersep=5pt,
-numberstyle=\small\color{black}
-}
-\begin{python}
+\begin{minted}{python}
  >>> g = [[2, 6, 8],
 	  [1, 3, 6, 8],
 	  [2, 4, 6, 8],
@@ -324,8 +305,7 @@ numberstyle=\small\color{black}
 	  [1, 2, 3, 7],
 	  [4, 6, 8],
 	  [1, 2, 3, 4, 7]]
-\end{python}
-}
+\end{minted}
 
 \begin{cviceni} Napište Pythonovské funkce pro převod grafu z jedné reprezentace do jiné.
 \end{cviceni}
@@ -367,10 +347,10 @@ souvislosti. Uvažujme následující graf, který se rozpadá na tři části A
 \node [below of=ue,shift={(0mm,+6mm)}] (kC) {C.};
 
 \node [above of=a,shift={(0mm,+0mm)}] (kB) {B.};
-    
+
 \draw[dashed,-]
     (gu) .. controls +(-20:14mm) and +(20:14mm) .. (gb);
-    
+
 \draw[dashed,-]
     (ue) .. controls +(180:20mm) and +(-180:20mm) .. (bf);
 
@@ -383,7 +363,7 @@ lze z libovolného uzlu po hranách dostat do libovolného jiného. To je obsahe
 následující definice.
 
 \begin{definition} Posloupnost vrcholů $v_1,\ldots,v_k$ grafu $(V,E)$ nazveme \emph{cestou}, pokud pro $i=1,\ldots,k-1$
-platí, že $v_iEv_{i+1}$. Graf $(V,E)$ je souvislý, pokud z každého vrcholu vede cesta do každého jiného vrcholu, t.j. 
+platí, že $v_iEv_{i+1}$. Graf $(V,E)$ je souvislý, pokud z každého vrcholu vede cesta do každého jiného vrcholu, t.j.
 pokud pro všechna $v\neq w\in V$ existuje cesta $v_1,\ldots, v_k$ taková, že $v=v_1$ a $w=v_k$. Komponentou
 souvislosti rozumíme nějakou maximální souvislou podmnožinu $K\subseteq V$, t.j. takovou podmnožinu, že mezi každými
 dvěma prvky $K$ existuje cesta a přidáním jakéhokoliv dalšího prvku do $K$ toto přestane platit.
@@ -407,8 +387,8 @@ Nyní si popíšeme jednoduchý algoritmus, který nalezne relativně dobré oba
 algoritmů. Hladové se jim říká proto, že v každém kroku provedou akci, která se nabízí jako první --- t.j. nemyslí dopředu.
 V našem případě bude algoritmus procházet vrcholy v nějakém pořadí a v každém kroku přiřadí vrcholu, který je právě na řadě,
 nejmenší barvu, kterou může --- t.j. nejmenší takovou, která ještě nebyla přirazena žádnému jeho sousedu. Problém tohoto algoritmu
-je v tom, že v závislosti na pořadí, ve kterém vrcholy prochází, může nalézt obarvení velmi špatné. Uvažujme například 
-následující (\emph{bipartitní}) graf a jeho dvě možná obarvení vzniklá hladovým algoritmem (řady čísel nad obarvenými grafy udávají, 
+je v tom, že v závislosti na pořadí, ve kterém vrcholy prochází, může nalézt obarvení velmi špatné. Uvažujme například
+následující (\emph{bipartitní}) graf a jeho dvě možná obarvení vzniklá hladovým algoritmem (řady čísel nad obarvenými grafy udávají,
 v jakém pořadí algoritmus vrcholy procházel):
 
 \begin{center}
@@ -506,7 +486,7 @@ v jakém pořadí algoritmus vrcholy procházel):
 \end{center}
 
 Je tedy velmi důležité vhodně zvolit pořadí, ve kterém se vrcholy procházejí. Protože je problém NP-těžký, nemůžeme čekat, že
-se nám podaří vždy zvolit optimální pořadí. Nicméně existují různé heuristiky, z nichž si jednu ukážeme (viz \cite{Brelaz:1979}). 
+se nám podaří vždy zvolit optimální pořadí. Nicméně existují různé heuristiky, z nichž si jednu ukážeme (viz \cite{Brelaz:1979}).
 Nejdříve potřebujeme definici:
 
 \begin{definition} Saturovaností vrcholu $v$ (značíme $sat(v)$) budeme rozumět počet různých barev, které jsou přiřazeny
@@ -514,18 +494,16 @@ sousedícím vrcholům.
 \end{definition}
 
 Pořadí budeme volit následovně. Vrcholy si uspořádáme sestupně podle jejich stupně (t.j. podle počtu sousedů). V každém kroku
-zvolíme ze zbývajících vrcholů ten vrchol, který má největší saturovanost. Pokud je takových vrcholů více, zvolíme vrchol 
+zvolíme ze zbývajících vrcholů ten vrchol, který má největší saturovanost. Pokud je takových vrcholů více, zvolíme vrchol
 největšího stupně. Zkusme nyní tento algoritmus zapsat v pythonu. Graf budeme reprezentovat jako pythonovský {\tt dict}, který bude
 indexován vrcholy a bude obsahovat pro každý vrchol seznam jeho sousedů. Zároveň bude ke každému vrcholu ještě obsahovat
 seznam barev přiřazených jeho sousedům (pro výpočet saturovanosti).
+Výpis algoritmu naleznete na straně \pageref{alg:colorgraph}.
 
+\srcsplit{colorgraph}{Heuristické barvení grafu}{40}
 
-\begin{center}
-\begin{minipage}{7cm}
-\srchere{colorgraph}{Heuristické barvení grafu}
-\end{minipage}
-\begin{minipage}{4cm}
-\begin{center}
+\begin{figure}[p!]
+\caption{Graf a jeho obarvení získané algoritmem \ref{alg:colorgraph}}
 \begin{tikzpicture}[node distance=1.6cm]
 \tikzstyle{vertexB}=[draw,circle,fill=blue]
 \tikzstyle{vertexC}=[draw,circle,fill=green]
@@ -546,37 +524,34 @@ seznam barev přiřazených jeho sousedům (pro výpočet saturovanosti).
 \node [vertexA,above of=H] (I){8};
 
 \path[every node/.style={font=\sffamily\small}]
- (B) edge node {} (C) 
- (B) edge node {} (G) 
- (B) edge node {} (I) 
- (C) edge node {} (B) 
- (C) edge node {} (D) 
- (C) edge node {} (G) 
- (C) edge node {} (I) 
- (D) edge node {} (C) 
- (D) edge node {} (E) 
- (D) edge node {} (I) 
- (D) edge node {} (G) 
- (E) edge node {} (D) 
- (E) edge node {} (I) 
- (E) edge node {} (H) 
- (G) edge node {} (D) 
- (G) edge node {} (C) 
- (G) edge node {} (B) 
- (G) edge node {} (H) 
- (H) edge node {} (G) 
- (H) edge node {} (E) 
- (H) edge node {} (I) 
- (I) edge node {} (H) 
- (I) edge node {} (E) 
- (I) edge node {} (D) 
- (I) edge node {} (C) 
+ (B) edge node {} (C)
+ (B) edge node {} (G)
+ (B) edge node {} (I)
+ (C) edge node {} (B)
+ (C) edge node {} (D)
+ (C) edge node {} (G)
+ (C) edge node {} (I)
+ (D) edge node {} (C)
+ (D) edge node {} (E)
+ (D) edge node {} (I)
+ (D) edge node {} (G)
+ (E) edge node {} (D)
+ (E) edge node {} (I)
+ (E) edge node {} (H)
+ (G) edge node {} (D)
+ (G) edge node {} (C)
+ (G) edge node {} (B)
+ (G) edge node {} (H)
+ (H) edge node {} (G)
+ (H) edge node {} (E)
+ (H) edge node {} (I)
+ (I) edge node {} (H)
+ (I) edge node {} (E)
+ (I) edge node {} (D)
+ (I) edge node {} (C)
  (I) edge node {} (B);
 \end{tikzpicture}
-\end{center}
-\end{minipage}
-\end{center}
-
+\end{figure}
 
 \subsection*{Hledání cesty v grafu (Dijkstrův algoritmus)}
 
@@ -594,23 +569,23 @@ délky hran) a dva vrcholy $a,b\in V$. Nalezněte cestu $a_0,\ldots,a_n$ z $a$ d
 byla co nejmenší.
 \end{question}
 
-Ukážeme si algoritmus, který vymyslel nizozemský informatik \person{Dijkstra} (viz \cite{Dijkstra:59}). 
+Ukážeme si algoritmus, který vymyslel nizozemský informatik \person{Dijkstra} (viz \cite{Dijkstra:59}).
 
-Algoritmus je založen na následující myšlence. Pokud bychom postupně procházeli všechny možné cesty začínající v počátečním vrcholu 
-$a$ do nějakého jiného vrcholu v pořadí od nejkratších k nejdelším, pak bychom ve chvíli, kdy poprvé narazíme na cestu, která končí ve vrcholu $b$, 
+Algoritmus je založen na následující myšlence. Pokud bychom postupně procházeli všechny možné cesty začínající v počátečním vrcholu
+$a$ do nějakého jiného vrcholu v pořadí od nejkratších k nejdelším, pak bychom ve chvíli, kdy poprvé narazíme na cestu, která končí ve vrcholu $b$,
 byli hotovi. Tato cesta by totiž musela být nejkratší --- všechny pozdější cesty jsou delší, všechny dřívější skončily v jiném vrcholu.
 
-Algoritmus tedy začne v počátečním vrcholu a postupně prochází v určitém pořadí 
-vrcholy grafu. V průběhu svého výpočtu si pro každý vrchol pamatuje dvě informace. 
-První informací je délka nejlepší cesty z počátečního vrcholu do tohoto vrcholu, 
-kterou zatím našel. Druhou informací je sousední vrchol, ze kterého sem tato nejkratší cesta vedla. 
+Algoritmus tedy začne v počátečním vrcholu a postupně prochází v určitém pořadí
+vrcholy grafu. V průběhu svého výpočtu si pro každý vrchol pamatuje dvě informace.
+První informací je délka nejlepší cesty z počátečního vrcholu do tohoto vrcholu,
+kterou zatím našel. Druhou informací je sousední vrchol, ze kterého sem tato nejkratší cesta vedla.
 
 Zbývá určit, v jakém pořadí prochází vrcholy. V každém kroku si z dosud nenavštívených vrcholů
 vybere ten vrchol, do kterého vede nejkratší cesta. Do něj se přemístí a upraví informace
 o nejkratší cestě u všech jeho sousedů. Implementace v Pythonu může vypadat například
 tak, jako na výpisu \ref{alg:dijkstra}.
 
-\varsrc[lastline=69]{dijkstra}{Dijkstrův algoritmus}
+\srcsplit{dijkstra}{Dijkstrův algoritmus}{30}
 
 Jaká je složitost tohoto algoritmu? Algoritmus navštíví každý vrchol nejvýše jednou,
 tedy while cyklus (řádky 35--57) se provede nejvýše $|V|$, kde $|V|$ je počet vrcholů.
@@ -618,7 +593,7 @@ V každé iteraci se musí projít všichni sousedé aktuálního vrcholu (řád
 těch může být nejvýše $|V|$, pak se musí vybrat vrchol s nejkratší cestou (řádek 46),
 což v naší implementaci znamená opět $|V|$ kroků. Nakonec se rekonstruuje cesta (řádek
 57, volání funkce {\tt postav\_cestu}), to se však děje pouze jednou za celý běh a
-na složitost to nemá vliv. Celkem tedy dostáváme $O(|V|(|V|+|V|)) = O(|V|^2)$. 
+na složitost to nemá vliv. Celkem tedy dostáváme $O(|V|(|V|+|V|)) = O(|V|^2)$.
 
 Za předpokladu, že většina vrcholů má jen málo sousedů, se dá algoritmus vylepšit.
 Pokud bychom si průběžné informace o nejlepších cestách neukládali jako seznam

@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 def dijkstra( start, cil, graf ):
     """ Funkce dijkstra dostane na vstupu startovni a koncovy vrchol
         (start,cil) a graf, který je reprezentován jako modifikovaný
@@ -43,7 +41,9 @@ def dijkstra( start, cil, graf ):
 
         # Vyber z nenavštívený vrcholů ten vrchol, do kterého
         # z vrcholu start vede dosud nejkratší nalezená cesta.
-        delka_do_v, v = min([(d,u) for (u,(d,prev)) in enumerate(cesty) if not navstiveno[u]])
+        delka_do_v, v = min([
+            (d,u) for (u,(d,prev)) in enumerate(cesty) if not navstiveno[u]
+        ])
 
         # Pokud každý z nenavštívených vrcholů má nejlepší cestu
         # nekonečně dlouhou, pak to znamená, že do žádného nich
@@ -67,13 +67,3 @@ def postav_cestu(cesty, v):
             return cesta
         current = prev
 
-g = [ [(1,11),(4,15),(5,10)],
-      [(0,11),(2,2)],
-      [(1,2),(3,3)],
-      [(2,3),(4,0.5)],
-      [(0,15),(3,0.5),(5,20),(6,10)],
-      [(0,10),(4,20)],
-      [(4,10),(7,10)],
-      [(6,10),(8,10)],
-      [(7,10)],
-      [] ]

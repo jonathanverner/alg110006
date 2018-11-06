@@ -4,15 +4,15 @@
 \else
 \renewcommand{\section}[1]{\chapter{#1}}
 \fi
-\section{Porovnávání algoritmů, Eukleidův algoritmus}
+\section{Porovnávání algoritmů}
 
 Mým cílem v zimním semestru bylo Vás naučit psát jednoduché programy v Pythonu a mít nějakou konkrétní představu o tom,
 co to prakticky znamená ``programovat''. V letním semestru se podíváme na programování z teoretičtějšího hlediska.
-Naším základním tématem budou různé algoritmy --- standardní (ale i nestandardní) postupy řešení různých problémů, 
-se kterými se jako programátoři můžete potkat. 
+Naším základním tématem budou různé algoritmy --- standardní (ale i nestandardní) postupy řešení různých problémů,
+se kterými se jako programátoři můžete potkat.
 
 Pojďme se nyní společně podívat na jednu skupinu takových problémů. Jedná se o problémy, které původně pocházejí z
-matematické disciplíny zvané Teorie čísel. V praxi jsou úzce provázány s moderními šifrovacími metodami 
+matematické disciplíny zvané Teorie čísel. V praxi jsou úzce provázány s moderními šifrovacími metodami
 (RSA, Elektronický podpis, ...). Asi nejvíce fascinujícím problémem je následující úloha:
 
 \begin{uloha}
@@ -26,7 +26,7 @@ Pro dané číslo $n$ rozhodněte, zda je prvočíslem nebo není.
 \end{uloha}
 
 K této úloze se možná, pokud zbyde čas, vrátíme v nějaké pozdější přednášce. Dnes se podíváme na jednodušší úlohu, která
-bývá jednou ze základních operacích prováděných při řešení složitějších problémů v teorii čísel. 
+bývá jednou ze základních operací prováděných při řešení složitějších problémů v teorii čísel.
 
 \begin{uloha}
 Pro dané čísla $n,m$ zjistěte jejich největšího společného dělitele.
@@ -49,9 +49,9 @@ def gcdN(n,m):
     return ret
 \end{python}
 
-Možná, že někteří z Vás se s touto úlohou setkali na střední škole. Tam jste se mohli dozvědět o postupu, který 
+Možná, že někteří z Vás se s touto úlohou setkali na střední škole. Tam jste se mohli dozvědět o postupu, který
 popsal již \person{Euklides}: vezmeme větší z obou čísel a spočítáme si zbytek po dělení menším z obou čísel. Pokud je
-zbytek 0, jsme hotovi (nsd je menší z obou čísel). V opačném případě provedeme totéž, tentokrát s menším číslem 
+zbytek 0, jsme hotovi (nsd je menší z obou čísel). V opačném případě provedeme totéž, tentokrát s menším číslem
 a spočítaným zbytkem. V Pythonu lze pomocí rekurze zapsat tento postup následovně:
 
 \begin{python}
@@ -70,20 +70,20 @@ například jako výpisu \ref{alg:gcdnre}.
 \src{gcdnre}{Eukleidův algoritmus (nerekurzivní verze)}
 
 U tohoto algoritmu nemusí být na první pohled jasné, jak funguje. Dokonce není jasné, zda vůbec skončí a pokud ano, zda
-dá správnou odpověď.  Jednou možností, jak zjistit, jestli algoritmus funguje, je vyzkoušet ho na několika vstupech a 
+dá správnou odpověď.  Jednou možností, jak zjistit, jestli algoritmus funguje, je vyzkoušet ho na několika vstupech a
 zkontrolovat odpovědi. To nám však nedá odpověď s naprostou jistotou.  Abychom si byli naprosto jistí, musíme
-algoritmus pochopit a přesvědčit se, že opravdu funguje. O to se nyní pokusíme. 
+algoritmus pochopit a přesvědčit se, že opravdu funguje. O to se nyní pokusíme.
 
 Nejprve si ukážeme, že
 algoritmus opravdu skončí.  První, rekurzivní verze algoritmu, nám dává i návod: u rekurzivních algoritmů dokážeme,
 že skončí, pokud se přesvědčíme, že skončí v nějakém základním případě (případech) a všechny ostatní vstupy postupně převede
 na tento základní případ(y).  U našeho algoritmu bude základním případem situace, kdy $n$ dělí $m$ (což budeme značit $n|m$).  Ukážeme, že rekurzivní volání
-postupně převede každý vstup na tuto základní situaci. Označme si $n_0 = n$ a $m_0=m$ počáteční vstupy a $n_k, m_k$ hodnoty proměnných 
+postupně převede každý vstup na tuto základní situaci. Označme si $n_0 = n$ a $m_0=m$ počáteční vstupy a $n_k, m_k$ hodnoty proměnných
 $d$, $n$ při $k$-tém průchodu řádkem 7 (t.j. $n_k$ a $m_k$ budou hodnoty parametrů při $k$-tém (rekurzivním) volání funkce {\tt gcdE}).
 
 Všimněme si, že $0\leq n_{k+1} = m_k\ (\mbox{mod}\ n_k) <n_k$. Tedy posloupnost $n_k$ je zdola omezená
 nulou a ostře klesá. Tudíž musí být konečná, tedy program musí skončit. Tudíž algoritmus provede řádek 7 pouze konečněkrát a tedy v konečném
-čase skončí. 
+čase skončí.
 
 Když už víme, že algoritmus skončí, musíme se ještě přesvědčit, že dá správnou odpověď.  Opět využijeme rekurzivní verzi.  Pokud algoritmus
 skončí v základním případě (řádek 6), zjevně dá správnou odpověď. Pokud ještě ukážeme, že i na řádku 7 získáme správnou odpověť, t.j. že {\tt gcdE(n,m) = gcd(z,n)},
@@ -92,7 +92,7 @@ budeme hotovi. Poslední rovnost však plyne z následujících jednoduchých po
 \begin{itemize}
  \item Pokud $d|n$ a $d|m$ pro nějaké $m = kn + z$, pak i $d|z$.
  \item Pokud naopak $d|n$ a $d|z$, pak $d$ dělí každé $m$ tvaru $ kn + z$.
- \item Tedy, je-li $m = kn + z$ pak každý společný dělitel čísel $n,m$ je i společným dělitelem čísel $n,z$ a obráceně.
+ \item Tedy, je-li $m = kn + z$, pak každý společný dělitel čísel $n,m$ je i společným dělitelem čísel $n,z$ a obráceně.
 \end{itemize}
 
 Tím jsme odpověděli na základní otázku, kterou si při seznamování s novým algoritmem musíme položit --- zda pracuje správně. Jak jsme viděli, i v takto jednoduchém
@@ -101,7 +101,7 @@ kdy je třeba nejen zkontrolovat správnost algoritmu, ale zkontrolovat i jeho b
 záporná. Nicméně v některých konkrétních případech to lze. Tímto problémem se zabývá oblast informatiky zvaná formální verifikace.  My se však nyní obrátíme k dalším
 otázkám, které je třeba položit. Uvedli jsme si dva algoritmy pro stejnou úlohu a je přirozené se ptát, zda jsou oba stejně ``dobré''.  Tomu se budeme věnovat v následujícím oddíle.
 
-\subsection*{Porovnávání algoritmů} 
+\subsection*{Porovnávání algoritmů}
 Proto, abychom oba výše popsané algoritmy mohli porovnávat, je třeba zvolit nějaké kritérium. Kritérií může být samozřejmě mnoho,
 následující seznam zdaleka není vyčerpávající:
 
@@ -114,7 +114,7 @@ následující seznam zdaleka není vyčerpávající:
 \end{itemize}
 
 V našem kurzu se budeme zaměřovat na první dva body (a zejména na první bod), ačkoliv jsou situace, kdy mnohem důležitějším
-kritériem může být třeba jednoduchost nebo energetická náročnost.  
+kritériem může být třeba jednoduchost nebo energetická náročnost.
 
 Pokusme se tedy oba algoritmy porovnat z hlediska rychlosti. Asi nejjednodušším způsobem,
 jak to provést, je měřit čas $T$ od puštění programu do jeho skončení. To však má svá úskalí:
@@ -124,10 +124,10 @@ jak to provést, je měřit čas $T$ od puštění programu do jeho skončení. 
  \item je to experimentální veličina o které lze těžko matematicky něco dokazovat
 \end{itemize}
 
-Raději tedy tuto základní ideu trochu upravíme --- úvahy abstrahujeme od konkrétního 
-počítače a konkrétní implementace. Nebudeme měřit čas, ale určíme si množinu 
-základních operací (přiřazení, testování booleovské podmínky ({\tt if}), aritmetická operace) a budeme počítat 
-počet operací,  které program při svém běhu vykoná. Označme si toto číslo $Op$. Je zjevné, že 
+Raději tedy tuto základní ideu trochu upravíme --- úvahy abstrahujeme od konkrétního
+počítače a konkrétní implementace. Nebudeme měřit čas, ale určíme si množinu
+základních operací (přiřazení, testování booleovské podmínky ({\tt if}), aritmetická operace) a budeme počítat
+počet operací,  které program při svém běhu vykoná. Označme si toto číslo $Op$. Je zjevné, že
 toto číslo bude záviset na vstupních datech. Pokud budeme počítat největšího společného dělitele čísel
 $1235468127495138$ a $2159842611264567486$ budeme muset provést více operací než při počítání společného dělitele čísel
 $14$ a $35$. Tedy $Op$ bude ve skutečnosti funkce vstupních dat.
@@ -149,8 +149,8 @@ neuděláme to (zájemce ji může nalézet v Tao'c P, \cite{TAOCP2}). Můžeme 
 \end{displaymath}
 
 
-Podívejme se nyní na druhý algoritmus. Zde je situace o trochu složitější. Při každém volání funkce {\tt gcdE} dochází ke 
-dvěma porovnáním (2. a 5. řádek), jedné aritmetické operaci (4. řádek) a při úplně prvním volání ještě ke dvěma přiřazením 
+Podívejme se nyní na druhý algoritmus. Zde je situace o trochu složitější. Při každém volání funkce {\tt gcdE} dochází ke
+dvěma porovnáním (2. a 5. řádek), jedné aritmetické operaci (4. řádek) a při úplně prvním volání ještě ke dvěma přiřazením
 (3. řádek, uvědomte si, že jsou to přiřazení dvě a že se tento řádek v dalších
 voláních nikdy neprovede). Označme si tedy počet volání funkce {\tt gcdE} číslem $c$. Pak můžeme psát:
 
@@ -159,7 +159,7 @@ Op_E(n,m) = 2 + 3c
 \end{displaymath}
 
 Jak spočíst číslo $c$? Opět budeme pouze odhadovat. Dolní odhad je $1$ v případě, že $n$ dělí $m$. Jednoduchý horní odhad dostaneme
-z úvah, které jsme prováděli při důkazu správnosti algoritmu. Zjistili jsme, že při každém rekurzivním volání je první argument ostře 
+z úvah, které jsme prováděli při důkazu správnosti algoritmu. Zjistili jsme, že při každém rekurzivním volání je první argument ostře
 menší než při předchozím. Funkce {\tt gcdE} se tedy zavolá nejvíce $n$-krát. Tedy máme odhad
 
 \begin{displaymath}
@@ -176,9 +176,9 @@ $n_k,m_k$ je hodnota parametrů při $k$-tém volání funkce {\tt gcdE}. Pak pl
  \item $n_{k+1}\leq m_k/2$
 \end{itemize}
 
-První bod je zřejmý uvažujme nad druhým. Vyjděme z toho, že $n_{k+1} = m_k\ \mbox{mod}\ n_k$. Je-li $m_k>=2n_k$, pak $m_k/2>=n_k$, zatímco
-zbytek po dělení $n_k$ je vždy $< n_k$, tedy v tomto případě bod platí. Je-li naopak $m_k \in (n_k, 2n_k)$ [uvědomme si, že $m_k > n_k]$, pak 
-$m_k\ \mbox{div}\ n_k = 1$, tedy $m_k\ \mbox{mod}\ n_k = m_k-n_k$. Nyní opět jednoduše $n_{k+1} <= m_k/2$. 
+První bod je zřejmý uvažujme nad druhým. Vyjděme z toho, že $n_{k+1} = m_k\ \mbox{mod}\ n_k$. Je-li $m_k\geq{}2n_k$, pak $m_k/2\geq n_k$, zatímco
+zbytek po dělení $n_k$ je vždy $< n_k$, tedy v tomto případě bod platí. Je-li naopak $m_k \in (n_k, 2n_k)$ [uvědomme si, že $m_k > n_k]$, pak
+$m_k\ \mbox{div}\ n_k = 1$, tedy $m_k\ \mbox{mod}\ n_k = m_k-n_k$. Nyní opět jednoduše $n_{k+1} \leq{} m_k/2$.
 
 Kombinací prvních dvou bodů máme
 
@@ -200,10 +200,10 @@ $n_c\leq1$), tedy veličinu $c$ můžeme shora odhadnout pomocí tohoto výrazu.
  Op_E(n,m) \leq 2 + 3(2\lceil \log_2 n\rceil)\leq 5 + 6\log_2 n
 \end{displaymath}
 
-Zůstaňme ještě chvíli u hodnot veličiny $Op$. Tato veličina byla zavedená tak, aby dostatečně abstrahovala od času, který bude program běžet. 
+Zůstaňme ještě chvíli u hodnot veličiny $Op$. Tato veličina byla zavedená tak, aby dostatečně abstrahovala od času, který bude program běžet.
 Na druhou stranu od ní stále intuitivně očekáváme, že bude s tímto časem nějak blízce souviset. Tato souvislost bude samozřejmě záviset na
 zvolených ``základních operacích'', programovacím jazyce a rychlosti počítače. Obecně však není nerozumné předpokládat, že tento vztah bude
-``zhruba lineární'', t.j. pro každou konkrétní situaci budou existovat nějaké konstanty $K,k$ (vyjadřující např. rychlost počítače a podobné okolnosti) takové, 
+``zhruba lineární'', t.j. pro každou konkrétní situaci budou existovat nějaké konstanty $K,k$ (vyjadřující např. rychlost počítače a podobné okolnosti) takové,
 že vztah mezi $Op$ a $T$ půjde vyjádřit pomocí nerovností
 
 \begin{displaymath}

@@ -1,4 +1,3 @@
-# coding: utf-8
 def count_open_brackets(exp):
     """ Spočítá kolika otevřenými závorkami začíná seznam @exp """
     ret = 0
@@ -41,6 +40,7 @@ def find_min_prec_op(exp):
                 min_pos = pos
         pos = pos + 1
     return min_pos
+
 def parse_infix_tokenized(exp):
     """ Převede infixový výraz (zadaný jako seznam prvků) na jeho
         stromovou reprezentaci."""
@@ -52,6 +52,7 @@ def parse_infix_tokenized(exp):
         L = parse_infix_tokenized(exp[:pos_op])
         R = parse_infix_tokenized(exp[pos_op+1:])
         return (exp[pos_op],L,R)
+
 def tokenize(exp):
     """ Převede výraz zadaný jako řetězec na seznam prvků. """
     SEPS = ['+','-','*','/','(',')']
@@ -69,7 +70,10 @@ def tokenize(exp):
     if len(token) > 0:
         tokens.append(token)
     return tokens
+
 def parse_infix(exp):
-    """ Převede výraz zadaný jako řetězec na jeho stromovou reprezentaci. """
+    """
+    Převede výraz zadaný jako řetězec na jeho stromovou reprezentaci.
+    """
     exp = tokenize(exp)
     return parse_infix_tokenized(exp)

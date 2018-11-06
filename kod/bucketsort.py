@@ -14,7 +14,7 @@ def bucket_sort(seznam, m):
 
     # Roztřídění do přihrádek
     for p in seznam:
-        prih = (p-min)/m
+        prih = int((p-min)/m)
         prihradky[prih].append(p)
 
     # Setřízení přihrádek

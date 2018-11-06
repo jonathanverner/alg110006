@@ -1,4 +1,3 @@
-# coding: utf-8
 # Očíslování posloupností délky 2
 # (uvažujeme pouze řetězce ze znaků 'a' a 'b')
 seqnum = {
@@ -26,10 +25,10 @@ def smartfind(text, tabulka, lens):
         tabulka ... vyhledávací tabulka
         lens    ... délka hledaného řetězce """
     found = []
-    # přečti prvních lens znaků a zjisti číslo této 
+    # přečti prvních lens znaků a zjisti číslo této
     # posloupnosti
     np = seqnum[text[:lens-1]]
-    
+
     for tpos in range(lens,len(text)):
         # dle tabulky urči, zda následující znak (text[tpos])
         # zakončuje hledanou posloupnost a zároveň
@@ -38,4 +37,3 @@ def smartfind(text, tabulka, lens):
         if f:
             found.append(tpos-lens+1)
     return found
-            

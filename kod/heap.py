@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 # Jednoduché funkce pro počítání pozic dětí a rodičů
 def left_child_index(n):
   return 2*n + 1

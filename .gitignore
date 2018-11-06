@@ -11,4 +11,8 @@
 *.glo
 *.gls
 *.ist
+*.toc
+*.xdy
 *.kdev4
+_minted*
+*swp

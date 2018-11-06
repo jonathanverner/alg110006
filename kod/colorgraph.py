@@ -1,5 +1,3 @@
-# -*- coding:utf-8 -*-
-
 # vrchol = (cislo_vrcholu, seznam_sousedu, seznam_barev)
 # graf = {v_1:sousedi_v1, v_2:sousedi_v2, ..., v_n:sousedi_vn}
 def deg(v):

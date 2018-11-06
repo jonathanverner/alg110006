@@ -5,13 +5,13 @@
 \section{Analýza jazyka}
 V této kapitole se podíváme na problém analýzy jazyka.  Nepůjde nám o přirozené jazyky ---
 to by přesahovalo možnosti úvodního kurzu --- ale o jazyky tzv. formální. Formální jazyky
-jsou jazyky, které mají přesně specifikovánu syntax, t.j. co je a co není v jazyce přípustné. 
+jsou jazyky, které mají přesně specifikovánu syntax, t.j. co je a co není v jazyce přípustné.
 Co to znamená \emph{přesně} specifikovat? Dohodněme se, že pro naše účely to znamená,
 že je možné o daném řetězci automaticky rozhodnout, zda je v jazyce přípustný či nikoliv.
 
 \begin{doplneni}
 Přirozené jazyky tuto podmínku nesplňují, protože přípustnost je nejednoznačná ---
-na přípustnosti nějaké věty se často neshodnou ani lingvisté. Jednoduchým diagonálním 
+na přípustnosti nějaké věty se často neshodnou ani lingvisté. Jednoduchým diagonálním
 argumentem však lze ``zkonstruovat'' jazyky, kde je přípustnost daná jednoznačně, nicméně
 neexistuje algoritmus, který by o přípustnosti rozhodl.  Takové jazyky nás však zajímat nebudou.
 \end{doplneni}
@@ -19,7 +19,7 @@ neexistuje algoritmus, který by o přípustnosti rozhodl.  Takové jazyky nás 
 Příkladem formálního jazyka je třeba samotný Python. Dalším příkladem může být třeba
 jazyk nějaké matematické teorie.  Nebo html, jazyk ve kterém se píší webové stránky. Toto
 všechno jsou relativně komplikované jazyky, kterým odpovídají i (relativně) komplikované
-rozhodovací algoritmy.  My si ukážeme několik jednodušších jazyků a algoritmy, které rozhodují o 
+rozhodovací algoritmy.  My si ukážeme několik jednodušších jazyků a algoritmy, které rozhodují o
 přípustnosti pro tyto jazyky. Nejprve se však budeme zabývat jednodušším problémem ---
 vyhledáváním v textu.  Optimální algoritmus pro vyhledávání nás totiž navede k definici
 tzv. regulárních jazyků.
@@ -29,7 +29,7 @@ tzv. regulárních jazyků.
 Následující úlohu zná každý, kdo v textovém editoru někdy použil funkci ``najdi'' (find).
 
 \begin{uloha}\label{uloha:substring}
-Nalezněte v daném textu (posloupnosti znaků) všechny výskyty nějakého slova 
+Nalezněte v daném textu (posloupnosti znaků) všechny výskyty nějakého slova
 (věty, posloupnosti znaků).
 \end{uloha}
 
@@ -39,8 +39,8 @@ První řešení, které nás napadne, může vypadat třeba takto:
 
 Vnější cyklus postupně prochází celý text a vnitřní cyklus na každé pozici testuje, zda
 se tam nevyskytuje hledaná posloupnost. Tento vnitřní test provede nejvýše \(m\) operací,
-kde \(m\) je délka hledaného řetězce. Celková složitost algoritmu je tedy \(O(n\cdot m)\), 
-kde \(n\) je délka textu. Na první pohled nás napadne, že lépe to snad ani nejde. 
+kde \(m\) je délka hledaného řetězce. Celková složitost algoritmu je tedy \(O(n\cdot m)\),
+kde \(n\) je délka textu. Na první pohled nás napadne, že lépe to snad ani nejde.
 Uvědomme si však, že algoritmus dělá spoustu zbytečné práce. Představme si, že hledáme
 řetězec {\tt aaaaa} ({\tt s}) v řetězci {\tt aaaazzzz} ({\tt text}). V první iteraci zjistíme, že na pozici {\tt 0}
 se řetězec nenachází, protože páté písmeno je {\tt z} a ne {\tt a}. V tu chvíli však už je
@@ -50,7 +50,7 @@ pro {\tt tpos >= 5}, všechny znaky {\tt text[tpos],...,text[tpos+4]} jsme už v
 znalost znaku {\tt text[tpos+5]} by nám teoreticky měla stačit k rozhodnutí, zda se
 {\tt s} na pozici {\tt tpos} vyskytuje. Jak tuto informaci využít? Představme si, že každá
 posloupnost {\tt p} čtyř znaků má přiřazeno nějaké číslo \(n_{\tt p}\). Pak lze sestrojit
-tabulku, která nám pro každý znak {\tt z}, a číslo \(n_{\tt p}\) určí, 
+tabulku, která nám pro každý znak {\tt z}, a číslo \(n_{\tt p}\) určí,
 
 \begin{itemize}
  \item zda je posloupnost {\tt p+z} (posloupnost {\tt p} následovaná znakem {\tt z}) je rovná hledané posloupnosti
@@ -61,33 +61,33 @@ Pokud bychom takovou tabulku měli, bylo by vyhledávání velmi jednoduché. Al
 by vypadal třeba jako na výpisu \ref{alg:smartfind} (uvažujeme jednoduchý příklad, kdy
 hledáme řetězec {\tt aab} v posloupnosti která sestává pouze ze znaků {\tt a} a {\tt b}).
 
-\src[firstline=2]{smartfind}{Vyhledávání za pomoci tabulky}
+\src{smartfind}{Vyhledávání za pomoci tabulky}
 
 Je lehké nahlédnout, že složitost je nyní lineární v délce textu, t.j. \(O(n)\). Problém je
 však se sestrojením tabulky (a s její velikostí). Máme-li abecedu o \(k\) znacích
 (v příkladu \ref{alg:smartfind} je \(k=2\)), a hledáme řetězec délky \(m\), pak naše tabulka
-bude mít velikost \(k\cdot k^{m-1}\) a tedy její výroba bude trvat \(O(k^{m})\). 
+bude mít velikost \(k\cdot k^{m-1}\) a tedy její výroba bude trvat \(O(k^{m})\).
 Tím bychom vyměnili složitost \(O(n\cdot m)\) za \(O(n+k^{m})\), což není příliš výhodné.
 
 \paragraph{Konečné automaty}
 
 Naše tabulka je ale příliš veliká. Všimněte si například, že hodnoty odpovídající
-\(n_{\tt p} = 1,2\) jsou stejné.  To napovídá, že by bylo možné ušetřit. Ukážeme, 
-že tabulku lze nahradit komplikovanější strukturou, tzv. konečným automatem. 
-Jeho výhoda spočívá v tom, že vhodný automat  lze vytvořit v čase \(O(m)\) 
+\(n_{\tt p} = 1,2\) jsou stejné.  To napovídá, že by bylo možné ušetřit. Ukážeme,
+že tabulku lze nahradit komplikovanější strukturou, tzv. konečným automatem.
+Jeho výhoda spočívá v tom, že vhodný automat  lze vytvořit v čase \(O(m)\)
 (místo \(O(2^{m})\)). Co to je konečný automat?  Ukážeme si to nejprve na příkladě
-jednoduchého konečného automatu --- zakódovaného zámku na kole. 
+jednoduchého konečného automatu --- zakódovaného zámku na kole.
 
 \begin{center}
  \includegraphics[width=5cm]{combination-lock}
 \end{center}
 
-Koncepčně má zámek dva stavy --- odemčeno a zamčeno.  Zadáním správného kódu 
+Koncepčně má zámek dva stavy --- odemčeno a zamčeno.  Zadáním správného kódu
 ho člověk může ze stavu zamčeno přesunout
 do stavu odemčeno.  Ve skutečnosti si však můžeme představit, že zámek má mimo
 dvou základních stavů různé vnitřní stavy odpovídající různým možným kódovým
 kombinacím. Jeden z těchto vnitřních stavů --- stav odpovídající správnému kódu ---
-pak odpovídá globálnímu stavu odemčeno, ostatní odpovídají stavu zamčeno. 
+pak odpovídá globálnímu stavu odemčeno, ostatní odpovídají stavu zamčeno.
 Nastavením číslice na jednom z možných míst pak přesouváme zámek z jednoho
 vnitřního stavu do jiného.
 
@@ -99,19 +99,19 @@ množinou koncových stavů \(E\subseteq S\) a jedním počátečním stavem \(s
 \end{definition}
 
 V případě zámku by množina vnitřních stavů byla množina všech 5 ciferných čísel,
-Množina vstupů by byla množina všech dvojic (pozice, číslice), kde pozice je jedno z 
+Množina vstupů by byla množina všech dvojic (pozice, číslice), kde pozice je jedno z
 písmen A, B, C, D, E. Přechodová funkce pak odpovídá změně stavu při zadání jedné
-číslice kódu. Koncový stav je jediný --- ten který odpovídá správnému kódu. 
-Počáteční stav je náhodný zamčený stav, který byl nastaven při zamykání. 
+číslice kódu. Koncový stav je jediný --- ten který odpovídá správnému kódu.
+Počáteční stav je náhodný zamčený stav, který byl nastaven při zamykání.
 
 Definujme ještě co to znamená výpočet. Intuitivně je to posloupnost stavů a vstupů
-začínající v počátečním stavu a končící v nějakém koncovém stavu taková, že přechod 
+začínající v počátečním stavu a končící v nějakém koncovém stavu taková, že přechod
 mezi sousedními členy této posloupnosti je dán přechodovou funkcí:
 
 \begin{definition} \label{def:vypocet}
 Posloupnost stavů \(\overline{s}=\langle s_0,\ldots, s_n\rangle\)
-a vstupů \(\overline{v}=\langle v_0,\ldots, v_{n-1}\rangle\) je výpočtem automatu 
-\(A=(S_A,\Sigma_A,f_A, E_A,s_A^b)\) pokud \(s_0=s_A^b\), \(s_n\in E_A\) a pro \(1\leq i\leq n-1\) 
+a vstupů \(\overline{v}=\langle v_0,\ldots, v_{n-1}\rangle\) je výpočtem automatu
+\(A=(S_A,\Sigma_A,f_A, E_A,s_A^b)\) pokud \(s_0=s_A^b\), \(s_n\in E_A\) a pro \(1\leq i\leq n-1\)
 platí \(s_{i+1} = f(s_i,v_i)\).
 \end{definition}
 
@@ -196,7 +196,7 @@ stavu, šipky mezi kolečky odpovídají přechodům mezi stavy daným vstupním
 Jak jsme poznamenali již dříve a je z obrázku vidět, že stavy \(1\) a \(2\) jsou v podstatě ekvivalentní a mohli bychom je sloučit
 dohromady.  Ve skutečnosti lze ale celý automat ještě podstatně zjednodušit tak, aby
 měl přesně o jeden stav více než je délka hledaného řetězce (\(m\)).  Stavy automatu
-na obrázku odpovídají všem možným nejvýše dvouprvkovým posloupnostem písmen 
+na obrázku odpovídají všem možným nejvýše dvouprvkovým posloupnostem písmen
 {\tt a,b}.  Například stav \(0\) odpovídá posloupnosti {\tt aa} zatímco třeba stav \(3\)
 odpovídá posloupnosti {\tt ba}. Základní myšlenka spočívá v tom, že zahodíme všechny
 stavy, které neodpovídají žádnému počátečnímu úseku hledaného řetězce.
@@ -243,24 +243,25 @@ Získáme tak automat znázorněný následujícím obrázkem:
 
 Zbývá ještě ukázat, že takový automat umíme sestrojit v čase \(O(m)\).  Sestrojit stavy
 a základní ``dopředné'' šipky spojující tyto stavy od nejkratšího k nejdelšímu je jednoduché.
-Potřebujeme však ještě dodat šipky jdoucí ``zpět''.  Řekněme, že jsme  v nějakém stavu \(s\) 
+Potřebujeme však ještě dodat šipky jdoucí ``zpět''.  Řekněme, že jsme  v nějakém stavu \(s\)
 který odpovídá řetězci {\tt r}. Abychom mohli správně dodat šipky jdoucí ``zpět'', potřebovali
-bychom znát stav \(s^\prime\) odpovídající řetězci {\tt r[1:]} (každá šipka jdoucí zpět totiž bude 
+bychom znát stav \(s^\prime\) odpovídající řetězci {\tt r[1:]} (každá šipka jdoucí zpět totiž bude
 odpovídat nějaké šipce ze stavu \(s^\prime\)). Není však problém si tento stav uložit v nějaké
 pomocné proměnné a tuto proměnnou postupně aktualizovat.  Celý algoritmus v Pythonu
 (včetně funkce find) lze nalézt na výpisu \ref{alg:optimalfind}.
 
-\src[firstline=3]{optimalfind}{Vyhledávání pomocí konečných automatů}
+% \src[firstline=3]{optimalfind}{Vyhledávání pomocí konečných automatů}
+\srcsplit{optimalfind}{Vyhledávání pomocí konečných automatů}{41}
 
-Pro zájemce dodejme, že existuje ještě jiný algoritmus, tzv. Boyer-Moore algoritmus, 
-který řeší úlohu \ref{uloha:substring} také v čase \(O(m+n)\) ale v praxi je rychlejší než 
+Pro zájemce dodejme, že existuje ještě jiný algoritmus, tzv. Boyer-Moore algoritmus,
+který řeší úlohu \ref{uloha:substring} také v čase \(O(m+n)\) ale v praxi je rychlejší než
 algoritmus \ref{alg:optimalfind}.
 
 \subsection*{Regulární jazyky}
 
 V předchozím odstavci jsme zavedli pojem konečného automatu a ukázali, jak lze konečné
-automaty využít pro rychlé hledání v textu. Nicméně samotný pojem konečného automatu 
-je zajímavý i teoreticky, protože se dá ukázat, že charakterizuje třídu regulárních jazyků. 
+automaty využít pro rychlé hledání v textu. Nicméně samotný pojem konečného automatu
+je zajímavý i teoreticky, protože se dá ukázat, že charakterizuje třídu regulárních jazyků.
 
 \begin{definition} Je-li \(\Sigma\) množina znaků (\emph{abeceda}), značíme \(\Sigma^*\) množinu všech
 (konečných) posloupností prvků množiny \(\Sigma\). Prvkům množiny \(\Sigma^*\) budeme říkat
@@ -283,7 +284,7 @@ Jedna možná definice využívá konečné automaty:
 
 \begin{theorem} Jazyk \(L\) je \emph{regulární}, pokud existuje konečný automat \(A\) takový, že
 \(L\) je množinou slov \(w\) takových, že existuje posloupnost stavů \(\overline{s}\), že \((\overline{s},w)\) je
-výpočtem (viz \ref{def:vypocet}) automatu \(A\). 
+výpočtem (viz \ref{def:vypocet}) automatu \(A\).
 \end{theorem}
 
 Nabízí se otázka, zda je každý jazyk regulární. Jednoduchým argumentem se můžeme přesvědčit, že nikoliv: všech jazyků
@@ -296,11 +297,11 @@ být regulární.  (Hint: uvažte řetězec začínající \(n+1\)-otevřenými 
 \end{cviceni}
 
 \paragraph{Regulární výrazy}
-Ukážeme si ještě jinou ekvivalentní definici regulárního jazyka, která je bližší původní definici a používá pojem regulárního výrazu. 
+Ukážeme si ještě jinou ekvivalentní definici regulárního jazyka, která je bližší původní definici a používá pojem regulárního výrazu.
 Tento pojem zavedl americký matematik \person{Kleene} a umožňuje velmi kompaktní popis regulárních jazyků. Každému regulárnímu
 výrazu \(R\) odpovídá jazyk \(L(R)\) dle následující definice
 
-\begin{definition} \emph{Regulární výraz} nad abecedou \(\Sigma\) 
+\begin{definition} \emph{Regulární výraz} nad abecedou \(\Sigma\)
 (neobsahující znaky \(\varepsilon,(,),|,*\)) je definován rekurzivně:
 \begin{itemize}
  \item \(\emptyset, \varepsilon\) jsou regulární výrazy, \(L(\emptyset)=\emptyset, L(\varepsilon) = \{\emptyset\}\),  t.j. prázdný jazyk a jazyk sestávající z prázdného slova,
@@ -312,7 +313,7 @@ výrazu \(R\) odpovídá jazyk \(L(R)\) dle následující definice
 \end{definition}
 
 Aby se předešlo zbytečnému množství závorek je stanovena standardní priorita operací: Kleeneho  hvězdička má nejvyšší prioritu, pak konkatenace a
-nakonec alternace. 
+nakonec alternace.
 
 \begin{example} Je-li \(\Sigma=\{a,b,c\}\), pak \(r=ac^*(aa|bb)^*\) je regulární výraz popisující jazyk sestávající ze slov začínajících písmenem \(a\), pokračujících libovolným počtem znaků \(c\)
 a pak libovolným počtem dvojic znaků \(aa\) nebo \(bb\).
@@ -326,22 +327,22 @@ Následující věta říká, že regulární výrazy přesně popisují regulá
 
 \subsection*{Aritmetické výrazy}
 Ve cvičení \ref{cv:zavorky} jsme uvedli, že jazyk sestávající ze slov obsahujících
-stejně otevřených jako zavřených závorek není regulární. To naznačuje, že 
+stejně otevřených jako zavřených závorek není regulární. To naznačuje, že
 mnoho zajímavých jazyků pravděpodobně regulárních nebude. Typickým reprezentantem
 je například jazyk sestávající z aritmetických výrazů, kterým se nyní budeme
 podrobněji zabývat. Že je to neregulární jazyk je vidět z toho, že nejen že
 musí obsahovat stejný počet otevřených jako zavřených závorek, tyto závorky
 navíc musí být správně poskládané. S aritmetickými výrazy se každý z vás nejspíš
-setkal již někdy v první třídě základní školy a máte intuitivní představu o tom, 
+setkal již někdy v první třídě základní školy a máte intuitivní představu o tom,
 co to aritmetický výraz je. Abychom s nimi mohli pracovat bude užitečné tuto
 intuitivní představu zpřesnit do formální definice. Pro jednoduchost budeme
 uvažovat pouze aritmetické výrazy, ve kterých se nevyskytují proměnné a jediné
-povolené operace jsou sčítání, odčítání, násobení a dělení. Formálně tedy budou 
-aritmetické výrazy řetězce nad abecedou 
+povolené operace jsou sčítání, odčítání, násobení a dělení. Formálně tedy budou
+aritmetické výrazy řetězce nad abecedou
 \(\Sigma = \{0,1,2,3,4,5,6,7,8,9,+,-,*,/,(,)\}\). Nejjednodušším
-aritmetickým výrazem je nějaké libovolné číslo (řetězec číslic, t.j. 
+aritmetickým výrazem je nějaké libovolné číslo (řetězec číslic, t.j.
 neprázdný prvek jazyka \(\{0,1,2,3,4,5,6,7,8,9\}^*\)).
-Tyto výrazy (t.j. čísla) budeme nazývat \emph{atomickými výrazy}. 
+Tyto výrazy (t.j. čísla) budeme nazývat \emph{atomickými výrazy}.
 
 \begin{definition} Jazyk aritmetických výrazů je nejmenší
 podmnožina \(\Sigma^*\) která obsahuje všechny atomické výrazy a je
@@ -352,9 +353,9 @@ uzavřena na následující operaci:
        \[
           OP1(a,b,o)=aob
        \]
-       
+
        t.j. výsledkem je řetězec sestávající
-       z konkatenace levé závorky, řetězce a, symbolu op, řetězce b a 
+       z konkatenace levé závorky, řetězce a, symbolu op, řetězce b a
        pravé závorky.
   \item Je-li \(a\) řetězec, pak druhá operace (OP2) je definovaná
        takto:
@@ -369,12 +370,12 @@ uzavřena na následující operaci:
 \paragraph{Stromová reprezentace}
 
 Každý aritmetický výraz tedy vznikne z atomických výrazů (čísel) postupným
-aplikováním operace OP1 (aritmetické operace) resp. OP2 (uzávorkování). 
-Tuto postupnou výstavbu aritmetického výrazu si můžeme představit jako 
-(v našem případě binární) strom. V koředni stromu je výsledný výraz a poslední 
-provedená operace, kterou byl získán. Jeho dětmi jsou pak ty jednodušší výrazy, 
+aplikováním operace OP1 (aritmetické operace) resp. OP2 (uzávorkování).
+Tuto postupnou výstavbu aritmetického výrazu si můžeme představit jako
+(v našem případě binární) strom. V koředni stromu je výsledný výraz a poslední
+provedená operace, kterou byl získán. Jeho dětmi jsou pak ty jednodušší výrazy,
 ze kterých byl pomocí této operace vytvořen. V listech stromu jsou pak atomické
-výrazy. Nejlépe to je vidět na nějakém příkladě. Například stavba výrazu 
+výrazy. Nejlépe to je vidět na nějakém příkladě. Například stavba výrazu
 \((8+7)*5\) je znázorněna následujícím stromem:
 
 \begin{center}
@@ -388,7 +389,7 @@ pamatovat pouze operace a zahodíme všechny neatomické výrazy:
 \Tree [.* [.() [.+ [.8 ] [.7 ] ] ] [.5 ] ]
 \end{center}
 
-Dalšího zjednoduššení můžeme dosáhnout, pokud nám nezáleží na rozlišení výrazů, 
+Dalšího zjednoduššení můžeme dosáhnout, pokud nám nezáleží na rozlišení výrazů,
 které se liší pouze různým ekvivalentním uzávorkováním. V takovém případě můžeme
 prostě zahodit uzly s druhou operací. Získáme tak strom:
 
@@ -399,25 +400,25 @@ prostě zahodit uzly s druhou operací. Získáme tak strom:
 Je však dobré si uvědomit, že v tomto případě již došlo ke ztrátě informace:
 stejný strom by nám totiž vyšel i pro výraz '(8+7)*(5)'. Pro většinu aplikací
 je však důležitá hodnota výrazu, kterou tato ztráta neovlivní. Uvědomte si,
-že výraz 8+(7*5), který má jinou hodnotu, dá ve skutečnosti jiný strom, ačkoliv 
+že výraz 8+(7*5), který má jinou hodnotu, dá ve skutečnosti jiný strom, ačkoliv
 se od původního výrazu liší pouze uzávorkováním; toto uzávorkování je totiž
-\emph{neekvivalentní}. 
+\emph{neekvivalentní}.
 
 Se závorkami souvisí ještě jeden problém. Výše zmíněná výstavba výrazu není
 vždy jednoznačná. Například výrazu \(8+7*5\) odpovídají následující dva
 stromy:
 
 \begin{center}
-\Tree [.* [.+ [.8 ] [.7 ] ] [.5 ] ] 
+\Tree [.* [.+ [.8 ] [.7 ] ] [.5 ] ]
 \hskip2cm
 \Tree [.+ [.8 ] [.* [.7 ] [.5 ] ] ]
 \end{center}
 
 K tomuto problému se dostaneme za chvíli, až se budeme zabývat konstrukcí
-těchto stromů. 
+těchto stromů.
 
-\paragraph{Vyhodnocování výrazů} Předpokládejme však na chvíli, že strom pro 
-daný aritmetický výraz již máme v Pythonu k dispozici, například pro výraz 
+\paragraph{Vyhodnocování výrazů} Předpokládejme však na chvíli, že strom pro
+daný aritmetický výraz již máme v Pythonu k dispozici, například pro výraz
 '(8+7)*5' máme tedy strom
 
 \begin{python}
@@ -433,15 +434,15 @@ hodnoty jeho dětí. V pythonu to může vypadat takto:
 \begin{python}
 def eval_tree(T):
     D,L,R = T
-    
+
     # Hodnota listu je v něm uložená
     if L is None and R is None:
         return D
-        
+
     # Rekurzivně spočtěme hodnotu dětí
     LVal = eval_tree(L)
     RVal = eval_tree(R)
-    
+
     # Aplikujme operaci D
     if D == '+':
         return LVal + RVal
@@ -450,24 +451,24 @@ def eval_tree(T):
     if D == '*':
         return LVal * RVal
     if D == '/':
-        return LVal / RVal    
+        return LVal / RVal
 \end{python}
 
-Stromová reprezentace se hodí pro další zpracování, pro uživatele ale není 
+Stromová reprezentace se hodí pro další zpracování, pro uživatele ale není
 příliš čitelná. Proto je užitečné mít funkci, která strom převede zpět na
 aritmetický výraz. I tuto funkce napíšeme snadno za pomoci rekurze:
 
 \begin{python}
 def tree_to_expr_naive(T):
     D,L,R = T
-    
+
     if L is None and R is None:
         return str(D)
-    
+
     return tree_to_expr_naive(L) + D + tree_to_expr_naive(R)
 \end{python}
 
-Zde však narazíme na výše zmíněný problém související s tím, že jsme zahodili 
+Zde však narazíme na výše zmíněný problém související s tím, že jsme zahodili
 závorky. Náš strom totiž dá výraz výraz '8+7*5', který je možno číst dvěmi
 způsoby jako '8+(7*5)' či '(8+7)*5'. Konvence o prioritách operací pak preferuje
 druhou variantu, která však odpovídá jinému stromu! Abychom se této dvojznačnosti
@@ -477,10 +478,10 @@ bude napsat funkci takto:
 \begin{python}
 def tree_to_expr_inorder(T):
     D,L,R = T
-    
+
     if L is None and R is None:
         return str(D)
-    
+
     ret = '('
     ret = ret + ' ' + tree_to_expr_inorder(L)
     ret = ret + ' ' + D
@@ -492,7 +493,7 @@ def tree_to_expr_inorder(T):
 Tato funkce vrátí pro původní strom výraz '( ( 8 + 7 ) * 5 )'. Kdyby daný výraz psal
 člověk, pravděpodobně by vynechal vnější závorky. Přebytečné závorky by samozřejmě
 šlo odstranit, bylo by to ale příliš komplikované, proto se smíříme s tím, že
-naše funkce občas závorkuje příliš horlivě. 
+naše funkce občas závorkuje příliš horlivě.
 
 \paragraph{Prefixová a postfixová notace} Zastavme se ještě u funkce
 {\tt tree\_to\_expr\_inorder}. Funkce postupně rekurzivně prochází uzly stromu.
@@ -506,12 +507,12 @@ podstromy. Výsledkem by byl následující výraz
 \end{center}
 Nazvěme takto změněnou funkci {\tt tree\_to\_expr\_preorder}. Ačkoliv její výstup
 na první pohled nemusí vypadat příliš užitečně, má tento zápis
-svůj smysl a dokonce i jméno --- říká se mu prefixový zápis (a odpovídajícímu 
+svůj smysl a dokonce i jméno --- říká se mu prefixový zápis (a odpovídajícímu
 způsobu procházení stromu se říká preorder). V tomto zápise se nejprve zapíše
 operace a po ní teprve následují operandy. Výhoda tohoto zápisu je (ačkoliv to možná
-není hned vidět), že se obejde bez závorek a tudíž odpadají nejednoznačnosti, 
-které se závorkami souvisí. Je však třeba dát pozor na to, že narozdíl od 
-standardního tzv. \emph{infixového} zápisu, je třeba nějak oddělovat čísla 
+není hned vidět), že se obejde bez závorek a tudíž odpadají nejednoznačnosti,
+které se závorkami souvisí. Je však třeba dát pozor na to, že narozdíl od
+standardního tzv. \emph{infixového} zápisu, je třeba nějak oddělovat čísla
 (atomické výrazy): u výrazu '+875' totiž není jasné, zda se mají
 sčítat čísla 8 a 75 nebo čísla 87 a 5. Další výhodou tohoto zápisu je, že lze
 jednoduše převést zpět na stromovou reprezentaci:
@@ -530,15 +531,15 @@ def parse_prefix(token_list):
     return (token,L,R)
 \end{python}
 
-Funkce {\tt parse\_prefix} dostane na vstupu prefixově zapsaný výraz jako 
+Funkce {\tt parse\_prefix} dostane na vstupu prefixově zapsaný výraz jako
 seznam jednotlivých prvků výrazu (prvek je buď operátor nebo číslo) a vrátí
-stromovou reprezentaci. 
+stromovou reprezentaci.
 
 \begin{cviceni} Indukcí ukažte, že funkce {\tt parse\_prefix} je správně napsaná.
 \end{cviceni}
 
 Funkci {\tt parse\_prefix} lze jednoduše upravit tak, aby výraz místo převedení
-na stromovou reprezentaci rovnou vyhodnotila. Tuto variantu si ukážeme v 
+na stromovou reprezentaci rovnou vyhodnotila. Tuto variantu si ukážeme v
 nerekurzivním provedení, které používá zásobník:
 
 \begin{python}
@@ -563,13 +564,13 @@ def eval_prefix(token_list):
     return stack.pop()
 \end{python}
 
-Zásobník ve skutečnosti pouze simuluje použití rekurze --- pokud bychom 
+Zásobník ve skutečnosti pouze simuluje použití rekurze --- pokud bychom
 výraz {\tt stack.pop} nahradili rekurzivním voláním a výraz {\tt stack.append}
 příkazem return, dostali bychom rekurzivní variantu.
 
 \begin{cviceni} Pokud ve funkci {\tt tree\_to\_expr\_inorder} prohodíme naopak
-řádky 9 a 10, dostaneme funkci, kterou je vhodné nazvat 
-{\tt tree\_to\_expr\_postorder}. Tato funkce vrátí výraz v tzv. \emhp{postfixové}
+řádky 9 a 10, dostaneme funkci, kterou je vhodné nazvat
+{\tt tree\_to\_expr\_postorder}. Tato funkce vrátí výraz v tzv. \emph{postfixové}
 notaci. Naprogramujte funkce {\tt parse\_postfix} a {\tt eval\_postfix}.
 \end{cviceni}
 
@@ -591,22 +592,22 @@ přiřadit příslušný strom. Popíšeme nyní způsob, jak převést infixov�
 na strom při respektování priority operátorů. Na vstupu předpokládáme řetězec.
 V prvním kroku z tohoto řetězce odstraníme vnější závorky. Pokud se ve zbývajícím
 výrazu nenachází žádné operátory, pak máme atomický výraz odpovídající jednoprvkovému
-stromu. V opačném případě v řetězci nalezneme operátor s nejnižší prioritou mezi 
-těmi, co se nacházejí vně všech závorek. Pokud je takovýchto operátorů více, 
+stromu. V opačném případě v řetězci nalezneme operátor s nejnižší prioritou mezi
+těmi, co se nacházejí vně všech závorek. Pokud je takovýchto operátorů více,
 vezmeme z nich nejpravější. Tento operátor vložíme do kořene stromu. Zároveň
 nám operátor výraz rozdělí na dvě části. Rekurzivním voláním převedeme levou i
 pravou část na stromy, které napojíme na kořen. V Pythonu to bude vypadat
 třeba jako na výpisu \ref{alg:parse_infix}.
 
-\src[firstline=2]{parse_infix}{Parsování infixových výrazů}
+\srcsplit{parse_infix}{Parsování infixových výrazů}{43}
 
 Výhoda výše uvedeného algoritmu je jeho jednoduchost; není však příliš efektivní.
 Ukážeme si proto algoritmus, který zvládne infixový výraz zpracovat v lineárním
-čase. Pro jednoduchost uvedeme pouze verzi, která výraz rovnou vyhodnotí. 
+čase. Pro jednoduchost uvedeme pouze verzi, která výraz rovnou vyhodnotí.
 Návrh verze, která zároveň postaví i strom, ponecháme do cvičení. Idea algoritmu
 je založená na jednoduchém pozorování. Pokud priorita operátorů ve vyhodnocovaném
 výraze zleva doprava neklesá, pak lze výraz jednoduše vyhodnotit tak, že si
-pamatujeme aktuální hodnotu výrazu a procházíme zprava do leva jí postupně 
+pamatujeme aktuální hodnotu výrazu a procházíme zprava do leva jí postupně
 upravujeme prováděním příslušných operací. Například pro výraz '1+2+3*6/3'
 provedeme následující kroky:
 
@@ -619,9 +620,9 @@ provedeme následující kroky:
 \end{python}
 
 V reálu samozřejmě musíme umět zpracovat i výrazy, kde priorita klesne. To
-provedeme jednoduše tak, že si vezmeme nejdelší začátek výrazu, kde 
+provedeme jednoduše tak, že si vezmeme nejdelší začátek výrazu, kde
 priorita neklesá, ten vyhodnotíme a celý tento začátek nahradíme jeho vyhodnocením.
-Tak pokračujeme dokud výraz nezpracujeme celý. Např pro výraz '1+8*2+1' 
+Tak pokračujeme dokud výraz nezpracujeme celý. Např pro výraz '1+8*2+1'
 v prvním kroku zvolíme podvýraz '1+8*2', ten vyhodnotíme a dostaneme '17'. Jeho
 dosazením do původního výrazu získáme výraz '17+1', který opět můžeme vyhodnotit
 a získáme konečný výsledek '18'. Praktická implementace bude používat dva
@@ -645,8 +646,8 @@ Implementace v Pythonu je uvedena na výpisu \ref{alg:eval_infix}.
 
 \src[firstline=2]{eval_infix}{Vyhodnocování infixových výrazů}
 
-\begin{cviceni} Přepište algoritmus \ref{alg:eval_infix} tak, aby místo 
-vyhodnocení výrazu vrátil jeho stromovou reprezentaci. Nápověda: Stačí 
+\begin{cviceni} Přepište algoritmus \ref{alg:eval_infix} tak, aby místo
+vyhodnocení výrazu vrátil jeho stromovou reprezentaci. Nápověda: Stačí
 si na zásobník s hodnotami ukládat místo čísel (částečné) stromy.
 \end{cviceni}
 

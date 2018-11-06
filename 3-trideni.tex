@@ -4,7 +4,7 @@
 \fi
 \section{Vyhledávání, třídící algoritmy}
 
-\subsection*{Vyhledávání}\pdfbookmark[2]{Vyhledávání}{subsec:vyhledavani} 
+\subsection*{Vyhledávání}\pdfbookmark[2]{Vyhledávání}{subsec:vyhledavani}
 Nechme zelináře zelinářem a pojďme se spolu podívat na jinou úlohu. Tentokrát budeme chtít napsat spellchecker. Pro začátek bude
 velmi jednoduchý. Dostane textový dokument a slovník a vypíše všechna slova, která se vyskytují v dokumentu a nevyskytují se
 ve slovníku. V Pythonu to naprogramujeme velmi jednoduše:
@@ -14,8 +14,8 @@ ve slovníku. V Pythonu to naprogramujeme velmi jednoduše:
 # která nejsou v seznamu slovnik. Předpokládáme že jednotlivá
 # slova ve stringu doc jsou oddělena mezerou.
 
-def spell_check(slovnik,doc):  
-  spatna = []  
+def spell_check(slovnik,doc):
+  spatna = []
   for slovo in doc.split(' '):
     if slovo not in slovnik:
       spatna.append(slovo)
@@ -45,14 +45,14 @@ nebude vůbec a pak provedeme tolik operací, kolik je prvků seznamu {\tt slovn
 $N$ je počet slov ve vstupním dokumentu a $M$ je počet slov ve slovníku. Ukážeme si, že pokud věnujeme nějaký čas přípravě slovníku {\tt slovnik},
 podaří se nám navrhnout funkci {\tt contains} tak, aby měla složitost $O(\log M)$, což dá pro celý algoritmus složitost $O(N*\log M)$.
 Trik spočívá v tom, že si slovník předem uspořádáme podle abecedy. Jak to udělat uvidíme v další části, teď však předpokládejme, že
-ho máme uspořádaný. K testu, zda se ve slovníku dané slovo nachází, teď můžeme využít metodu půlení intervalů --- vezmeme si 
+ho máme uspořádaný. K testu, zda se ve slovníku dané slovo nachází, teď můžeme využít metodu půlení intervalů --- vezmeme si
 slovo uprostřed našeho slovníku a porovnáme ho s hledaným slovem. Pokud je v abecedě hledané slovo dříve, víme, že se musí
 nacházet v první polovině slovníku. Pokud je naopak později, nachází se v druhé polovině. Ten samý postup budeme opakovat znovu,
 dokud slovo buď nenajdeme, nebo nezjistíme, že ve slovníku není. Takto popsaný algoritmus nejlépe zapíšeme pomocí rekurze:
 
 \begin{program}\caption{Binární vyhledávání}
 \begin{python}
-# Vrátí True, pokud se slovo vyskytuje v setřízeném 
+# Vrátí True, pokud se slovo vyskytuje v setřízeném
 # seznamu slovnik[start:end]. Jinak vrátí False.
 def contains(slovo, slovnik, start, end):
   if start >= end:
@@ -73,10 +73,10 @@ Pojďme se nejprve přesvědčit, že algoritmus je správný. Jak je u rekurziv
  \item[{\tt n=1}] Pokud je {\tt end-start == 1}, pak {\tt middle == start} a {\tt slovnik[start:end] = [slovnik[start]]}. Pokud je tedy {\tt slovo == slovnik[middle]}, algoritmus
 vrátí {\tt True}, jinak se tam slovo nevyskytuje. Pokud se tam nevyskytuje, zavolá se buď {\tt contains(slovo, slovnik, start, start)} nebo {\tt contains(slovo, slovnik, end,end)} což obojí
 správně vrátí {\tt False}.
- \item[{\tt n+1}] Indukční krok. Předpokládejme že pro {\tt end-start = n >= 1 } algoritmus pracuje a uvažujme {\tt end-start = n+1}. Je jasné, že 
+ \item[{\tt n+1}] Indukční krok. Předpokládejme že pro {\tt end-start = n >= 1 } algoritmus pracuje a uvažujme {\tt end-start = n+1}. Je jasné, že
 pokud se slovo v seznamu {\tt slovnik[start:end]} vyskytuje, pak je buď rovno
 \begin{center}
-{\tt slovnik[middle]} 
+{\tt slovnik[middle]}
 \end{center}
 nebo se vyskytuje v
 \begin{center}
@@ -86,13 +86,13 @@ nebo v
 \begin{center}
 {\tt slovnik[middle+1:end]}.
 \end{center}
-První případ je jasný a na druhé dva můžeme použít indukční předpoklad, protože jak 
+První případ je jasný a na druhé dva můžeme použít indukční předpoklad, protože jak
 \begin{center}
-{\tt middle-start < end-start} 
+{\tt middle-start < end-start}
 \end{center}
-tak 
+tak
 \begin{center}
-{\tt end-(middle+1) < end-start} 
+{\tt end-(middle+1) < end-start}
 \end{center}
 (první případ plyne z toho, že {\tt start-end >= n+1>=2}).
 \end{itemize}
@@ -109,10 +109,10 @@ Máme tedy mnohem efektivnější funkci {\tt contains}, ale není to zadarmo. A
 Předem můžeme prozradit, že složitost třídění bude $O(M\log M)$. Když se vrátíme k naší funkci {\tt spell\_check} dostaneme složitost $O((M+N)\log M)$. Jak to porovnat
 s původní složitostí $O(N*M)$? V typickém případě bude slovník mnohem větší než seznam slov, tedy $M>>N$. Pokud například $N<\log M$ zjistíme, že původní algoritmus
 bude lepší --- vzhledem k tomu, že budeme hledat jen pár slov, nevyplatí se nám třídit celý slovník. Na druhou stranu, pokud předpokládáme, že funkci {\tt spell\_check}
-budeme využívat často (což je rozumný předpoklad), setřízení slovníku se nám dlouhodobě vyplatí. 
+budeme využívat často (což je rozumný předpoklad), setřízení slovníku se nám dlouhodobě vyplatí.
 
-\subsection*{Třídící algoritmy}\pdfbookmark[2]{Třídící algoritmy}{subsec:tridicialgoritmy} 
-\paragraph{Insertion Sort.}\pdfbookmark[3]{Insertion Sort}{par:insertionsort} 
+\subsection*{Třídící algoritmy}\pdfbookmark[2]{Třídící algoritmy}{subsec:tridicialgoritmy}
+\paragraph{Insertion Sort.}\pdfbookmark[3]{Insertion Sort}{par:insertionsort}
 V předchozí části jsme narazili na úlohu setřídit seznam slov dle abecedy. Pojďme se zamyslet nad tím, jak bychom to mohli udělat. Jako první nás asi napadne postupovat
 tak, jak bychom sami postupovali, pokud bychom měli úlohu vyřešit ručně. Prostě bychom si setřízený seznam budovali postupně a v každém kroku do již setřízené části
 zatřídili další slovo. Tomuto algoritmu se říká \emph{insertion sort}. Zapišme si ho v Pythonu:
@@ -137,7 +137,7 @@ je to algoritmus velmi jednoduchý, má několik podstatných výhod. Ačkoliv j
 
 \paragraph{Heap sort.}\pdfbookmark[3]{Heap Sort}{par:heapsort} Pokud vám prozradím, že optimální asymptotická složitost třídících algoritmů (založených na provnávání prvků) je $O(n\log n)$
 a navíc Vám napovím, že lze použít haldu, možná Vás už napadne, jak funguje algoritmus, kterému se říká \emph{heap sort}. Vzpomeňte si, že
-operace přidání prvku do haldy ({\tt push}) a odebrání nejmenšího prvku z haldy ({\tt pop}) má složitost $O(\log n)$. Co kdybychom postupně 
+operace přidání prvku do haldy ({\tt push}) a odebrání nejmenšího prvku z haldy ({\tt pop}) má složitost $O(\log n)$. Co kdybychom postupně
 prošli celé pole a každý prvek přidali na haldu a pak postupně odebírali vždy nejmenší prvek z haldy? To je princip heap sortu (viz výpis \ref{alg:heapsort})
 
 \begin{program}\caption{Heap sort}\label{alg:heapsort}
@@ -146,15 +146,15 @@ def heap_sort(seznam):
   halda = []
   for p in seznam:
     push(halda, p)
-  
+
   for i in range(len(seznam)):
     p = pop(halda)
     seznam[i] = p
 \end{python}
 \end{program}
 
-Kód uvedený ve výpisu \ref{alg:heapsort} je pěkný (a není těžké spočítat, že má asymptotickou složitost $O(n\log n)$\footnote{Tak, jak je napsaný, má první cyklus, který staví haldu, 
-složitost $O(n\log n)$. Dá se však napsat trochu chytřeji tak, aby měl složitost lineární (viz např. \cite{Wirth:1985}). Druhý cyklus se takto 
+Kód uvedený ve výpisu \ref{alg:heapsort} je pěkný (a není těžké spočítat, že má asymptotickou složitost $O(n\log n)$\footnote{Tak, jak je napsaný, má první cyklus, který staví haldu,
+složitost $O(n\log n)$. Dá se však napsat trochu chytřeji tak, aby měl složitost lineární (viz např. \cite{Wirth:1985}). Druhý cyklus se takto
 přepsat nedá, složitost tedy bude stále $O(n\log n)$}), není však moc efektivní --- k setřízení pole si
 v paměti vyhradí ještě jednou tolik místa na haldu, na kterou postupně přidává prvky. Tento nedostatek však lze velmi jednoduše odstranit.
 Když se nad tím zamyslíte a uvědomíte si, že jednoprvkové pole je haldou, určitě pro Vás následující cvičení nebude příliš obtížné:
@@ -166,13 +166,13 @@ Další algoritmus, který si ukážeme, je asi v praxi nejpoužívanějším al
 
 \paragraph{Quicksort}\pdfbookmark[3]{Quicksort}{par:quicksort} je klasickým rekurzivním algoritmem. Funguje na
 následujícím principu. Pokud seznam, který se má setřídit, má pouze jeden prvek, je setřízený a algoritmus
-může skončit. V opačném případě si seznam rozdělí na dvě části tak, aby všechny položky v levé části byly 
+může skončit. V opačném případě si seznam rozdělí na dvě části tak, aby všechny položky v levé části byly
 menší než všechny položky v pravé části. Pak se rekurzivně zavolá a setřídí
 levou a pravou část. Následně může prostě připojit setřízenou pravou část za setřízenou levou část
 a celý seznam bude setřízený, protože prvky vlevo byly menší než prvky vpravo a obě části setřízené
 byly. Zbývá popsat rozdělování na části. To se typicky provádí tak, že se ze seznamu náhodně zvolí jeden
 prvek, tzv. \emph{pivot}, a pole se rozdělí tak, aby vlevo byly všechny prvky menší nebo rovné pivotu
-a vpravo všechny prvky větší nebo rovné pivotu. Seznamem se prochází současně zleva i zprava. V okamžiku, kdy z 
+a vpravo všechny prvky větší nebo rovné pivotu. Seznamem se prochází současně zleva i zprava. V okamžiku, kdy z
 jednoho směru narazíme na prvek, který má být vzhledem k pivotu v opačné části, čekáme, než k takovému
 prvku dorazíme i zprava (pokud na žádný nenarazíme, víme, že jsme hotovi a tento prvek bude první prvek,
 který patří do pravé části). V okamžiku, kdy na takový prvek narazíme i zprava, oba prvky vyměníme
@@ -199,7 +199,7 @@ def quicksort( seznam, start, end ):
     if start >= end:
         # Prazdné a jednoprvkové pole jsou
         # z definice setřízené
-        return  
+        return
     pivot = zvol_pivota( seznam, start, end )
     stred = rozdel_seznam( seznam, start, end, pivot)
     quicksort( seznam, start, stred )
@@ -213,7 +213,7 @@ vždy vymezené dvěma indexy, počátečním ({\tt start}) a koncovým ({\tt en
 \end{remark}
 
 \begin{remark} Při rozdělování pole je třeba dát pozor na to, aby se pole opravdu ``rozdělilo'', t.j.
-aby bylo {\tt start <= stred < end}. Pokud by totiž pravá nebo levá část byla prázdná, program 
+aby bylo {\tt start <= stred < end}. Pokud by totiž pravá nebo levá část byla prázdná, program
 by se zacyklil. Tuto podmínku nicméně není těžké splnit, protože pivot může být prvkem jak pravé,
 tak levé části.
 \end{remark}
@@ -228,7 +228,7 @@ odpovídají levým částem pole, žlutá pravým. Čísla pod polem pak udáva
 \begin{tikzpicture}
 \tikzstyle{free}=[minimum size=0.1cm]
 \tikzstyle{sfree}=[minimum size=0.05cm]
-\tikzstyle{l}=[draw,minimum size=0.4cm,fill=red]
+\tikzstyle{l}=[draw,minimum size=0.4cm,fill=UKRed]
 \tikzstyle{r}=[draw,minimum size=0.4cm,fill=yellow]
 \begin{scope}[start chain=1 going right,node distance=0mm,shift={(2cm,2cm)}]
     \node [on chain=1,l] {\tiny };
@@ -368,20 +368,20 @@ odpovídají levým částem pole, žlutá pravým. Čísla pod polem pak udáva
     \draw[draw,->]
          (startL) -- (endL);
 %     \draw[draw,->]
-%       (end)..controls +(south:0.1) ..(endl);      
+%       (end)..controls +(south:0.1) ..(endl);
 %     \draw[dashed,->]
 %       (end)..controls +(south:0.8) and +(north:0.9)..(endlone);
 \end{scope}
 
 \begin{scope}[shift={(0.4cm,0cm)}]
      \draw[draw,->] (0,2) -- (0,-1.5);
-     \node[node,shift={(-1cm,0cm)}] (log) {$\log n$};
+     \node [node distance=0cm, shift={(-1cm,0cm)}] (log) {$\log n$};
 \end{scope}
 
 \end{tikzpicture}
 \end{center}
 
-Formálně lze správnost odhadu ukázat například indukcí dle $n$ (pro jednoduchost uvažujeme pouze pole velikosti $n=2^k$): Pro pole velikosti $2^0$ je to zřejmé. 
+Formálně lze správnost odhadu ukázat například indukcí dle $n$ (pro jednoduchost uvažujeme pouze pole velikosti $n=2^k$): Pro pole velikosti $2^0$ je to zřejmé.
 Mám-li nyní dáno pole velikosti $2^k$, musím  rozdělit pole (složitost $2^k$) a dvakrát zavolat quicksort na pole
 poloviční velikosti. Z indukčního předpokladu má jedno takové volání složitost $2^{(k-1)}\log 2^{(k-1)}) = 2^{k-1}(k-1)$, dvě volání tedy budou mít složitost
 $2^k(k-1)$. Celkem tedy $2^k + 2^k(k-1) = 2^k k = O(2^k k) = O(n\log n)$.
@@ -393,11 +393,11 @@ pole již setřízené. Co se stane je opět dobře vidět na obrázku:
 \begin{tikzpicture}
 \tikzstyle{free}=[minimum size=0.1cm]
 \tikzstyle{sfree}=[minimum size=0.05cm]
-\tikzstyle{l}=[draw,minimum size=0.4cm,fill=red]
+\tikzstyle{l}=[draw,minimum size=0.4cm,fill=UKRed]
 \tikzstyle{r}=[draw,minimum size=0.4cm,fill=yellow]
 \begin{scope}[start chain=1 going right,node distance=0mm,shift={(2cm,2cm)}]
     \node [on chain=1,l] (start1) {\tiny };
-    \node [on chain=1,free] (center1) {\tiny };    
+    \node [on chain=1,free] (center1) {\tiny };
     \node [on chain=1,r] {\tiny };
     \node [on chain=1,r] {\tiny };
     \node [on chain=1,r] {\tiny };
@@ -419,7 +419,7 @@ pole již setřízené. Co se stane je opět dobře vidět na obrázku:
 \end{scope}
 \begin{scope}[start chain=1 going right,node distance=0mm,shift={(2.4cm,1cm)}]
     \node [on chain=1,l] (start1) {\tiny };
-    \node [on chain=1,free] (center1) {\tiny };    
+    \node [on chain=1,free] (center1) {\tiny };
     \node [on chain=1,r] {\tiny };
     \node [on chain=1,r] {\tiny };
     \node [on chain=1,r] {\tiny };
@@ -441,7 +441,7 @@ pole již setřízené. Co se stane je opět dobře vidět na obrázku:
 
 \begin{scope}[start chain=1 going right,node distance=0mm,shift={(2.8cm,0cm)}]
     \node [on chain=1,l] (start1) {\tiny };
-    \node [on chain=1,free] (center1) {\tiny };    
+    \node [on chain=1,free] (center1) {\tiny };
     \node [on chain=1,r] {\tiny };
     \node [on chain=1,r] {\tiny };
     \node [on chain=1,r] {\tiny };
@@ -459,8 +459,8 @@ pole již setřízené. Co se stane je opět dobře vidět na obrázku:
     \node [node distance=0.5cm,below of=center1] {\small +};
     \node [node distance=0.5cm,below of=start2, shift={(0.2cm,0cm)}] {\small 13};
 \end{scope}
-\begin{scope}[start chain=1 going right, node distance=0mm,shit={(3cm,-1cm)}]
- \node[node,shift={(5.7cm,-1cm)}] (log) {$\vdots$};
+\begin{scope}[start chain=1 going right, node distance=0mm,shift={(3cm,-1cm)}]
+ \node[node distance=0.5cm,shift={(5.7cm,-1cm)}] (log) {$\vdots$};
 \end{scope}
 
 
@@ -498,7 +498,7 @@ pole již setřízené. Co se stane je opět dobře vidět na obrázku:
 
 \begin{scope}[shift={(0.4cm,0cm)}]
      \draw[draw,->] (0,2) -- (0,-1.5);
-     \node[node,shift={(-1cm,0cm)}] (log) {$n$};
+     \node[node distance=0cm,shift={(-1cm,0cm)}] (log) {$n$};
 \end{scope}
 
 \end{tikzpicture}
@@ -509,8 +509,8 @@ složitost, uvidíme, že je to $O(n^2)$, což je nepříjemné (tato situace by
 má i jednoduchý insertion sort složitost dokonce lineární!). Je tedy
 vidět, že vhodná volba pivota může radikálně ovlivnit délku výpočtu. Jak jsme si ukázali výše, optimální volbou by byl medián pole. Protože
 pro volbu mediánu existuje algoritmus běžící v lineárním čase (detaily viz \cite{BFPRT:1973}, nebo heslo {\tt Selection Algorithm} na \emph{Wikipedii}),
-mohli bychom jej použít a zajistit si, že složitost quicksortu bude $O(n \log n)$ i v nejhorším případě. Nicméně v praktických implementacích se ukazuje, že 
-je rychlejší jako pivota zvolit nějaký náhodný prvek pole (nikoliv tedy vždy první!). Není tak sice zajišťeno, že algoritmus poběží v $O(n\log n)$, ale ve 
+mohli bychom jej použít a zajistit si, že složitost quicksortu bude $O(n \log n)$ i v nejhorším případě. Nicméně v praktických implementacích se ukazuje, že
+je rychlejší jako pivota zvolit nějaký náhodný prvek pole (nikoliv tedy vždy první!). Není tak sice zajišťeno, že algoritmus poběží v $O(n\log n)$, ale ve
 většině případů poběží mnohem rychleji, než kdyby pivota vybíral složitěji\footnote{Navíc jsou implementace napsány tak, že pokud zjistí, že hrozí kvadratická
 složitost --- například se pole několikrát po sobě rozdělilo velmi nerovnoměrně --- přepnou se třeba na heap sort, který je sice trochu pomalejší, ale má
 garantovanou složitost $O(n\log n)$}.
@@ -532,43 +532,39 @@ $a_0$ je index nejmenšího prvku, $a_1$ index druhého nejmenšího prvku a tak
 tedy může provést nejvýše $g(n)$ operací porovnání a každé takové porovnání má pouze dva možné výsledky \emph{menší}, \emph{větší} (rovnost pro jednoduchost zanedbáme).
 Označíme-li si tedy tyto výsledky jako $0$ a $1$, dostaneme pro každý běh algoritmu posloupnost nul a jedniček $\mathbf{p}=(p_0,\ldots,p_{g(n)})$ délky (nejvýše) $g(n)$.
 Množinu všech takových posloupností budeme značit $P(n)$. Ke každé posloupnosti nám algoritmus dá posloupnost indexů $\mathbf{a}$, což je prostá posloupnost čísel od $0$ do $n$.
-Označme si množinu všech prostých posloupností čísel od $0$ do $n$ symbolem $A(n)$. Náš algoritmus nám tedy dává funkci $f:P(n)\to A(n)$. 
-Ukážeme, že pro dostatečně velká $n$ bude množina $A(n)$ větší než množina $P(n)$. To znamená, že bude existovat posloupnost $\mathbf{a}=(a_0, \ldots, a_n)\in A(n)$, 
+Označme si množinu všech prostých posloupností čísel od $0$ do $n$ symbolem $A(n)$. Náš algoritmus nám tedy dává funkci $f:P(n)\to A(n)$.
+Ukážeme, že pro dostatečně velká $n$ bude množina $A(n)$ větší než množina $P(n)$. To znamená, že bude existovat posloupnost $\mathbf{a}=(a_0, \ldots, a_n)\in A(n)$,
 která nemá žádný vzor --- není výstupem algoritmu pro žádný vstup. Zvolíme tedy čísla $x_0,\ldots, x_n$ tak,
 abychom jejich setřízením získali indexy $a_0, \ldots, a_n$. Pustíme na ně náš algoritmus, který začne čísla porovnávat --- tím získáme posloupnost $\mathbf{p}$.
 Protože ale posloupnost $\mathbf{a}$ byla volená tak, aby nebyla výstupem algoritmu, algoritmus musí vrátit posloupnost jinou, která tudíž nebude správně
-setřízená! 
+setřízená!
 
 Zbývá tedy ukázat, že pro dostatečně velké $n$ bude množina $A(n)$ větší než množina $P(n)$. Spočíst velikost množiny $P(n)$ je jednoduché, je to
-$2^0 + 2^1 + \cdots + 2^{g(n)-1} + 2^{g(n)} = 2^{g(n)+1}-1$. Velikost množiny $A(n)$ je $n!$. Protože se však s faktoriály špatně pracuje, uvědomme si, že 
-$n!>(n/2)^{n/2}$ --- to nám bude stačit. Protože algoritmus byl asymptoticky rychlejší než $O(n\log n)$, víme, že pro libovolné $K, b$ a dostatečně velké $n$ bude $g(n)< nK\log n -b$.
-Položme $K=1/4, b=1$ a zvolme si dostatečně velké $n$ (aby platila nerovnost, alespoň $>4$). Pak bude platit:
+$2^0 + 2^1 + \cdots + 2^{g(n)-1} + 2^{g(n)} = 2^{g(n)+1}-1$. Velikost množiny $A(n)$ je $n!$. Protože se však s faktoriály špatně pracuje, uvědomme si, že
+$n!>(n/2)^{n/2}$ --- to nám bude stačit. Protože algoritmus byl asymptoticky rychlejší než $O(n\log n) = O(n\log n - n)$, víme, že pro libovolné $K,b$ a dostatečně velké $n$ bude $g(n)< K(n\log n -n)+b$.
+Položme $K=1/2,b=-1$ a zvolme si dostatečně velké $n$ (aby platila nerovnost, alespoň $>4$). Pak bude platit:
 \begin{displaymath}
- g(n)< nK\log n-b
+ g(n) < \frac{1}{2}(n\log n-n) - 1 = \frac{n}{2}\log \frac{n}{2} - 1 = \log\left(\frac{n}{2}\right)^{n/2}-1.
 \end{displaymath}
-a navíc
-\begin{displaymath}
- nK\log n < \frac{n}{2}\log \frac{n}{2}.
-\end{displaymath}
-Počítejme: 
-\begin{displaymath}
-|P(n)| = 2^{g(n)+1}-1 < 2^{nK\log n - b +1} = 2^{nK\log n} < 2^{n/2\log n/2} = (n/2)^{n/2} < n! = |A(n)|,
-\end{displaymath}
+Máme tedy:
+\begin{align*}
+|P(n)| = 2^{g(n)+1}-1 < 2^{\log (n/2)^{n/2} - 1 +1} = 2^{\log (n/2)^{n/2}} = (n/2)^{n/2} < n! = |A(n)|,
+\end{align*}
 což je přesně to, co jsme chtěli ukázat.
 
 \subsection*{Speciální třídící algoritmy}\pdfbookmark[2]{Speciální třídící algoritmy}{par:speciasortalgs}
 Než opustíme téma třídění, ukážeme si ještě jeden algoritmus, který je zajímavý
 svou složitostí. Má totiž složitost lineární! Vzhledem k předchozímu dolnímu odhadu je jasné, že algoritmus musí mít nějaký háček.
-Háček je v tom, že algoritmus umí pracovat pouze s daty, která mají být utříděna 
-podle nějakého číselného klíče z předem daného, nepříliš velkého rozsahu. 
+Háček je v tom, že algoritmus umí pracovat pouze s daty, která mají být utříděna
+podle nějakého číselného klíče z předem daného, nepříliš velkého rozsahu.
 Z číselného klíče totiž získáme více informací než se nám povede, pokud se omezíme na pouhé porovnávání dvou klíčů (jak to vyžaduje obecná úloha třídění, pro kterou jsme ukázali dolní odhad $O(n\log n)$).
 
 \paragraph{Bucket sort (přihrádkové třídění)}\pdfbookmark[3]{Bucket Sort}{par:bucketsort}
-Samotný princip algoritmu je jednoduchý a přirozený. Nějak podobně bychom asi postupovali, pokud bychom měli třídit kartičky s čísly. 
+Samotný princip algoritmu je jednoduchý a přirozený. Nějak podobně bychom asi postupovali, pokud bychom měli třídit kartičky s čísly.
 Pro jednoduchost budeme uvažovat pouze úlohu,
 ve které máme setřídit seznam $n$ čísel a pro začátek budeme předpokládat, že čísla se nemohou v seznamu opakovat. Postupovat budeme následovně. V prvním kroku si zjistíme, nejmenší ($k_{min}$) a největší ($k_{max}$) číslo. Interval $[k_{min},k_{max}]$ si rozdělíme na ``přihrádky'' nějaké předem dané velikosti $m$. Do těchto přihrádek budeme vkládat jednotlivá čísla ze seznamu. Například pro $k_{min}=0,k_{max}=1000$ a $m=10$ bude první přihrádka vyhrazena pro čísla od 0 do 9, druhá od 10 do 19 a tak dále
 až do poslední přihrádky pro čísla od 990 do 1000.
-Pak projedeme náš seznam čísel a čísla roztřídíme do jednotlivých přihrádek.
+Pak projdeme náš seznam čísel a čísla roztřídíme do jednotlivých přihrádek.
 Nakonec setřídíme jednotlivé přihrádky pomocí nějakáho jiného algoritmu.
 Stejný algoritmus budeme moci samozřejmě použít i pro klíče z jiného intervalu.
 Implementace v pythonu je uvedena na výpisu \ref{alg:bucketsort}.
@@ -578,15 +574,15 @@ Implementace v pythonu je uvedena na výpisu \ref{alg:bucketsort}.
 Jaká bude složitost? Nalezení minima a maxima a vyrobení přihrádek bude mít složitost $O(n)$. Rozdělení čísel do přihrádek má složitost opět $O(n)$.
 Přihrádek je $(k_{max}-k_{min})/m$, a každou musíme setřídit.  V každé přihrádce je
 nejvýše $m$ čísel, které jsme schopni setřídit v čase $O(m\log m)$. Celkem tedy
-zabere třízení přihrádek (řádky 18.--22.) čas $O((k_{max}-k_{min})/m\cdot m\log m) = O((k_{max}-k_{min})\log m) = O(k_{max}-k_{min})$\footnote{Poslední rovnost plyne z toho, že $m$ je nějaká předem pevně daná konstanta.} Celková složitost algoritmu tedy bude $O(n)+O(n) + O(k_{max}-k_{min}) = O(k_{max}-k_{min})$. Pokud bude rozsah
+zabere třízení přihrádek (řádky 18.--22.) čas $O((k_{max}-k_{min})/m\cdot m\log m) = O((k_{max}-k_{min})\log m) = O(k_{max}-k_{min})$\footnote{Poslední rovnost plyne z toho, že $m$ je nějaká předem pevně daná konstanta.} Celková složitost algoritmu tedy bude $O(n)+O(n) + O(k_{max}-k_{min}) = O(n) + O(k_{max}-k_{min})$. Pokud bude rozsah
 možných klíčů, t.j. hodnota  $k_{max}-k_{min}$, roven $O(n)$ bude mít algoritmus
 lineární složitost!
 
 \begin{cviceni}
 Při odvození složitosti jsme předpokládali, že každé číslo se vyskytne nanejvýš jednou, z čehož vyplývá, že $n\leq k_{max}-k_{min}$. Tento předpoklad však
 je zbytečný. Není těžké upravit algoritmus tak, aby fungoval i s opakujícími se klíči.
-Dokonce vlastně můžeme využít přímo výše uvedený kód, který ve skutečnosti jedinečnost klíčů nikde nepoužívá. Jediným místem, kde jsme ji využily, byl odhad složitosti setřízení jedné přihrádky. Zkuste se tedy
-upravit kód tak, aby setřízení přihrádky trvalo vždy $O(m\log m)$ kroků i v situaci
+Dokonce vlastně můžeme využít přímo uvedený kód, který ve skutečnosti jedinečnost klíčů nikde nepoužívá. Jediným místem, kde jsme ji využili, byl odhad složitosti setřízení jedné přihrádky. Zkuste se tedy
+upravit kód tak, aby setřízení přihrádky trvalo vždy $O(m\log m)$ kroků i v situaci,
 kdy jedinečnost klíčů nepředpokládáme.
 \end{cviceni}
 
@@ -597,10 +593,12 @@ I vtomto případě se však nemusíme vzdát, jen musíme být trochu chytřej�
 \paragraph{Radix sort}\pdfbookmark[3]{Radix Sort}{par:radixsort} Princip kořenového třídění je podobný jako u jednoduchého
 přihrádkového třídění, jen se trochu jinak zařazují položky do přihrádek. Algoritmus funguje tak, že si klíč každé položky rozdělí na předem daný počet částí $d$ a pak
 postupně v $d$ průchodech položky setřídí. V každém průchodu postupuje stejně jako
-obyčejné přihrádkové třízení s přihrádkama velikosti jedna (tudíž odpadá
+obyčejné přihrádkové třízení s přihrádkami velikosti jedna (tudíž odpadá
 nutnost v daném kroku přihrádky třídit), ale místo celého klíče uvažuje jen jeho část. V Pythonu může vypadat třeba jako na výpisu \ref{alg:radixsort}.
 
-\src{radixsort}{Radix Sort}
+% \srcpart{radixsort}{Radix Sort}{firstline=1,lastline=39}
+% \srcpart{radixsort}{Radix Sort (pokračování)}{firstline=41}
+\srcsplit{radixsort}{Radix Sort}{40}
 
 \begin{todo}
 {\bf Merge sort}
